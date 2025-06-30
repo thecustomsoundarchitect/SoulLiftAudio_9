@@ -337,33 +337,6 @@ export default function DefinePage() {
               </div>
             </div>
           </motion.div>
-
-          <motion.div 
-            className="mt-6 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2.0, duration: 0.5 }}
-          >
-            <AnimatePresence>
-              {!canProceed && (
-                <motion.div 
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="mb-4 p-3 bg-gradient-to-r from-red-50 to-pink-50 border border-red-200/50 rounded-xl shadow-lg"
-                >
-                  <div className="flex items-center justify-center">
-                    <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center mr-2">
-                      <span className="text-white font-bold text-xs">!</span>
-                    </div>
-                    <p className="text-red-700 font-medium text-sm">
-                      Please fill in the required fields: feeling and tone
-                    </p>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
         </motion.div>
       </div>
     </div>
