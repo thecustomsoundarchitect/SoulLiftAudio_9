@@ -210,6 +210,8 @@ export function PlaceholdersAndVanishInput({
         ref={canvasRef}
       />
       <input
+        id="core-feeling-input"
+        name="coreFeeling"
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         ref={inputRef}
