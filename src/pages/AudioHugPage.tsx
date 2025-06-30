@@ -176,11 +176,34 @@ With gratitude and love`
             <ProgressIndicator className="mb-6" />
           </div>
 
-          {/* Message Preview */}
-          <div className="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 mb-6 md:mb-8 shadow-xl border border-white/30">
-            <h3 className="text-base md:text-lg font-semibold mb-3 text-[#4D5563]">Your Message Preview</h3>
-            <div className="bg-white/60 backdrop-blur-md rounded-lg md:rounded-xl p-3 md:p-4 leading-relaxed whitespace-pre-line text-xs md:text-sm max-h-32 md:max-h-48 overflow-y-auto text-[#4D5563] border border-white/30 shadow-lg">
-              {soulHugMessage}
+          {/* Enhanced Message Preview */}
+          <div className="bg-gradient-to-br from-purple-50 to-blue-50 backdrop-blur-md rounded-2xl p-6 mb-8 shadow-xl border-2 border-purple-200/50 relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200/30 to-blue-200/30 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-200/30 to-purple-200/30 rounded-full blur-xl"></div>
+            
+            <div className="relative z-10">
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mr-3 shadow-lg">
+                  <span className="text-white font-bold text-sm">✓</span>
+                </div>
+                <h3 className="text-xl font-bold text-[#4D5563]">Your Message Preview</h3>
+                <div className="ml-auto px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full text-xs font-medium text-[#4D5563] shadow-md">
+                  {soulHugMessage.split(' ').length} words
+                </div>
+              </div>
+              
+              <div className="bg-white/80 backdrop-blur-md rounded-xl p-5 leading-relaxed whitespace-pre-line text-sm max-h-48 overflow-y-auto text-[#4D5563] border border-white/50 shadow-lg relative">
+                {/* Gradient overlay for scroll fade */}
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white/80 to-transparent pointer-events-none rounded-b-xl"></div>
+                {soulHugMessage}
+              </div>
+              
+              {/* Message stats */}
+              <div className="flex items-center justify-between mt-4 text-xs text-[#4D5563]/70">
+                <span>Estimated reading time: {Math.ceil(soulHugMessage.split(' ').length / 200)} min</span>
+                <span>Character count: {soulHugMessage.length}</span>
+              </div>
             </div>
           </div>
 
