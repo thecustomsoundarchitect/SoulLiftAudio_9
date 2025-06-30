@@ -220,23 +220,21 @@ export default function GatherPage() {
 
         <div className="flex justify-between items-center mt-6">
           <Link href="/define">
-            <button className="flex items-center px-4 py-2 bg-white/80 backdrop-blur-lg hover:bg-white/90 rounded-xl transition-all duration-200 text-[#4D5563] shadow-xl border border-white/50">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Define
+            <button className="flex items-center justify-center w-12 h-12 bg-white/80 backdrop-blur-lg hover:bg-white/90 rounded-full transition-all duration-200 text-[#4D5563] shadow-xl border border-white/50">
+              <ArrowLeft className="w-5 h-5" />
             </button>
           </Link>
           
           <Link href="/craft">
             <button
               disabled={!canProceed}
-              className={`flex items-center px-6 py-2 rounded-xl font-medium transition-all duration-300 shadow-xl ${
+              className={`flex items-center justify-center w-12 h-12 rounded-full font-medium transition-all duration-300 shadow-xl ${
                 canProceed
                   ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-2xl'
                   : 'bg-gray-300 cursor-not-allowed text-gray-500'
               }`}
             >
-              Continue to Craft
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-5 h-5" />
             </button>
           </Link>
         </div>
