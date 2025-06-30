@@ -242,26 +242,26 @@ With gratitude and love`
                 <button
                   onClick={aiWeave}
                   disabled={isWeaving || ingredients.length === 0}
-                  className="bg-white/60 hover:bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30 text-sm"
+                  className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl border border-gray-600 text-sm"
                 >
-                  {isWeaving ? 'AI Weaving...' : 'AI Weave (1 Credit)'}
+                  {isWeaving ? 'AI Weaving...' : 'AI Weave'}
                 </button>
                 
                 <button
                   onClick={aiPolish}
                   disabled={isPolishing || !message.trim()}
-                  className="bg-white/60 hover:bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30 text-sm"
+                  className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl border border-gray-600 text-sm"
                 >
-                  {isPolishing ? 'AI Polishing...' : 'AI Polish (1 Credit)'}
+                  {isPolishing ? 'AI Polishing...' : 'AI Polish'}
                 </button>
 
                 <button
                   onClick={exportHug}
                   disabled={!message.trim()}
-                  className="bg-white/60 hover:bg-white/80 backdrop-blur-md px-4 py-2 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30 text-sm"
+                  className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl border border-gray-600 text-sm"
                 >
                   <Download className="w-4 h-4 mr-1" />
-                  Export Hug
+                  Export
                 </button>
               </div>
             </div>
@@ -273,21 +273,23 @@ With gratitude and love`
 
           <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
             <Link href="/gather">
-              <button className="flex items-center justify-center w-12 h-12 bg-white/60 hover:bg-white/80 backdrop-blur-md rounded-full transition-all duration-200 text-[#4D5563] shadow-xl border border-white/30">
-                <ArrowLeft className="w-5 h-5" />
+              <button className="flex items-center justify-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-200 shadow-xl border border-gray-600">
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back
               </button>
             </Link>
             
             <Link href="/audio-hug">
               <button
                 disabled={!message.trim()}
-                className={`flex items-center justify-center w-12 h-12 rounded-full font-medium transition-all duration-300 shadow-xl ${
+                className={`flex items-center justify-center px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-xl ${
                   message.trim()
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-2xl'
+                    ? 'bg-gray-800 hover:bg-gray-700 text-white border border-gray-600'
                     : 'bg-gray-300 cursor-not-allowed text-gray-500'
                 }`}
               >
-                <ArrowLeft className="w-5 h-5 rotate-180" />
+                Continue
+                <ArrowLeft className="w-5 h-5 ml-2 rotate-180" />
               </button>
             </Link>
           </div>
