@@ -337,6 +337,30 @@ export default function DefinePage() {
               </div>
             </div>
           </motion.div>
+
+          <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
+            <Link href="/">
+              <button className="flex items-center justify-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-200 shadow-xl border border-gray-600">
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back
+              </button>
+            </Link>
+            
+            <Link href="/gather">
+              <button
+                onClick={handleContinue}
+                disabled={!canProceed}
+                className={`flex items-center justify-center px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-xl ${
+                  canProceed
+                    ? 'bg-gray-800 hover:bg-gray-700 text-white border border-gray-600'
+                    : 'bg-gray-300 cursor-not-allowed text-gray-500'
+                }`}
+              >
+                Continue
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </button>
+            </Link>
+          </div>
         </motion.div>
       </div>
     </div>

@@ -346,21 +346,23 @@ With gratitude and love`
 
           <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
             <Link href="/craft">
-              <button className="flex items-center justify-center w-12 h-12 bg-white/80 backdrop-blur-lg hover:bg-white/90 rounded-full transition-all duration-200 text-[#4D5563] shadow-xl border border-white/50">
-                <ArrowLeft className="w-5 h-5" />
+              <button className="flex items-center justify-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-200 shadow-xl border border-gray-600">
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back
               </button>
             </Link>
             
             <Link href="/my-hugs">
               <button
                 disabled={!hasAudio}
-                className={`flex items-center justify-center w-12 h-12 rounded-full font-medium transition-all duration-300 shadow-xl ${
+                className={`flex items-center justify-center px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-xl ${
                   hasAudio
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-2xl'
+                    ? 'bg-gray-800 hover:bg-gray-700 text-white border border-gray-600'
                     : 'bg-gray-300 cursor-not-allowed text-gray-500'
                 }`}
               >
-                <ArrowLeft className="w-5 h-5 rotate-180" />
+                Continue
+                <ArrowLeft className="w-5 h-5 ml-2 rotate-180" />
               </button>
             </Link>
           </div>
