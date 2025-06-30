@@ -14,7 +14,7 @@ function AppContent() {
   const showNavigation = location !== '/'
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-br from-[#311A55] via-[#5B2885] to-[#241946]">
       {showNavigation && <Navigation />}
       <main>
         <Switch>
@@ -27,26 +27,24 @@ function AppContent() {
           <Route path="/soul-archive" component={SoulArchivePage} />
           <Route>
             <div className="flex items-center justify-center min-h-screen">
-              <div className="soul-card text-center">
-                <h1 className="text-2xl font-bold text-gray-800 mb-4">Page Not Found</h1>
-                <p className="text-gray-600">The page you're looking for doesn't exist.</p>
+              <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 text-center">
+                <h1 className="text-2xl font-bold text-white mb-4">Page Not Found</h1>
+                <p className="text-white/80">The page you're looking for doesn't exist.</p>
               </div>
             </div>
           </Route>
         </Switch>
       </main>
       <BottomNavigation />
-    </>
+    </div>
   )
 }
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#311A55] via-[#5B2885] to-[#241946]">
-      <Router>
-        <AppContent />
-      </Router>
-    </div>
+    <Router>
+      <AppContent />
+    </Router>
   )
 }
 
