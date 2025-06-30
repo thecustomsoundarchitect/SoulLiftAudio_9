@@ -143,7 +143,7 @@ export const BackgroundMusicSelector: React.FC<BackgroundMusicSelectorProps> = (
                 <div className={`text-xs mt-1 ${
                   selectedTrack === track.id ? 'text-purple-100' : 'text-[#4D5563]/60'
                 }`}>
-                  {track.genre} • {track.duration}
+                  {track.genre} - {track.duration}
                 </div>
                 <div className={`text-xs mt-1 ${
                   selectedTrack === track.id ? 'text-purple-50' : 'text-[#4D5563]/50'
