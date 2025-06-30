@@ -6,7 +6,7 @@ export default function SoulArchivePage() {
   const [activeTab, setActiveTab] = useState('profile')
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f5faff] via-[#e9f3ff] to-[#fdfdff] relative overflow-hidden pb-20">
+    <div className="min-h-screen bg-[#F3F7FF] relative overflow-hidden pb-20">
       {/* Glass morphism overlay */}
       <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
       
@@ -15,22 +15,21 @@ export default function SoulArchivePage() {
       <div className="absolute bottom-32 left-12 w-40 h-40 bg-white/15 rounded-full blur-2xl animate-pulse delay-800"></div>
       <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-white/10 rounded-full blur-lg animate-pulse delay-1100"></div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8 relative z-10 page-content">
+      <div className="max-w-4xl mx-auto px-6 py-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 md:mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              SoulLift
+              Soul Archive
             </span>
-            <span className="block text-2xl sm:text-3xl lg:text-4xl font-normal text-gray-700 mt-2">Audio</span>
           </h1>
           
-          <p className="text-secondary">Your personal profile and achievements</p>
+          <p className="text-[#4D5563]">Your personal profile and achievements</p>
         </div>
 
         {/* Tab Navigation */}
         <div className="flex justify-center mb-8">
-          <div className="glass-surface rounded-lg p-1 flex">
+          <div className="bg-white/60 backdrop-blur-md rounded-lg p-1 flex shadow-xl border border-white/30">
             {[
               { id: 'profile', label: 'Profile', icon: User },
               { id: 'stats', label: 'Stats', icon: Award },
@@ -42,8 +41,8 @@ export default function SoulArchivePage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center px-4 py-2 rounded-md transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'bg-button-primary text-inverted shadow-sm'
-                    : 'glass-hover text-primary'
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
+                    : 'bg-white/60 hover:bg-white/80 backdrop-blur-md text-[#4D5563]'
                 }`}
               >
                 <tab.icon className="w-4 h-4 mr-2" />
@@ -54,30 +53,30 @@ export default function SoulArchivePage() {
         </div>
 
         {/* Content */}
-        <div className="glass-surface rounded-lg p-8 shadow-xl">
+        <div className="bg-white/80 backdrop-blur-lg rounded-lg p-8 shadow-2xl border border-white/50">
             {activeTab === 'profile' && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center"
               >
-                <div className="glass-surface rounded-lg p-6 shadow-sm mb-6">
-                  <h3 className="text-xl font-semibold mb-4 text-primary">Profile Information</h3>
+                <div className="bg-white/60 backdrop-blur-md rounded-lg p-6 shadow-xl mb-6 border border-white/30">
+                  <h3 className="text-xl font-semibold mb-4 text-[#4D5563]">Profile Information</h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-secondary">Name</span>
-                      <span className="font-medium text-primary">John Doe</span>
+                      <span className="text-[#4D5563]/80">Name</span>
+                      <span className="font-medium text-[#4D5563]">John Doe</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-secondary">Email</span>
-                      <span className="font-medium text-primary">john@example.com</span>
+                      <span className="text-[#4D5563]/80">Email</span>
+                      <span className="font-medium text-[#4D5563]">john@example.com</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-secondary">Member Since</span>
-                      <span className="font-medium text-primary">January 2024</span>
+                      <span className="text-[#4D5563]/80">Member Since</span>
+                      <span className="font-medium text-[#4D5563]">January 2024</span>
                     </div>
                   </div>
-                  <button className="mt-4 flex items-center mx-auto px-4 py-2 bg-button-primary text-inverted rounded-lg hover:bg-button-secondary transition-colors">
+                  <button className="mt-4 flex items-center mx-auto px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:shadow-xl transition-all duration-200">
                     <Edit3 className="w-4 h-4 mr-2" />
                     Edit Profile
                   </button>
@@ -91,20 +90,20 @@ export default function SoulArchivePage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="grid grid-cols-1 md:grid-cols-3 gap-6"
               >
-                <div className="glass-surface rounded-lg p-6 text-center shadow-sm">
+                <div className="bg-white/60 backdrop-blur-md rounded-lg p-6 text-center shadow-xl border border-white/30">
                   <Heart className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-primary">12</div>
-                  <div className="text-secondary">Soul Hugs Created</div>
+                  <div className="text-2xl font-bold text-[#4D5563]">12</div>
+                  <div className="text-[#4D5563]/80">Soul Hugs Created</div>
                 </div>
-                <div className="glass-surface rounded-lg p-6 text-center shadow-sm">
+                <div className="bg-white/60 backdrop-blur-md rounded-lg p-6 text-center shadow-xl border border-white/30">
                   <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-primary">45</div>
-                  <div className="text-secondary">Days Active</div>
+                  <div className="text-2xl font-bold text-[#4D5563]">45</div>
+                  <div className="text-[#4D5563]/80">Days Active</div>
                 </div>
-                <div className="glass-surface rounded-lg p-6 text-center shadow-sm">
+                <div className="bg-white/60 backdrop-blur-md rounded-lg p-6 text-center shadow-xl border border-white/30">
                   <Award className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-primary">3</div>
-                  <div className="text-secondary">Achievements</div>
+                  <div className="text-2xl font-bold text-[#4D5563]">3</div>
+                  <div className="text-[#4D5563]/80">Achievements</div>
                 </div>
               </motion.div>
             )}
@@ -113,22 +112,22 @@ export default function SoulArchivePage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="glass-surface rounded-lg p-6 shadow-sm"
+                className="bg-white/60 backdrop-blur-md rounded-lg p-6 shadow-xl border border-white/30"
               >
-                <h3 className="text-xl font-semibold mb-4 text-primary">Recent Activity</h3>
+                <h3 className="text-xl font-semibold mb-4 text-[#4D5563]">Recent Activity</h3>
                 <div className="space-y-4">
-                  <div className="flex items-center p-3 glass-surface rounded-lg">
+                  <div className="flex items-center p-3 bg-white/60 backdrop-blur-md rounded-lg shadow-lg border border-white/30">
                     <Heart className="w-5 h-5 text-purple-600 mr-3" />
                     <div>
-                      <div className="font-medium text-primary">Created Soul Hug for Mom</div>
-                      <div className="text-sm text-secondary">2 hours ago</div>
+                      <div className="font-medium text-[#4D5563]">Created Soul Hug for Mom</div>
+                      <div className="text-sm text-[#4D5563]/80">2 hours ago</div>
                     </div>
                   </div>
-                  <div className="flex items-center p-3 glass-surface rounded-lg">
+                  <div className="flex items-center p-3 bg-white/60 backdrop-blur-md rounded-lg shadow-lg border border-white/30">
                     <Heart className="w-5 h-5 text-purple-600 mr-3" />
                     <div>
-                      <div className="font-medium text-primary">Shared Soul Hug with Sarah</div>
-                      <div className="text-sm text-secondary">1 day ago</div>
+                      <div className="font-medium text-[#4D5563]">Shared Soul Hug with Sarah</div>
+                      <div className="text-sm text-[#4D5563]/80">1 day ago</div>
                     </div>
                   </div>
                 </div>
@@ -139,25 +138,25 @@ export default function SoulArchivePage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="glass-surface rounded-lg p-6 shadow-sm"
+                className="bg-white/60 backdrop-blur-md rounded-lg p-6 shadow-xl border border-white/30"
               >
-                <h3 className="text-xl font-semibold mb-4 text-primary">Settings</h3>
+                <h3 className="text-xl font-semibold mb-4 text-[#4D5563]">Settings</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-secondary">Email Notifications</span>
-                    <button className="w-12 h-6 bg-button-primary rounded-full relative">
+                    <span className="text-[#4D5563]/80">Email Notifications</span>
+                    <button className="w-12 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full relative">
                       <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
                     </button>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-secondary">Auto-save Drafts</span>
+                    <span className="text-[#4D5563]/80">Auto-save Drafts</span>
                     <button className="w-12 h-6 bg-gray-300 rounded-full relative">
                       <div className="w-5 h-5 bg-white rounded-full absolute left-0.5 top-0.5"></div>
                     </button>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-secondary">Public Profile</span>
-                    <button className="w-12 h-6 bg-button-primary rounded-full relative">
+                    <span className="text-[#4D5563]/80">Public Profile</span>
+                    <button className="w-12 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full relative">
                       <div className="w-5 h-5 bg-white rounded-full absolute right-0.5 top-0.5"></div>
                     </button>
                   </div>

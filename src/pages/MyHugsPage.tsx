@@ -36,7 +36,7 @@ export default function MyHugsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f5faff] via-[#e9f3ff] to-[#fdfdff]">
+    <div className="min-h-screen bg-[#F3F7FF]">
 
       {/* Floating back button */}
       <motion.div 
@@ -45,13 +45,13 @@ export default function MyHugsPage() {
         whileTap={{ scale: 0.95 }}
       >
         <Link href="/">
-          <button className="flex items-center justify-center w-12 h-12 bg-white/10 backdrop-blur-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 group hover:bg-white/20">
-            <Heart className="w-5 h-5 text-primary group-hover:text-secondary transition-colors" />
+          <button className="flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-lg rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 group hover:bg-white">
+            <Heart className="w-5 h-5 text-[#4D5563] group-hover:text-purple-600 transition-colors" />
           </button>
         </Link>
       </motion.div>
 
-      <div className="max-w-4xl mx-auto px-6 py-20 page-content">
+      <div className="max-w-4xl mx-auto px-6 py-20">
         {/* Header */}
         <motion.div 
           className="text-center mb-16"
@@ -59,20 +59,19 @@ export default function MyHugsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 md:mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              SoulLift
+              My Soul Hugs
             </span>
-            <span className="block text-2xl sm:text-3xl lg:text-4xl font-normal text-gray-700 mt-2">Audio</span>
           </h1>
           
           <motion.p 
-            className="text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto"
+            className="text-xl text-[#4D5563] leading-relaxed max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            <span className="text-secondary">Your saved creations and heartfelt messages</span>
+            Your saved creations and heartfelt messages
           </motion.p>
         </motion.div>
 
@@ -83,29 +82,27 @@ export default function MyHugsPage() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
           >
-            <div className="glass-surface rounded-3xl p-8 shadow-xl">
+            <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50">
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="mb-8"
               >
-                <Heart className="w-20 h-20 mx-auto text-muted" />
+                <Heart className="w-20 h-20 mx-auto text-[#4D5563]/60" />
               </motion.div>
               <motion.h3 
-                className="text-2xl font-semibold mb-4"
+                className="text-2xl font-semibold mb-4 text-[#4D5563]"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
-                className="text-primary"
               >
                 No Soul Hugs Yet
               </motion.h3>
               <motion.p 
-                className="mb-8 text-lg"
+                className="mb-8 text-lg text-[#4D5563]/80"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0 }}
-                className="text-secondary"
               >
                 Create your first heartfelt message to get started
               </motion.p>
@@ -116,7 +113,7 @@ export default function MyHugsPage() {
               >
                 <Link href="/define">
                   <motion.button 
-                    className="glass-surface glass-hover px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-focus text-lg text-primary"
+                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg shadow-xl"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -133,7 +130,7 @@ export default function MyHugsPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
           >
-            <div className="glass-surface rounded-3xl p-6 shadow-xl">
+            <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-white/50">
               <ExpandableCardDemo />
             </div>
             
@@ -148,7 +145,7 @@ export default function MyHugsPage() {
                 <h3 className="text-2xl font-semibold mb-4">
                   <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Quick Navigation</span>
                 </h3>
-                <p className="text-secondary">
+                <p className="text-[#4D5563]/80">
                   Access your favorite features with our floating dock
                 </p>
               </div>
@@ -160,14 +157,14 @@ export default function MyHugsPage() {
         {/* Stats */}
         {savedSoulHugs.length > 0 && (
           <motion.div 
-            className="mt-16 pt-8 border-t border-white/20"
+            className="mt-16 pt-8 border-t border-white/30"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.6 }}
           >
             <div className="grid grid-cols-3 gap-6">
               <motion.div 
-                className="text-center glass-surface rounded-2xl p-6 shadow-lg"
+                className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
@@ -178,11 +175,11 @@ export default function MyHugsPage() {
                 >
                   {savedSoulHugs.length}
                 </motion.div>
-                <div className="text-sm font-medium text-primary">Total Hugs</div>
+                <div className="text-sm font-medium text-[#4D5563]">Total Hugs</div>
               </motion.div>
               
               <motion.div 
-                className="text-center glass-surface rounded-2xl p-6 shadow-lg"
+                className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
@@ -197,11 +194,11 @@ export default function MyHugsPage() {
                     return total + min + sec / 60
                   }, 0).toFixed(0)}
                 </motion.div>
-                <div className="text-sm font-medium text-primary">Minutes Created</div>
+                <div className="text-sm font-medium text-[#4D5563]">Minutes Created</div>
               </motion.div>
               
               <motion.div 
-                className="text-center glass-surface rounded-2xl p-6 shadow-lg"
+                className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
@@ -212,7 +209,7 @@ export default function MyHugsPage() {
                 >
                   {new Set(savedSoulHugs.map(hug => hug.recipient)).size}
                 </motion.div>
-                <div className="text-sm font-medium text-primary">People Touched</div>
+                <div className="text-sm font-medium text-[#4D5563]">People Touched</div>
               </motion.div>
             </div>
           </motion.div>
@@ -227,7 +224,7 @@ export default function MyHugsPage() {
         >
           <Link href="/define">
             <motion.button 
-              className="glass-surface glass-hover px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-focus text-lg relative overflow-hidden text-primary"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg relative overflow-hidden shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

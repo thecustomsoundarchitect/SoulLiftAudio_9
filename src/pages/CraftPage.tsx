@@ -98,34 +98,32 @@ With gratitude and love`
   const wordCount = message ? message.split(' ').filter(word => word.length > 0).length : 0
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f5faff] via-[#e9f3ff] to-[#fdfdff] pt-8 pb-16">
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-content">
-        <div className="glass-surface rounded-3xl p-6 md:p-8 shadow-xl">
+    <div className="min-h-screen bg-[#F3F7FF] pt-8 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-2xl border border-white/50">
           <div className="text-center mb-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 md:mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                SoulLift
+                Craft Your Message
               </span>
-              <span className="block text-2xl sm:text-3xl lg:text-4xl font-normal text-gray-700 mt-2">Audio</span>
             </h1>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
             {/* Left Column - Ingredients */}
             <div>
-              <div className="glass-surface rounded-2xl p-6 mb-6">
+              <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 mb-6 shadow-xl border border-white/30">
                 <div className="flex items-center mb-4">
-                  <div className="w-8 h-8 glass-surface rounded-lg flex items-center justify-center mr-3">
-                    <span className="text-sm font-bold text-primary">✓</span>
+                  <div className="w-8 h-8 bg-white/60 backdrop-blur-md rounded-lg flex items-center justify-center mr-3 shadow-md border border-white/30">
+                    <span className="text-sm font-bold text-[#4D5563]">✓</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-primary">Your Ingredients</h3>
+                  <h3 className="text-lg font-semibold text-[#4D5563]">Your Ingredients</h3>
                 </div>
                 
                 {ingredients.length === 0 ? (
                   <div className="text-center py-8">
-                    <p className="text-sm text-secondary">No ingredients available</p>
-                    <p className="text-xs mt-1 text-muted">Go back to Gather to collect some!</p>
+                    <p className="text-sm text-[#4D5563]/60">No ingredients available</p>
+                    <p className="text-xs mt-1 text-[#4D5563]/40">Go back to Gather to collect some!</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -134,20 +132,20 @@ With gratitude and love`
                         key={index}
                         draggable
                         onDragStart={(e) => handleDragStart(e, ingredient)}
-                        className="glass-surface glass-hover rounded-lg p-3 shadow-sm cursor-grab active:cursor-grabbing transition-shadow"
+                        className="bg-white/60 hover:bg-white/80 backdrop-blur-md rounded-lg p-3 shadow-lg cursor-grab active:cursor-grabbing transition-all duration-200 border border-white/30"
                       >
-                        <p className="text-sm leading-relaxed text-primary">
+                        <p className="text-sm leading-relaxed text-[#4D5563]">
                           {ingredient.includes(':') ? (
                             <>
-                              <span className="font-medium block mb-1 text-primary">
+                              <span className="font-medium block mb-1 text-[#4D5563]">
                                 {ingredient.split(':')[0]}
                               </span>
-                              <span className="text-secondary">
+                              <span className="text-[#4D5563]/80">
                                 {ingredient.split(':').slice(1).join(':').trim()}
                               </span>
                             </>
                           ) : (
-                            <span className="font-medium text-primary">{ingredient}</span>
+                            <span className="font-medium text-[#4D5563]">{ingredient}</span>
                           )}
                         </p>
                       </div>
@@ -158,12 +156,12 @@ With gratitude and love`
 
               {/* Descriptors */}
               {descriptors.length > 0 && (
-                <div className="glass-surface rounded-2xl p-6">
+                <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30">
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="font-medium text-primary">Selected Descriptors</h4>
+                    <h4 className="font-medium text-[#4D5563]">Selected Descriptors</h4>
                     <button
                       onClick={moveAllDescriptors}
-                      className="text-xs glass-surface glass-hover px-3 py-1 rounded-full transition-colors text-primary"
+                      className="text-xs bg-white/60 hover:bg-white/80 backdrop-blur-md px-3 py-1 rounded-full transition-colors text-[#4D5563] shadow-md border border-white/30"
                     >
                       Move All to Message
                     </button>
@@ -171,15 +169,15 @@ With gratitude and love`
                   <div 
                     draggable={descriptors.length > 0}
                     onDragStart={handleDescriptorDragStart}
-                    className={`glass-surface rounded-lg p-3 shadow-sm ${
-                      descriptors.length > 0 ? 'cursor-grab active:cursor-grabbing glass-hover' : ''
-                    } transition-shadow`}
+                    className={`bg-white/60 backdrop-blur-md rounded-lg p-3 shadow-lg border border-white/30 ${
+                      descriptors.length > 0 ? 'cursor-grab active:cursor-grabbing hover:bg-white/80' : ''
+                    } transition-all duration-200`}
                   >
                     <div className="flex flex-wrap gap-2">
                       {descriptors.map((descriptor, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 glass-surface rounded-full text-sm font-medium text-primary"
+                          className="px-3 py-1 bg-white/60 backdrop-blur-md rounded-full text-sm font-medium text-[#4D5563] shadow-md border border-white/30"
                         >
                           {descriptor}
                         </span>
@@ -187,8 +185,8 @@ With gratitude and love`
                     </div>
                   </div>
                   {descriptors.length > 0 && (
-                    <p className="text-xs mt-2 text-muted">
-                      💡 Drag this box to your message or click "Move All"
+                    <p className="text-xs mt-2 text-[#4D5563]/60">
+                      Drag this box to your message or click "Move All"
                     </p>
                   )}
                 </div>
@@ -197,15 +195,15 @@ With gratitude and love`
 
             {/* Right Column - Message */}
             <div>
-              <div className="glass-surface rounded-2xl p-6">
+              <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 glass-surface rounded-lg flex items-center justify-center mr-3">
-                      <span className="text-sm font-bold text-primary">✓</span>
+                    <div className="w-8 h-8 bg-white/60 backdrop-blur-md rounded-lg flex items-center justify-center mr-3 shadow-md border border-white/30">
+                      <span className="text-sm font-bold text-[#4D5563]">✓</span>
                     </div>
-                    <h3 className="text-lg font-semibold text-primary">Your Soul Hug Message</h3>
+                    <h3 className="text-lg font-semibold text-[#4D5563]">Your Soul Hug Message</h3>
                   </div>
-                  <div className="text-sm text-secondary">
+                  <div className="text-sm text-[#4D5563]/80">
                     {wordCount} words
                   </div>
                 </div>
@@ -218,26 +216,24 @@ With gratitude and love`
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   placeholder="Begin crafting your Soul Hug here... Click on ingredients from the left panel to add them, or start typing your heart's message."
-                  className="w-full h-80 p-4 border-2 border-dashed border-white/30 bg-white/10 backdrop-blur-md rounded-xl focus:outline-none focus:border-white/50 focus:bg-white/20 resize-none leading-relaxed text-primary placeholder-white/60"
-                  style={{ color: '#4D1A77', fontFamily: 'Calibri, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif' }}
+                  className="w-full h-80 p-4 border-2 border-dashed border-white/40 bg-white/60 backdrop-blur-md rounded-xl focus:outline-none focus:border-purple-400 focus:bg-white/80 resize-none leading-relaxed text-[#4D5563] placeholder-[#4D5563]/40 shadow-lg"
                 />
               </div>
             </div>
           </div>
 
           {/* Bottom Controls */}
-          <div className="mt-8 pt-6 border-t border-white/20">
+          <div className="mt-8 pt-6 border-t border-white/30">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
               {/* Target Length */}
               <div className="flex items-center space-x-4">
-                <label htmlFor="target-length" className="text-sm font-medium text-primary">Target Length</label>
+                <label htmlFor="target-length" className="text-sm font-medium text-[#4D5563]">Target Length</label>
                 <select
                   id="target-length"
                   name="targetLength"
                   value={targetLength}
                   onChange={(e) => setTargetLength(e.target.value)}
-                  className="px-3 py-2 border border-white/30 bg-white/10 backdrop-blur-md rounded-lg focus:outline-none focus:ring-2 focus:ring-white/40 text-sm"
-                  style={{ color: '#4D1A77' }}
+                  className="px-3 py-2 border border-white/30 bg-white/60 backdrop-blur-md rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm text-[#4D5563] shadow-lg"
                 >
                   <option value="30s - Brief">30s - Brief</option>
                   <option value="1m - Heartfelt">1m - Heartfelt</option>
@@ -251,7 +247,7 @@ With gratitude and love`
                 <button
                   onClick={aiWeave}
                   disabled={isWeaving || ingredients.length === 0}
-                  className="glass-surface glass-hover px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-50 disabled:cursor-not-allowed text-primary"
+                  className="bg-white/60 hover:bg-white/80 backdrop-blur-md px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30"
                 >
                   {isWeaving ? 'AI Weaving...' : 'AI Weave (1 Credit)'}
                 </button>
@@ -259,7 +255,7 @@ With gratitude and love`
                 <button
                   onClick={aiPolish}
                   disabled={isPolishing || !message.trim()}
-                  className="glass-surface glass-hover px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-50 disabled:cursor-not-allowed text-primary"
+                  className="bg-white/60 hover:bg-white/80 backdrop-blur-md px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30"
                 >
                   {isPolishing ? 'AI Polishing...' : 'AI Polish (1 Credit)'}
                 </button>
@@ -267,7 +263,7 @@ With gratitude and love`
                 <button
                   onClick={exportHug}
                   disabled={!message.trim()}
-                  className="glass-surface glass-hover px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-50 disabled:cursor-not-allowed text-primary"
+                  className="bg-white/60 hover:bg-white/80 backdrop-blur-md px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Export Hug
@@ -276,15 +272,15 @@ With gratitude and love`
             </div>
 
             {/* Pro tip */}
-            <p className="text-xs mt-4" style={{ color: '#8A37EA', opacity: 0.7 }}>
+            <p className="text-xs mt-4 text-[#4D5563]/60">
               Pro tip: Click on ingredients from the left panel to add them to your message. Use AI Weave to create from ingredients, or AI Polish to refine existing text.
             </p>
           </div>
 
           {/* Navigation */}
-          <div className="flex justify-between items-center mt-8 pt-6 border-t border-white/20">
+          <div className="flex justify-between items-center mt-8 pt-6 border-t border-white/30">
             <Link href="/gather">
-              <button className="flex items-center px-6 py-3 glass-surface glass-hover rounded-xl transition-all duration-200 text-primary">
+              <button className="flex items-center px-6 py-3 bg-white/60 hover:bg-white/80 backdrop-blur-md rounded-xl transition-all duration-200 text-[#4D5563] shadow-xl border border-white/30">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Gather
               </button>
@@ -293,7 +289,11 @@ With gratitude and love`
             <Link href="/audio-hug">
               <button
                 disabled={!message.trim()}
-                className="glass-surface glass-hover px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-focus disabled:opacity-50 disabled:cursor-not-allowed text-primary"
+                className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-xl ${
+                  message.trim()
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-2xl'
+                    : 'bg-gray-300 cursor-not-allowed text-gray-500'
+                }`}
               >
                 Continue to Audio
               </button>
