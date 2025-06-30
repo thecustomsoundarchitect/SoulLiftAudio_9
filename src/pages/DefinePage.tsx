@@ -41,7 +41,7 @@ export default function DefinePage() {
     "perfectly loved just as they are"
   ]
 
-  const canProceed = formData.coreFeeling.trim().length > 0 && formData.tone.length > 0
+  const canProceed = true // Remove requirement validation
 
   useEffect(() => {
     const completed = []
@@ -195,7 +195,6 @@ export default function DefinePage() {
                 </div>
                 <div className="flex-1">
                   <span>How do you want them to feel?</span>
-                  <span className="text-red-500 ml-2">*</span>
                 </div>
               </label>
               
@@ -280,7 +279,6 @@ export default function DefinePage() {
                   </div>
                   <div className="flex-1">
                     <span>Tone</span>
-                    <span className="text-red-500 ml-2">*</span>
                   </div>
                 </label>
                 
@@ -297,7 +295,6 @@ export default function DefinePage() {
                         ? 'border-purple-500 bg-purple-50/50 shadow-purple-200/50'
                         : 'border-white/40 hover:border-purple-300 focus:border-purple-500 focus:bg-white/90'
                   }`}
-                  required
                 >
                   <option value="" className="bg-white text-[#4D5563]">Select tone...</option>
                   {tones.map(tone => (
@@ -307,36 +304,6 @@ export default function DefinePage() {
               </motion.div>
             </div>
           </div>
-
-          <motion.div 
-            className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl border border-purple-200/50"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.8, duration: 0.5 }}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-6 h-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mr-2">
-                  <span className="text-white font-bold text-xs">{completedFields.length}</span>
-                </div>
-                <span className="text-[#4D5563] font-medium text-sm">
-                  {completedFields.length} of 4 fields completed
-                </span>
-              </div>
-              <div className="flex space-x-1">
-                {[1, 2, 3, 4].map((step) => (
-                  <div
-                    key={step}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      step <= completedFields.length
-                        ? 'bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg'
-                        : 'bg-white/60 border border-white/40'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-          </motion.div>
 
           <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
             <Link href="/">
@@ -349,12 +316,7 @@ export default function DefinePage() {
             <Link href="/gather">
               <button
                 onClick={handleContinue}
-                disabled={!canProceed}
-                className={`flex items-center justify-center px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-xl ${
-                  canProceed
-                    ? 'bg-gray-800 hover:bg-gray-700 text-white border border-gray-600'
-                    : 'bg-gray-300 cursor-not-allowed text-gray-500'
-                }`}
+                className="flex items-center justify-center px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-xl bg-gray-800 hover:bg-gray-700 text-white border border-gray-600"
               >
                 Continue
                 <ArrowRight className="w-5 h-5 ml-2" />
