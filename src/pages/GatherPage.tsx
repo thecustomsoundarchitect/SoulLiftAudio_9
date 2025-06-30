@@ -107,6 +107,9 @@ export default function GatherPage() {
           <p className="text-lg text-[#4D5563]">
             Click prompts to write stories, select descriptors that fit
           </p>
+          
+          {/* Progress Indicator at top */}
+          <ProgressIndicator className="mt-8" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -251,8 +254,6 @@ export default function GatherPage() {
             </button>
           </Link>
         </div>
-
-        <ProgressIndicator className="mt-8" />
 
         {/* Writing Modal */}
         <AnimatePresence>

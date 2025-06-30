@@ -68,7 +68,7 @@ export default function ExpandableCardDemo() {
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+              className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white/90 backdrop-blur-lg dark:bg-neutral-900 sm:rounded-3xl overflow-hidden shadow-2xl border border-white/50"
             >
               <motion.div layoutId={`image-${active.title}-${id}`}>
                 <img
@@ -85,13 +85,13 @@ export default function ExpandableCardDemo() {
                   <div className="">
                     <motion.h3
                       layoutId={`title-${active.title}-${id}`}
-                      className="font-bold text-neutral-700 dark:text-neutral-200"
+                      className="font-bold text-[#4D5563]"
                     >
                       {active.title}
                     </motion.h3>
                     <motion.p
                       layoutId={`description-${active.description}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400"
+                      className="text-[#4D5563]/80"
                     >
                       {active.description}
                     </motion.p>
@@ -101,7 +101,7 @@ export default function ExpandableCardDemo() {
                     layoutId={`button-${active.title}-${id}`}
                     href={active.ctaLink}
                     target="_blank"
-                    className="px-4 py-3 text-sm rounded-full font-bold bg-green-500 text-white"
+                    className="px-4 py-3 text-sm rounded-full font-bold bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-200"
                   >
                     {active.ctaText}
                   </motion.a>
@@ -112,7 +112,7 @@ export default function ExpandableCardDemo() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-neutral-600 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
+                    className="text-[#4D5563]/80 text-xs md:text-sm lg:text-base h-40 md:h-fit pb-10 flex flex-col items-start gap-4 overflow-auto [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                   >
                     {typeof active.content === "function"
                       ? active.content()
@@ -130,7 +130,7 @@ export default function ExpandableCardDemo() {
             layoutId={`card-${card.title}-${id}`}
             key={`card-${card.title}-${id}`}
             onClick={() => setActive(card)}
-            className="p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
+            className="p-4 flex flex-col md:flex-row justify-between items-center hover:bg-white/80 bg-white/60 backdrop-blur-md rounded-xl cursor-pointer shadow-lg border border-white/30 transition-all duration-200"
           >
             <div className="flex gap-4 flex-col md:flex-row ">
               <motion.div layoutId={`image-${card.title}-${id}`}>
@@ -139,19 +139,19 @@ export default function ExpandableCardDemo() {
                   height={100}
                   src={card.src}
                   alt={card.title}
-                  className="h-40 w-40 md:h-14 md:w-14 rounded-lg object-cover object-top"
+                  className="h-40 w-40 md:h-14 md:w-14 rounded-lg object-cover object-top shadow-md"
                 />
               </motion.div>
               <div className="">
                 <motion.h3
                   layoutId={`title-${card.title}-${id}`}
-                  className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left"
+                  className="font-medium text-[#4D5563] text-center md:text-left"
                 >
                   {card.title}
                 </motion.h3>
                 <motion.p
                   layoutId={`description-${card.description}-${id}`}
-                  className="text-neutral-600 dark:text-neutral-400 text-center md:text-left"
+                  className="text-[#4D5563]/80 text-center md:text-left"
                 >
                   {card.description}
                 </motion.p>
@@ -159,7 +159,7 @@ export default function ExpandableCardDemo() {
             </div>
             <motion.button
               layoutId={`button-${card.title}-${id}`}
-              className="px-4 py-2 text-sm rounded-full font-bold bg-gray-100 hover:bg-green-500 hover:text-white text-black mt-4 md:mt-0"
+              className="px-4 py-2 text-sm rounded-full font-bold bg-white/60 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white text-[#4D5563] mt-4 md:mt-0 transition-all duration-200 shadow-md border border-white/30"
             >
               {card.ctaText}
             </motion.button>
@@ -218,7 +218,7 @@ const cards = [
           <br /> <br />
           You've always been my biggest supporter, my voice of reason, and my source of unconditional love. The way you light up a room with your smile and make everyone feel welcome is truly magical. May this year bring you all the joy and happiness you've given to others.
           <br /> <br />
-          <em>Created with love on your birthday ❤️</em>
+          <em>Created with love on your birthday</em>
         </p>
       );
     },
@@ -239,7 +239,7 @@ const cards = [
           <br /> <br />
           Remember: you are braver than you believe, stronger than you seem, and more loved than you know. I'm here for you, always.
           <br /> <br />
-          <em>Sending you strength and love 💪</em>
+          <em>Sending you strength and love</em>
         </p>
       );
     },
@@ -260,7 +260,7 @@ const cards = [
           <br /> <br />
           Thank you for believing in me even when I didn't believe in myself. Thank you for your sacrifices, your love, and for being the amazing father you are.
           <br /> <br />
-          <em>With endless gratitude and love 🙏</em>
+          <em>With endless gratitude and love</em>
         </p>
       );
     },
@@ -281,7 +281,7 @@ const cards = [
           <br /> <br />
           Thank you for being you - for your friendship, your support, and for all the memories we've created together. Here's to many more adventures ahead!
           <br /> <br />
-          <em>Love you to the moon and back! 🌙✨</em>
+          <em>Love you to the moon and back!</em>
         </p>
       );
     },
@@ -302,7 +302,7 @@ const cards = [
           <br /> <br />
           You are worthy of love, success, and all the beautiful things life has to offer. Trust in your journey, trust in your strength, and most importantly, trust in yourself.
           <br /> <br />
-          <em>Believing in you always 💜</em>
+          <em>Believing in you always</em>
         </p>
       );
     },
@@ -316,14 +316,14 @@ const cards = [
     content: () => {
       return (
         <p>
-          <strong>You did it! 🎓</strong> <br /> <br />
+          <strong>You did it!</strong> <br /> <br />
           What an incredible achievement! All those late nights studying, the stress of exams, the hard work and dedication - it has all led to this amazing moment. I am so incredibly proud of you and everything you've accomplished.
           <br /> <br />
           Your determination, intelligence, and perseverance have brought you to this milestone. But more than that, your kindness, your curiosity, and your passion for learning make you truly special. The world is lucky to have someone like you ready to make a difference.
           <br /> <br />
           As you step into this next chapter, remember that this is just the beginning. You have so much potential and so many wonderful things ahead of you. Congratulations on this well-deserved success!
           <br /> <br />
-          <em>Celebrating you today and always! 🎉</em>
+          <em>Celebrating you today and always!</em>
         </p>
       );
     },
