@@ -15,12 +15,12 @@ export default function HomePage() {
       speed="slow"
       waveOpacity={0.2}
     >
-      <div className="relative z-10 min-h-screen pt-8 pb-16">
-        <div className="max-w-sm sm:max-w-2xl lg:max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 min-h-screen flex flex-col justify-center py-8 px-4">
+        <div className="max-w-sm sm:max-w-2xl lg:max-w-6xl mx-auto">
           {/* Hero Section */}
-          <div className="text-center mb-8 md:mb-16">
+          <div className="text-center mb-8">
             <motion.div
-              className="relative mx-auto mb-6 md:mb-8 w-16 h-16 sm:w-20 sm:h-20"
+              className="relative mx-auto mb-4 w-12 h-12 sm:w-16 sm:h-16"
               initial={{ scale: 0, rotate: -180, opacity: 0 }}
               animate={{ 
                 scale: [0, 1.2, 1],
@@ -85,7 +85,7 @@ export default function HomePage() {
                   ease: "easeInOut"
                 }}
               >
-                <Heart className="w-12 h-12 text-purple-600" />
+                <Heart className="w-8 h-8 sm:w-10 sm:h-10 text-purple-600" />
               </motion.div>
               
               {/* Sparkle effects */}
@@ -112,36 +112,36 @@ export default function HomePage() {
               ))}
             </motion.div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 md:mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-3">
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 SoulLift
               </span>
-              <span className="block text-2xl sm:text-3xl lg:text-4xl font-normal text-gray-700 mt-2">Audio</span>
+              <span className="block text-xl sm:text-2xl lg:text-3xl font-normal text-gray-700 mt-1">Audio</span>
             </h1>
             
-            <p className="text-lg sm:text-xl text-gray-600 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2">
+            <p className="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl mx-auto leading-relaxed px-2">
               Join thousands creating meaningful connections through personalized audio messages
             </p>
           </div>
 
           {/* Main Action Cards */}
-          <div className="flex flex-col items-center gap-6 max-w-sm sm:max-w-2xl lg:max-w-4xl mx-auto mb-8 md:mb-12">
+          <div className="flex flex-col items-center gap-4 max-w-xs sm:max-w-sm mx-auto mb-6">
             <Link href="/define">
               <button className="
                 relative
                 bg-gradient-to-br from-purple-400 to-purple-600 
-                rounded-3xl 
-                p-6 
+                rounded-2xl 
+                p-4 
                 shadow-xl 
                 text-white 
                 font-semibold 
-                text-lg
+                text-base
                 transform 
                 hover:scale-105 
                 transition-all 
                 duration-200
                 border-0
-                min-w-[280px]
+                w-64
                 overflow-hidden
                 before:absolute
                 before:inset-0
@@ -149,7 +149,7 @@ export default function HomePage() {
                 before:from-white/30
                 before:via-white/10
                 before:to-transparent
-                before:rounded-3xl
+                before:rounded-2xl
                 before:pointer-events-none
                 after:absolute
                 after:top-0
@@ -159,7 +159,7 @@ export default function HomePage() {
                 after:bg-gradient-to-b
                 after:from-white/20
                 after:to-transparent
-                after:rounded-t-3xl
+                after:rounded-t-2xl
                 after:pointer-events-none
               ">
                 <span className="relative z-10">Create New Soul Hug</span>
@@ -170,18 +170,18 @@ export default function HomePage() {
               <button className="
                 relative
                 bg-gradient-to-br from-green-400 to-green-600 
-                rounded-3xl 
-                p-6 
+                rounded-2xl 
+                p-4 
                 shadow-xl 
                 text-white 
                 font-semibold 
-                text-lg
+                text-base
                 transform 
                 hover:scale-105 
                 transition-all 
                 duration-200
                 border-0
-                min-w-[280px]
+                w-64
                 overflow-hidden
                 before:absolute
                 before:inset-0
@@ -189,7 +189,7 @@ export default function HomePage() {
                 before:from-white/30
                 before:via-white/10
                 before:to-transparent
-                before:rounded-3xl
+                before:rounded-2xl
                 before:pointer-events-none
                 after:absolute
                 after:top-0
@@ -199,7 +199,7 @@ export default function HomePage() {
                 after:bg-gradient-to-b
                 after:from-white/20
                 after:to-transparent
-                after:rounded-t-3xl
+                after:rounded-t-2xl
                 after:pointer-events-none
               ">
                 <span className="relative z-10">View Soul Hug Examples</span>
@@ -210,18 +210,18 @@ export default function HomePage() {
               <button className="
                 relative
                 bg-gradient-to-br from-blue-400 to-blue-600 
-                rounded-3xl 
-                p-6 
+                rounded-2xl 
+                p-4 
                 shadow-xl 
                 text-white 
                 font-semibold 
-                text-lg
+                text-base
                 transform 
                 hover:scale-105 
                 transition-all 
                 duration-200
                 border-0
-                min-w-[280px]
+                w-64
                 overflow-hidden
                 before:absolute
                 before:inset-0
@@ -229,7 +229,7 @@ export default function HomePage() {
                 before:from-white/30
                 before:via-white/10
                 before:to-transparent
-                before:rounded-3xl
+                before:rounded-2xl
                 before:pointer-events-none
                 after:absolute
                 after:top-0
@@ -239,7 +239,7 @@ export default function HomePage() {
                 after:bg-gradient-to-b
                 after:from-white/20
                 after:to-transparent
-                after:rounded-t-3xl
+                after:rounded-t-2xl
                 after:pointer-events-none
               ">
                 <span className="relative z-10">View My Soul Hugs</span>
@@ -249,7 +249,7 @@ export default function HomePage() {
 
           {/* Sign In CTA */}
           <div className="text-center">
-            <button className="soul-button-outline text-base md:text-lg px-8">
+            <button className="soul-button-outline text-sm px-6 py-2">
               Sign In to Save Your Creations
             </button>
           </div>
