@@ -36,31 +36,31 @@ export default function ProgressIndicator({ className = '' }: ProgressIndicatorP
 
   return (
     <div className={`flex justify-center ${className}`}>
-      <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/50">
-        <div className="flex items-center justify-center space-x-4">
-          <Heart className="w-8 h-8 text-purple-600" />
+      <div className="bg-white/80 backdrop-blur-lg rounded-xl p-4 shadow-lg border border-white/50">
+        <div className="flex items-center justify-center space-x-3">
+          <Heart className="w-6 h-6 text-purple-600" />
           <div className="flex items-center space-x-2">
             {steps.map((step, index) => (
               <div key={step.label} className="flex items-center">
                 <div className="flex flex-col items-center">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-500 shadow-lg ${
+                  <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-500 ${
                     progress >= step.value 
-                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white scale-110' 
-                      : 'bg-white/80 text-[#4D5563] border-2 border-white/60'
+                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white border-purple-600' 
+                      : 'bg-white text-[#4D5563] border-gray-300'
                   }`}>
                     {index + 1}
                   </div>
-                  <span className={`text-sm font-semibold mt-2 transition-all duration-300 ${
+                  <span className={`text-xs font-medium mt-1 transition-all duration-300 ${
                     progress >= step.value ? 'text-purple-600' : 'text-[#4D5563]/60'
                   }`}>
                     {step.label}
                   </span>
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`w-16 h-3 mx-4 rounded-full transition-all duration-500 shadow-inner ${
+                  <div className={`w-8 h-0.5 mx-2 transition-all duration-500 ${
                     progress > step.value 
                       ? 'bg-gradient-to-r from-purple-600 to-blue-600' 
-                      : 'bg-white/60 border border-white/40'
+                      : 'bg-gray-300'
                   }`} />
                 )}
               </div>

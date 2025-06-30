@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'wouter'
-import { ArrowRight, ArrowLeft, Heart, CheckCircle, Sparkles, User, Calendar, Palette } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Heart, CheckCircle, User, Calendar, Palette } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSoulHug } from '../context/SoulHugContext'
 import ProgressIndicator from '../components/ProgressIndicator'
@@ -30,7 +30,6 @@ export default function DefinePage() {
     'Professional & Respectful', 'Serious & Thoughtful', 'Grateful & Appreciative'
   ]
 
-  // Placeholders for the feeling input
   const feelingPlaceholders = [
     "deeply appreciated and valued",
     "completely loved and cherished",
@@ -44,7 +43,6 @@ export default function DefinePage() {
 
   const canProceed = formData.coreFeeling.trim().length > 0 && formData.tone.length > 0
 
-  // Calculate completed fields
   useEffect(() => {
     const completed = []
     if (formData.recipient.trim()) completed.push('recipient')
@@ -70,7 +68,6 @@ export default function DefinePage() {
 
   const handleFeelingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Focus next field or continue
     const toneSelect = document.querySelector('select[name="tone"]') as HTMLSelectElement
     if (toneSelect) {
       toneSelect.focus()
@@ -79,14 +76,12 @@ export default function DefinePage() {
 
   return (
     <div className="min-h-screen bg-[#F3F7FF] relative overflow-hidden">
-      {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-purple-200/30 to-blue-200/30 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-32 left-16 w-48 h-48 bg-gradient-to-tr from-blue-200/30 to-purple-200/30 rounded-full blur-2xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-gradient-to-br from-purple-300/20 to-pink-300/20 rounded-full blur-xl animate-pulse delay-500"></div>
       </div>
 
-      {/* Floating back button */}
       <motion.div 
         className="fixed top-6 left-6 z-20"
         whileHover={{ scale: 1.1 }}
@@ -100,7 +95,6 @@ export default function DefinePage() {
       </motion.div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-16">
-        {/* Header */}
         <motion.div 
           className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
@@ -117,13 +111,6 @@ export default function DefinePage() {
             <div className="absolute inset-2 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center shadow-xl">
               <Heart className="w-8 h-8 text-white" />
             </div>
-            <motion.div
-              className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center"
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            >
-              <Sparkles className="w-3 h-3 text-white" />
-            </motion.div>
           </motion.div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
@@ -141,7 +128,6 @@ export default function DefinePage() {
             Tell us about the heartfelt message you want to create
           </motion.p>
           
-          {/* Progress Indicator */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -151,18 +137,15 @@ export default function DefinePage() {
           </motion.div>
         </motion.div>
 
-        {/* Form Container */}
         <motion.div 
           className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50 relative overflow-hidden"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
         >
-          {/* Decorative gradient overlay */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-blue-600"></div>
           
           <div className="space-y-8">
-            {/* Recipient Field */}
             <motion.div 
               className="space-y-4"
               initial={{ opacity: 0, x: -20 }}
@@ -208,7 +191,6 @@ export default function DefinePage() {
               </div>
             </motion.div>
 
-            {/* Core Feeling Field with PlaceholdersAndVanishInput */}
             <motion.div 
               className="space-y-4"
               initial={{ opacity: 0, x: -20 }}
@@ -252,9 +234,7 @@ export default function DefinePage() {
               </div>
             </motion.div>
 
-            {/* Two Column Layout for Occasion and Tone */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Occasion Field */}
               <motion.div 
                 className="space-y-4"
                 initial={{ opacity: 0, x: -20 }}
@@ -298,7 +278,6 @@ export default function DefinePage() {
                 </select>
               </motion.div>
 
-              {/* Tone Field */}
               <motion.div 
                 className="space-y-4"
                 initial={{ opacity: 0, x: -20 }}
@@ -349,7 +328,6 @@ export default function DefinePage() {
             </div>
           </div>
 
-          {/* Progress Summary */}
           <motion.div 
             className="mt-8 p-6 bg-gradient-to-r from-purple-50 to-blue-50 rounded-2xl border border-purple-200/50"
             initial={{ opacity: 0, y: 20 }}
@@ -380,7 +358,6 @@ export default function DefinePage() {
             </div>
           </motion.div>
 
-          {/* Continue Button */}
           <motion.div 
             className="mt-8 text-center"
             initial={{ opacity: 0, y: 20 }}
