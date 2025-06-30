@@ -12,7 +12,6 @@ export default function CraftPage() {
   const [isWeaving, setIsWeaving] = useState(false)
   const [isPolishing, setIsPolishing] = useState(false)
 
-  // Mock data - in real app this would come from gathered ingredients
   const ingredients = currentSoulHug.ingredients || []
   const descriptors = currentSoulHug.descriptors || []
 
@@ -108,17 +107,15 @@ With gratitude and love`
               </span>
             </h1>
             
-            {/* Progress Indicator at top */}
             <ProgressIndicator className="mt-8" />
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            {/* Left Column - Ingredients */}
             <div>
               <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 mb-6 shadow-xl border border-white/30">
                 <div className="flex items-center mb-4">
                   <div className="w-8 h-8 bg-white/60 backdrop-blur-md rounded-lg flex items-center justify-center mr-3 shadow-md border border-white/30">
-                    <span className="text-sm font-bold text-[#4D5563]">✓</span>
+                    <span className="text-sm font-bold text-[#4D5563]">1</span>
                   </div>
                   <h3 className="text-lg font-semibold text-[#4D5563]">Your Ingredients</h3>
                 </div>
@@ -157,7 +154,6 @@ With gratitude and love`
                 )}
               </div>
 
-              {/* Descriptors */}
               {descriptors.length > 0 && (
                 <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30">
                   <div className="flex items-center justify-between mb-3">
@@ -196,13 +192,12 @@ With gratitude and love`
               )}
             </div>
 
-            {/* Right Column - Message */}
             <div>
               <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <div className="w-8 h-8 bg-white/60 backdrop-blur-md rounded-lg flex items-center justify-center mr-3 shadow-md border border-white/30">
-                      <span className="text-sm font-bold text-[#4D5563]">✓</span>
+                      <span className="text-sm font-bold text-[#4D5563]">2</span>
                     </div>
                     <h3 className="text-lg font-semibold text-[#4D5563]">Your Soul Hug Message</h3>
                   </div>
@@ -225,10 +220,8 @@ With gratitude and love`
             </div>
           </div>
 
-          {/* Bottom Controls */}
           <div className="mt-8 pt-6 border-t border-white/30">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-              {/* Target Length */}
               <div className="flex items-center space-x-4">
                 <label htmlFor="target-length" className="text-sm font-medium text-[#4D5563]">Target Length</label>
                 <select
@@ -245,7 +238,6 @@ With gratitude and love`
                 </select>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex items-center space-x-3">
                 <button
                   onClick={aiWeave}
@@ -274,13 +266,11 @@ With gratitude and love`
               </div>
             </div>
 
-            {/* Pro tip */}
             <p className="text-xs mt-4 text-[#4D5563]/60">
               Pro tip: Click on ingredients from the left panel to add them to your message. Use AI Weave to create from ingredients, or AI Polish to refine existing text.
             </p>
           </div>
 
-          {/* Navigation */}
           <div className="flex justify-between items-center mt-8 pt-6 border-t border-white/30">
             <Link href="/gather">
               <button className="flex items-center px-6 py-3 bg-white/60 hover:bg-white/80 backdrop-blur-md rounded-xl transition-all duration-200 text-[#4D5563] shadow-xl border border-white/30">

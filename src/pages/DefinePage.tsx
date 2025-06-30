@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'wouter'
-import { ArrowRight, ArrowLeft, Heart, CheckCircle, User, Calendar, Palette } from 'lucide-react'
+import { ArrowRight, ArrowLeft, CheckCircle, User, Calendar, Palette } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSoulHug } from '../context/SoulHugContext'
 import ProgressIndicator from '../components/ProgressIndicator'
@@ -101,18 +101,6 @@ export default function DefinePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <motion.div
-            className="relative mx-auto mb-6 w-20 h-20"
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full opacity-20 animate-pulse"></div>
-            <div className="absolute inset-2 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center shadow-xl">
-              <Heart className="w-8 h-8 text-white" />
-            </div>
-          </motion.div>
-
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               Define Your Message
@@ -205,11 +193,7 @@ export default function DefinePage() {
                       ? 'bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg'
                       : 'bg-white/60 backdrop-blur-md border-2 border-white/40'
                 }`}>
-                  {completedFields.includes('coreFeeling') ? (
-                    <CheckCircle className="w-6 h-6 text-white" />
-                  ) : (
-                    <Heart className="w-6 h-6 text-[#4D5563]" />
-                  )}
+                  <CheckCircle className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
                   <span>How do you want them to feel?</span>

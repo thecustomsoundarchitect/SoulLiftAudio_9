@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'wouter'
-import { ArrowRight, ArrowLeft, X, Plus, Heart } from 'lucide-react'
+import { ArrowRight, ArrowLeft, X, Plus } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSoulHug } from '../context/SoulHugContext'
 import ProgressIndicator from '../components/ProgressIndicator'
@@ -96,7 +96,6 @@ export default function GatherPage() {
   return (
     <div className="min-h-screen bg-[#F3F7FF] pb-20">
       <div className="max-w-6xl mx-auto px-6 py-8">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
@@ -108,12 +107,10 @@ export default function GatherPage() {
             Click prompts to write stories, select descriptors that fit
           </p>
           
-          {/* Progress Indicator at top */}
           <ProgressIndicator className="mt-8" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Column - Story Prompts */}
           <div>
             <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
               <h3 className="text-xl font-semibold mb-6 pl-4 text-[#4D5563]">Story Prompts</h3>
@@ -141,7 +138,6 @@ export default function GatherPage() {
               </ul>
             </div>
 
-            {/* Descriptors */}
             <div className="mt-6 bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border border-white/50">
               <h3 className="text-xl font-semibold mb-6 text-[#4D5563]">Choose Descriptors</h3>
               <div className="grid grid-cols-3 gap-3">
@@ -162,7 +158,6 @@ export default function GatherPage() {
             </div>
           </div>
 
-          {/* Right Column - Your Stories */}
           <div>
             <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-6 min-h-[600px] border border-white/50">
               <h3 className="text-xl font-semibold mb-6 text-[#4D5563]">
@@ -211,7 +206,6 @@ export default function GatherPage() {
                 </div>
               )}
 
-              {/* Selected Descriptors */}
               {descriptors.length > 0 && (
                 <div className="mt-6 pt-6 border-t border-white/30">
                   <h4 className="text-sm font-medium mb-3 text-[#4D5563]/80">Selected Descriptors</h4>
@@ -231,7 +225,6 @@ export default function GatherPage() {
           </div>
         </div>
 
-        {/* Navigation */}
         <div className="flex justify-between items-center mt-8">
           <Link href="/define">
             <button className="flex items-center px-6 py-3 bg-white/80 backdrop-blur-lg hover:bg-white/90 rounded-xl transition-all duration-200 text-[#4D5563] shadow-xl border border-white/50">
@@ -255,7 +248,6 @@ export default function GatherPage() {
           </Link>
         </div>
 
-        {/* Writing Modal */}
         <AnimatePresence>
           {writingModal.isOpen && (
             <motion.div 
