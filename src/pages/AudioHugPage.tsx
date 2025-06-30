@@ -52,7 +52,7 @@ export default function AudioHugPage() {
 
 I wanted to take a moment to remind you of something important - you are absolutely incredible, and here's why:
 
-${currentSoulHug.ingredients?.map(ingredient => `• ${ingredient}`).join('\n') || '• Your amazing spirit shines through everything you do'}
+${currentSoulHug.ingredients?.map(ingredient => `- ${ingredient}`).join('\n') || '- Your amazing spirit shines through everything you do'}
 
 ${currentSoulHug.descriptors?.length ? `You are: ${currentSoulHug.descriptors.join(', ')}` : ''}
 
@@ -332,7 +332,7 @@ With gratitude and love`
               <button
                 onClick={handleDownload}
                 disabled={!hasAudio}
-                className="bg-white/60 hover:bg-white/80 backdrop-blur-md px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
               >
                 <Download className="w-4 h-4 mr-2" />
                 <span className="hidden sm:inline">Download</span>
@@ -342,7 +342,7 @@ With gratitude and love`
               <button
                 onClick={handleShare}
                 disabled={!hasAudio}
-                className="bg-white/60 hover:bg-white/80 backdrop-blur-md px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
               >
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
