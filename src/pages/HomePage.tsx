@@ -166,6 +166,46 @@ export default function HomePage() {
               </button>
             </Link>
 
+            <Link href="/examples">
+              <button className="
+                relative
+                bg-gradient-to-br from-green-400 to-green-600 
+                rounded-3xl 
+                p-6 
+                shadow-xl 
+                text-white 
+                font-semibold 
+                text-lg
+                transform 
+                hover:scale-105 
+                transition-all 
+                duration-200
+                border-0
+                min-w-[280px]
+                overflow-hidden
+                before:absolute
+                before:inset-0
+                before:bg-gradient-to-br
+                before:from-white/30
+                before:via-white/10
+                before:to-transparent
+                before:rounded-3xl
+                before:pointer-events-none
+                after:absolute
+                after:top-0
+                after:left-0
+                after:right-0
+                after:h-1/2
+                after:bg-gradient-to-b
+                after:from-white/20
+                after:to-transparent
+                after:rounded-t-3xl
+                after:pointer-events-none
+              ">
+                <span className="relative z-10">View Soul Hug Examples</span>
+              </button>
+            </Link>
+
             <Link href="/my-hugs">
               <button className="
                 relative

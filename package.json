@@ -10,18 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.34.0",
     "clsx": "^2.0.0",
-    "motion": "^10.16.5",
-    "framer-motion": "^10.16.4",
     "file-saver": "^2.0.5",
+    "framer-motion": "^10.16.4",
     "jszip": "^3.10.1",
     "lucide-react": "^0.395.0",
+    "motion": "^10.16.5",
     "qrcode": "^1.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-element-to-jsx-string": "^15.0.0",
     "simplex-noise": "^4.0.1",
-    "@tabler/icons-react": "^3.0.0",
     "tailwind-merge": "^2.0.0",
     "wouter": "^3.2.1"
   },
