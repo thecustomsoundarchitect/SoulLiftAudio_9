@@ -125,33 +125,28 @@ export const BackgroundMusicSelector: React.FC<BackgroundMusicSelectorProps> = (
   }
 
   return (
-    <div className={`bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 ${className}`}>
-      <h3 className="text-xl font-semibold mb-4 flex items-center text-purple-700">
-        <Music className="w-6 h-6 mr-2 text-primary" />
-        Background Music
-      </h3>
-      
+    <div className={`${className}`}>
       <div className="grid grid-cols-2 gap-3 mb-6">
         {musicTracks.map((track) => (
           <button
             key={track.id}
             onClick={() => handleTrackSelect(track.id)}
-            className={`p-3 rounded-lg text-left transition-all relative group ${
+            className={`p-3 rounded-xl text-left transition-all duration-200 relative group shadow-lg ${
               selectedTrack === track.id
-                ? 'bg-purple-500 text-white shadow-lg'
-                : 'bg-white/10 backdrop-blur-md hover:bg-white/20 text-primary shadow-sm hover:shadow-md border border-white/30'
+                ? 'bg-gradient-to-br from-purple-500 to-blue-500 text-white'
+                : 'bg-white/60 backdrop-blur-md hover:bg-white/80 text-[#4D5563] border border-white/30'
             }`}
           >
             <div className="flex items-start justify-between">
               <div className="flex-1 min-w-0">
                 <div className="font-medium text-sm truncate">{track.name}</div>
                 <div className={`text-xs mt-1 ${
-                  selectedTrack === track.id ? 'text-purple-200' : 'text-gray-500'
+                  selectedTrack === track.id ? 'text-purple-100' : 'text-[#4D5563]/60'
                 }`}>
                   {track.genre} • {track.duration}
                 </div>
                 <div className={`text-xs mt-1 ${
-                  selectedTrack === track.id ? 'text-purple-100' : 'text-muted'
+                  selectedTrack === track.id ? 'text-purple-50' : 'text-[#4D5563]/50'
                 }`}>
                   {track.description}
                 </div>
@@ -165,7 +160,7 @@ export const BackgroundMusicSelector: React.FC<BackgroundMusicSelectorProps> = (
                 className={`ml-2 p-1 rounded transition-colors ${
                   selectedTrack === track.id
                     ? 'hover:bg-purple-400'
-                    : 'hover:bg-white/30'
+                    : 'hover:bg-white/60'
                 }`}
               >
                 {isPlaying === track.id ? (
@@ -180,14 +175,14 @@ export const BackgroundMusicSelector: React.FC<BackgroundMusicSelectorProps> = (
       </div>
 
       {selectedTrack && (
-        <div className="mb-4 p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg">
+        <div className="mb-4 p-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg shadow-lg">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-primary font-medium text-sm">
+            <span className="text-[#4D5563] font-medium text-sm">
               Selected: {musicTracks.find(t => t.id === selectedTrack)?.name}
             </span>
             <button
               onClick={clearSelection}
-              className="text-secondary hover:text-primary text-xs underline"
+              className="text-[#4D5563]/60 hover:text-[#4D5563] text-xs underline"
             >
               Remove
             </button>
@@ -196,7 +191,7 @@ export const BackgroundMusicSelector: React.FC<BackgroundMusicSelectorProps> = (
       )}
 
       <div className="text-center">
-        <p className="text-xs text-muted">
+        <p className="text-xs text-[#4D5563]/60">
           Adjust volume in the Audio Mixer section
         </p>
       </div>

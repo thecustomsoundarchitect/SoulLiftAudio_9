@@ -133,83 +133,83 @@ export const DeliveryOptions: React.FC<DeliveryOptionsProps> = ({
 
 ${soulHug.message ? `\n\nMessage preview:\n${soulHug.message.substring(0, 200)}${soulHug.message.length > 200 ? '...' : ''}` : ''}
 
-With love ❤️`)
+With love`)
     
     window.location.href = `mailto:?subject=${subject}&body=${body}`
   }
 
   return (
-    <div className={`bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 ${className}`}>
-      <h3 className="text-xl font-semibold mb-4 text-primary">Delivery Options</h3>
+    <div className={`${className}`}>
+      <h3 className="text-xl font-semibold mb-4 text-[#4D5563]">Delivery Options</h3>
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <button
           onClick={handleDownload}
           disabled={isDownloading}
-          className="flex flex-col items-center p-4 bg-white/10 backdrop-blur-md rounded-lg hover:bg-white/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md border border-white/30"
+          className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-lg hover:bg-white/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border border-white/30"
         >
-          <Download className={`w-8 h-8 text-primary mb-2 ${isDownloading ? 'animate-bounce' : ''}`} />
-          <span className="text-sm font-medium text-primary">
+          <Download className={`w-8 h-8 text-[#4D5563] mb-2 ${isDownloading ? 'animate-bounce' : ''}`} />
+          <span className="text-sm font-medium text-[#4D5563]">
             {isDownloading ? 'Creating...' : 'Download'}
           </span>
-          <span className="text-xs text-secondary mt-1">ZIP Package</span>
+          <span className="text-xs text-[#4D5563]/60 mt-1">ZIP Package</span>
         </button>
         
         <button
           onClick={handleShareLink}
-          className="flex flex-col items-center p-4 bg-white/10 backdrop-blur-md rounded-lg hover:bg-white/20 transition-colors shadow-sm hover:shadow-md border border-white/30"
+          className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-lg hover:bg-white/80 transition-colors shadow-lg border border-white/30"
         >
           {linkCopied ? (
             <Check className="w-8 h-8 text-green-500 mb-2" />
           ) : (
-            <Share2 className="w-8 h-8 text-primary mb-2" />
+            <Share2 className="w-8 h-8 text-[#4D5563] mb-2" />
           )}
-          <span className="text-sm font-medium text-primary">
+          <span className="text-sm font-medium text-[#4D5563]">
             {linkCopied ? 'Copied!' : 'Copy Link'}
           </span>
-          <span className="text-xs text-secondary mt-1">Share URL</span>
+          <span className="text-xs text-[#4D5563]/60 mt-1">Share URL</span>
         </button>
         
         <button
           onClick={handleQRCode}
           disabled={isGeneratingQR}
-          className="flex flex-col items-center p-4 bg-white/10 backdrop-blur-md rounded-lg hover:bg-white/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md border border-white/30"
+          className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-lg hover:bg-white/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border border-white/30"
         >
-          <QrCode className={`w-8 h-8 text-primary mb-2 ${isGeneratingQR ? 'animate-spin' : ''}`} />
-          <span className="text-sm font-medium text-primary">
+          <QrCode className={`w-8 h-8 text-[#4D5563] mb-2 ${isGeneratingQR ? 'animate-spin' : ''}`} />
+          <span className="text-sm font-medium text-[#4D5563]">
             {isGeneratingQR ? 'Creating...' : 'QR Code'}
           </span>
-          <span className="text-xs text-secondary mt-1">Download PNG</span>
+          <span className="text-xs text-[#4D5563]/60 mt-1">Download PNG</span>
         </button>
         
         <button
           onClick={handleEmail}
-          className="flex flex-col items-center p-4 bg-white/10 backdrop-blur-md rounded-lg hover:bg-white/20 transition-colors shadow-sm hover:shadow-md border border-white/30"
+          className="flex flex-col items-center p-4 bg-white/60 backdrop-blur-md rounded-lg hover:bg-white/80 transition-colors shadow-lg border border-white/30"
         >
           <Mail className="w-8 h-8 text-green-500 mb-2" />
-          <span className="text-sm font-medium text-primary">Send Email</span>
-          <span className="text-xs text-secondary mt-1">Mail Client</span>
+          <span className="text-sm font-medium text-[#4D5563]">Send Email</span>
+          <span className="text-xs text-[#4D5563]/60 mt-1">Mail Client</span>
         </button>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-md rounded-lg p-4 border border-white/30">
-        <h4 className="font-medium text-primary mb-2">Share URL:</h4>
+      <div className="bg-white/60 backdrop-blur-md rounded-lg p-4 border border-white/40 shadow-lg">
+        <h4 className="font-medium text-[#4D5563] mb-2">Share URL:</h4>
         <div className="flex items-center space-x-2">
           <input
             type="text"
             value={shareUrl}
             readOnly
-            className="flex-1 px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/30 rounded-lg text-sm text-primary focus:outline-none"
+            className="flex-1 px-3 py-2 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg text-sm text-[#4D5563] focus:outline-none shadow-lg"
           />
           <button
             onClick={handleShareLink}
-            className="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors"
+            className="p-2 bg-white/60 hover:bg-white/80 backdrop-blur-sm rounded-lg transition-colors shadow-lg"
             title="Copy to clipboard"
           >
             {linkCopied ? (
               <Check className="w-4 h-4 text-green-500" />
             ) : (
-              <Copy className="w-4 h-4 text-primary" />
+              <Copy className="w-4 h-4 text-[#4D5563]" />
             )}
           </button>
         </div>

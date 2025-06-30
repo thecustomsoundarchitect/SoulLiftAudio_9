@@ -17,6 +17,9 @@ export default function AudioHugPage() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null)
   const [generatedVoiceUrl, setGeneratedVoiceUrl] = useState<string | null>(null)
   
+  // Voice Option Toggle
+  const [voiceOption, setVoiceOption] = useState<'record' | 'ai'>('record')
+  
   // Music and Image State
   const [selectedMusic, setSelectedMusic] = useState<string | null>(null)
   const [musicVolume, setMusicVolume] = useState(30)
@@ -162,12 +165,15 @@ With gratitude and love`
     <div className="min-h-screen bg-[#F3F7FF] pt-4 md:pt-8 pb-20 md:pb-16">
       <div className="max-w-sm sm:max-w-2xl lg:max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-4 md:p-8 shadow-2xl border border-white/50">
-          <div className="text-center mb-8">
+          <div className="text-center mb-6">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 Create Your Audio
               </span>
             </h1>
+            
+            {/* Progress Indicator moved to top */}
+            <ProgressIndicator className="mb-6" />
           </div>
 
           {/* Message Preview */}
@@ -181,26 +187,65 @@ With gratitude and love`
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
             {/* Left Column - Audio Creation */}
             <div className="space-y-4 md:space-y-6">
-              {/* Voice Recording */}
-              <AudioRecorder 
-                onRecordingComplete={handleRecordingComplete}
-              />
+              {/* Voice Option Toggle */}
+              <div className="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-white/30">
+                <h3 className="text-lg md:text-xl font-semibold mb-4 flex items-center text-[#4D5563]">
+                  <Volume2 className="w-6 h-6 mr-2" />
+                  Voice Options
+                </h3>
+                
+                {/* Toggle Slider */}
+                <div className="flex items-center justify-center mb-6">
+                  <div className="relative bg-white/60 backdrop-blur-md rounded-full p-1 shadow-lg border border-white/30">
+                    <div className="flex">
+                      <button
+                        onClick={() => setVoiceOption('record')}
+                        className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                          voiceOption === 'record'
+                            ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
+                            : 'text-[#4D5563] hover:bg-white/60'
+                        }`}
+                      >
+                        Record Voice
+                      </button>
+                      <button
+                        onClick={() => setVoiceOption('ai')}
+                        className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                          voiceOption === 'ai'
+                            ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
+                            : 'text-[#4D5563] hover:bg-white/60'
+                        }`}
+                      >
+                        AI Voice
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
-              {/* AI Voice Generation */}
-              <AIVoiceSelector 
-                message={soulHugMessage}
-                onVoiceGenerated={handleVoiceGenerated}
-              />
+                {/* Voice Content */}
+                {voiceOption === 'record' ? (
+                  <AudioRecorder onRecordingComplete={handleRecordingComplete} />
+                ) : (
+                  <AIVoiceSelector 
+                    message={soulHugMessage}
+                    onVoiceGenerated={handleVoiceGenerated}
+                  />
+                )}
+              </div>
 
               {/* Background Music */}
-              <BackgroundMusicSelector 
-                onMusicSelected={handleMusicSelected}
-              />
+              <div className="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-white/30">
+                <h3 className="text-lg md:text-xl font-semibold mb-4 flex items-center text-[#4D5563]">
+                  <Music className="w-6 h-6 mr-2" />
+                  Background Music
+                </h3>
+                <BackgroundMusicSelector onMusicSelected={handleMusicSelected} />
+              </div>
             </div>
 
             {/* Right Column - Mixer, Cover Image, and Delivery */}
             <div className="space-y-4 md:space-y-6">
-              {/* Audio Mixer - Always Visible */}
+              {/* Audio Mixer */}
               <div className="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-white/30">
                 <h3 className="text-lg md:text-xl font-semibold mb-4 flex items-center text-[#4D5563]">
                   Audio Mixer
@@ -241,7 +286,7 @@ With gratitude and love`
                 <button
                   onClick={mixAudio}
                   disabled={isMixing || !canMix}
-                  className="w-full bg-white/60 hover:bg-white/80 backdrop-blur-md px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 disabled:cursor-not-allowed text-[#4D5563] shadow-xl border border-white/30"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center shadow-lg"
                 >
                   <Music className="w-4 h-4 mr-2" />
                   {isMixing ? 'Mixing Audio...' : 'Mix Audio'}
@@ -264,15 +309,19 @@ With gratitude and love`
               </div>
 
               {/* Cover Image */}
-              <CoverImageSelector 
-                onImageSelected={handleImageSelected}
-              />
+              <div className="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-white/30">
+                <h3 className="text-lg md:text-xl font-semibold mb-4 flex items-center text-[#4D5563]">
+                  <Image className="w-6 h-6 mr-2" />
+                  Cover Image
+                </h3>
+                <CoverImageSelector onImageSelected={handleImageSelected} />
+              </div>
 
               {/* Delivery Options */}
               {hasAudio && (
-                <DeliveryOptions 
-                  soulHug={soulHugForDelivery}
-                />
+                <div className="bg-white/60 backdrop-blur-md rounded-xl md:rounded-2xl p-4 md:p-6 shadow-xl border border-white/30">
+                  <DeliveryOptions soulHug={soulHugForDelivery} />
+                </div>
               )}
             </div>
           </div>
@@ -301,7 +350,29 @@ With gratitude and love`
             </div>
           </div>
 
-          <ProgressIndicator className="mt-8" />
+          {/* Navigation */}
+          <div className="flex justify-between items-center mt-8 pt-6 border-t border-white/30">
+            <Link href="/craft">
+              <button className="flex items-center px-6 py-3 bg-white/80 backdrop-blur-lg hover:bg-white/90 rounded-xl transition-all duration-200 text-[#4D5563] shadow-xl border border-white/50">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Craft
+              </button>
+            </Link>
+            
+            <Link href="/my-hugs">
+              <button
+                disabled={!hasAudio}
+                className={`flex items-center px-8 py-3 rounded-xl font-medium transition-all duration-300 shadow-xl ${
+                  hasAudio
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-2xl'
+                    : 'bg-gray-300 cursor-not-allowed text-gray-500'
+                }`}
+              >
+                View My Hugs
+                <ArrowLeft className="w-4 h-4 ml-2 rotate-180" />
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

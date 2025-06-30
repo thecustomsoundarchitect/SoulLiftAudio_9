@@ -27,15 +27,36 @@ export default function ProgressIndicator({ className = '' }: ProgressIndicatorP
 
   if (progress === 0) return null
 
+  const steps = [
+    { label: 'Define', value: 25 },
+    { label: 'Gather', value: 50 },
+    { label: 'Craft', value: 75 },
+    { label: 'Audio', value: 100 }
+  ]
+
   return (
     <div className={`flex justify-center ${className}`}>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-4">
         <Heart className="w-8 h-8 text-purple-600" />
-        <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500 ease-out"
-            style={{ width: `${progress}%` }}
-          />
+        <div className="flex items-center space-x-2">
+          {steps.map((step, index) => (
+            <div key={step.label} className="flex items-center">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-300 ${
+                progress >= step.value 
+                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg' 
+                  : 'bg-white/60 backdrop-blur-md text-[#4D5563] border border-white/30'
+              }`}>
+                {index + 1}
+              </div>
+              {index < steps.length - 1 && (
+                <div className={`w-8 h-1 mx-2 rounded-full transition-all duration-300 ${
+                  progress > step.value 
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600' 
+                    : 'bg-white/40'
+                }`} />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
