@@ -1,10 +1,32 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'wouter'
 import { ArrowRight, ArrowLeft, CheckCircle, User, Calendar, Palette } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useSoulHug } from '../context/SoulHugContext'
 import ProgressIndicator from '../components/ProgressIndicator'
 import { PlaceholdersAndVanishInput } from '../components/ui/placeholders-and-vanish-input'
+
+const occasions = [
+  'Birthday', 'Anniversary', 'Graduation', 'New Job', 'Difficult Time',
+  'Just Because', 'Thank You', 'Apology', 'Encouragement', 'Celebration'
+]
+
+const tones = [
+  'Warm & Loving', 'Playful & Fun', 'Deep & Meaningful', 'Gentle & Comforting',
+  'Inspiring & Uplifting', 'Heartfelt & Sincere', 'Light & Cheerful',
+  'Professional & Respectful', 'Serious & Thoughtful', 'Grateful & Appreciative'
+]
+
+const feelingPlaceholders = [
+  "deeply appreciated and valued",
+  "completely loved and cherished",
+  "truly understood and seen",
+  "incredibly proud and accomplished",
+  "genuinely supported and cared for",
+  "absolutely amazing and special",
+  "wonderfully unique and important",
+  "perfectly loved just as they are"
+]
 
 export default function DefinePage() {
   const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
@@ -18,30 +40,6 @@ export default function DefinePage() {
 
   const [completedFields, setCompletedFields] = useState<string[]>([])
   const [focusedField, setFocusedField] = useState<string | null>(null)
-
-  const occasions = [
-    'Birthday', 'Anniversary', 'Graduation', 'New Job', 'Difficult Time',
-    'Just Because', 'Thank You', 'Apology', 'Encouragement', 'Celebration'
-  ]
-
-  const tones = [
-    'Warm & Loving', 'Playful & Fun', 'Deep & Meaningful', 'Gentle & Comforting',
-    'Inspiring & Uplifting', 'Heartfelt & Sincere', 'Light & Cheerful',
-    'Professional & Respectful', 'Serious & Thoughtful', 'Grateful & Appreciative'
-  ]
-
-  const feelingPlaceholders = [
-    "deeply appreciated and valued",
-    "completely loved and cherished",
-    "truly understood and seen",
-    "incredibly proud and accomplished",
-    "genuinely supported and cared for",
-    "absolutely amazing and special",
-    "wonderfully unique and important",
-    "perfectly loved just as they are"
-  ]
-
-  const canProceed = true
 
   useEffect(() => {
     const completed = []
@@ -74,14 +72,52 @@ export default function DefinePage() {
     }
   }
 
+  const getFieldIcon = (fieldName: string, isCompleted: boolean, isFocused: boolean) => {
+    const iconMap = {
+      recipient: User,
+      coreFeeling: CheckCircle,
+      occasion: Calendar,
+      tone: Palette
+    }
+    
+    const IconComponent = iconMap[fieldName as keyof typeof iconMap] || CheckCircle
+    
+    return (
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 transition-all duration-300 ${
+        isCompleted 
+          ? 'bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg' 
+          : isFocused
+            ? 'bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg'
+            : 'bg-white/60 backdrop-blur-md border-2 border-white/40'
+      }`}>
+        <IconComponent className="w-4 h-4 text-white" />
+      </div>
+    )
+  }
+
+  const getFieldClasses = (fieldName: string) => {
+    const isCompleted = completedFields.includes(fieldName)
+    const isFocused = focusedField === fieldName
+    
+    return `w-full px-3 py-2 bg-white/70 backdrop-blur-md border-2 rounded-xl transition-all duration-300 text-[#4D5563] shadow-lg text-sm ${
+      isCompleted
+        ? 'border-green-400 bg-green-50/50 shadow-green-200/50'
+        : isFocused
+          ? 'border-purple-500 bg-purple-50/50 shadow-purple-200/50'
+          : 'border-white/40 hover:border-purple-300 focus:border-purple-500 focus:bg-white/90'
+    }`
+  }
+
   return (
     <div className="min-h-screen bg-[#F3F7FF] relative overflow-hidden pb-20">
+      {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-purple-200/30 to-blue-200/30 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-32 left-16 w-48 h-48 bg-gradient-to-tr from-blue-200/30 to-purple-200/30 rounded-full blur-2xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-gradient-to-br from-purple-300/20 to-pink-300/20 rounded-full blur-xl animate-pulse delay-500"></div>
       </div>
 
+      {/* Back button */}
       <motion.div 
         className="fixed top-4 left-4 z-20"
         whileHover={{ scale: 1.1 }}
@@ -95,6 +131,7 @@ export default function DefinePage() {
       </motion.div>
 
       <div className="relative z-10 max-w-lg mx-auto px-4 py-8">
+        {/* Header */}
         <motion.div 
           className="text-center mb-6"
           initial={{ opacity: 0, y: 30 }}
@@ -125,6 +162,7 @@ export default function DefinePage() {
           </motion.div>
         </motion.div>
 
+        {/* Form */}
         <motion.div 
           className="bg-white/80 backdrop-blur-lg rounded-2xl p-4 shadow-2xl border border-white/50 relative overflow-hidden"
           initial={{ opacity: 0, y: 40 }}
@@ -134,6 +172,7 @@ export default function DefinePage() {
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-blue-600"></div>
           
           <div className="space-y-4">
+            {/* Recipient Field */}
             <motion.div 
               className="space-y-2"
               initial={{ opacity: 0, x: -20 }}
@@ -141,19 +180,7 @@ export default function DefinePage() {
               transition={{ delay: 1.0, duration: 0.5 }}
             >
               <label className="flex items-center text-sm font-bold text-[#4D5563] group">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 transition-all duration-300 ${
-                  completedFields.includes('recipient') 
-                    ? 'bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg' 
-                    : focusedField === 'recipient'
-                      ? 'bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg'
-                      : 'bg-white/60 backdrop-blur-md border-2 border-white/40'
-                }`}>
-                  {completedFields.includes('recipient') ? (
-                    <CheckCircle className="w-4 h-4 text-white" />
-                  ) : (
-                    <User className="w-4 h-4 text-[#4D5563]" />
-                  )}
-                </div>
+                {getFieldIcon('recipient', completedFields.includes('recipient'), focusedField === 'recipient')}
                 <div className="flex-1">
                   <span>Who is this for?</span>
                   <span className="font-normal text-xs ml-1 text-[#4D5563]/60">(Optional)</span>
@@ -167,16 +194,11 @@ export default function DefinePage() {
                 onFocus={() => setFocusedField('recipient')}
                 onBlur={() => setFocusedField(null)}
                 placeholder="Enter their name or leave blank..."
-                className={`w-full px-3 py-2 bg-white/70 backdrop-blur-md border-2 rounded-xl transition-all duration-300 placeholder-[#4D5563]/40 text-[#4D5563] shadow-lg text-sm ${
-                  completedFields.includes('recipient')
-                    ? 'border-green-400 bg-green-50/50 shadow-green-200/50'
-                    : focusedField === 'recipient'
-                      ? 'border-purple-500 bg-purple-50/50 shadow-purple-200/50'
-                      : 'border-white/40 hover:border-purple-300 focus:border-purple-500 focus:bg-white/90'
-                }`}
+                className={`${getFieldClasses('recipient')} placeholder-[#4D5563]/40`}
               />
             </motion.div>
 
+            {/* Core Feeling Field */}
             <motion.div 
               className="space-y-2"
               initial={{ opacity: 0, x: -20 }}
@@ -184,15 +206,7 @@ export default function DefinePage() {
               transition={{ delay: 1.2, duration: 0.5 }}
             >
               <label className="flex items-center text-sm font-bold text-[#4D5563] group">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 transition-all duration-300 ${
-                  completedFields.includes('coreFeeling') 
-                    ? 'bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg' 
-                    : focusedField === 'coreFeeling'
-                      ? 'bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg'
-                      : 'bg-white/60 backdrop-blur-md border-2 border-white/40'
-                }`}>
-                  <CheckCircle className="w-4 h-4 text-white" />
-                </div>
+                {getFieldIcon('coreFeeling', completedFields.includes('coreFeeling'), focusedField === 'coreFeeling')}
                 <div className="flex-1">
                   <span>How do you want them to feel?</span>
                 </div>
@@ -203,16 +217,11 @@ export default function DefinePage() {
                 onChange={handleFeelingChange}
                 onSubmit={handleFeelingSubmit}
                 value={formData.coreFeeling}
-                className={`transition-all duration-300 ${
-                  completedFields.includes('coreFeeling')
-                    ? 'border-green-400 bg-green-50/50 shadow-green-200/50'
-                    : focusedField === 'coreFeeling'
-                      ? 'border-purple-500 bg-purple-50/50 shadow-purple-200/50'
-                      : 'border-white/40 hover:border-purple-300 focus-within:border-purple-500'
-                }`}
+                className={`transition-all duration-300 ${getFieldClasses('coreFeeling')}`}
               />
             </motion.div>
 
+            {/* Occasion and Tone Fields */}
             <div className="grid grid-cols-1 gap-4">
               <motion.div 
                 className="space-y-2"
@@ -221,19 +230,7 @@ export default function DefinePage() {
                 transition={{ delay: 1.4, duration: 0.5 }}
               >
                 <label className="flex items-center text-sm font-bold text-[#4D5563] group">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 transition-all duration-300 ${
-                    completedFields.includes('occasion') 
-                      ? 'bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg' 
-                      : focusedField === 'occasion'
-                        ? 'bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg'
-                        : 'bg-white/60 backdrop-blur-md border-2 border-white/40'
-                  }`}>
-                    {completedFields.includes('occasion') ? (
-                      <CheckCircle className="w-4 h-4 text-white" />
-                    ) : (
-                      <Calendar className="w-4 h-4 text-[#4D5563]" />
-                    )}
-                  </div>
+                  {getFieldIcon('occasion', completedFields.includes('occasion'), focusedField === 'occasion')}
                   <span>Occasion</span>
                 </label>
                 
@@ -242,17 +239,13 @@ export default function DefinePage() {
                   onChange={(e) => setFormData({...formData, occasion: e.target.value})}
                   onFocus={() => setFocusedField('occasion')}
                   onBlur={() => setFocusedField(null)}
-                  className={`w-full px-3 py-2 bg-white/70 backdrop-blur-md border-2 rounded-xl transition-all duration-300 appearance-none cursor-pointer text-[#4D5563] shadow-lg text-sm ${
-                    completedFields.includes('occasion')
-                      ? 'border-green-400 bg-green-50/50 shadow-green-200/50'
-                      : focusedField === 'occasion'
-                        ? 'border-purple-500 bg-purple-50/50 shadow-purple-200/50'
-                        : 'border-white/40 hover:border-purple-300 focus:border-purple-500 focus:bg-white/90'
-                  }`}
+                  className={`${getFieldClasses('occasion')} appearance-none cursor-pointer`}
                 >
                   <option value="" className="bg-white text-[#4D5563]">Select occasion...</option>
                   {occasions.map(occasion => (
-                    <option key={occasion} value={occasion} className="bg-white text-[#4D5563]">{occasion}</option>
+                    <option key={occasion} value={occasion} className="bg-white text-[#4D5563]">
+                      {occasion}
+                    </option>
                   ))}
                 </select>
               </motion.div>
@@ -264,19 +257,7 @@ export default function DefinePage() {
                 transition={{ delay: 1.6, duration: 0.5 }}
               >
                 <label className="flex items-center text-sm font-bold text-[#4D5563] group">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 transition-all duration-300 ${
-                    completedFields.includes('tone') 
-                      ? 'bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg' 
-                      : focusedField === 'tone'
-                        ? 'bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg'
-                        : 'bg-white/60 backdrop-blur-md border-2 border-white/40'
-                  }`}>
-                    {completedFields.includes('tone') ? (
-                      <CheckCircle className="w-4 h-4 text-white" />
-                    ) : (
-                      <Palette className="w-4 h-4 text-[#4D5563]" />
-                    )}
-                  </div>
+                  {getFieldIcon('tone', completedFields.includes('tone'), focusedField === 'tone')}
                   <div className="flex-1">
                     <span>Tone</span>
                   </div>
@@ -288,23 +269,20 @@ export default function DefinePage() {
                   onChange={(e) => setFormData({...formData, tone: e.target.value})}
                   onFocus={() => setFocusedField('tone')}
                   onBlur={() => setFocusedField(null)}
-                  className={`w-full px-3 py-2 bg-white/70 backdrop-blur-md border-2 rounded-xl transition-all duration-300 appearance-none cursor-pointer text-[#4D5563] shadow-lg text-sm ${
-                    completedFields.includes('tone')
-                      ? 'border-green-400 bg-green-50/50 shadow-green-200/50'
-                      : focusedField === 'tone'
-                        ? 'border-purple-500 bg-purple-50/50 shadow-purple-200/50'
-                        : 'border-white/40 hover:border-purple-300 focus:border-purple-500 focus:bg-white/90'
-                  }`}
+                  className={`${getFieldClasses('tone')} appearance-none cursor-pointer`}
                 >
                   <option value="" className="bg-white text-[#4D5563]">Select tone...</option>
                   {tones.map(tone => (
-                    <option key={tone} value={tone} className="bg-white text-[#4D5563]">{tone}</option>
+                    <option key={tone} value={tone} className="bg-white text-[#4D5563]">
+                      {tone}
+                    </option>
                   ))}
                 </select>
               </motion.div>
             </div>
           </div>
 
+          {/* Navigation */}
           <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
             <Link href="/">
               <button className="flex items-center justify-center w-12 h-12 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-200 shadow-xl border border-gray-600">

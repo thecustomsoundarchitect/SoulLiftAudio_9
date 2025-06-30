@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'wouter'
-import { Plus, Eye, Headphones, Heart, Infinity } from 'lucide-react'
+import { Heart } from 'lucide-react'
 import { WavyBackground } from '../components/ui/wavy-background'
 
 export default function HomePage() {
@@ -41,7 +41,7 @@ export default function HomePage() {
                 }
               }}
             >
-              {/* Splash effect background */}
+              {/* Animated background effects */}
               <motion.div
                 className="absolute inset-0 rounded-full"
                 style={{
@@ -53,12 +53,11 @@ export default function HomePage() {
                 }}
                 transition={{
                   duration: 3,
-                  repeat: 999999,
+                  repeat: Infinity,
                   ease: "easeInOut"
                 }}
               />
               
-              {/* Secondary splash ring */}
               <motion.div
                 className="absolute inset-0 rounded-full border-2 border-purple-400/30"
                 animate={{
@@ -67,13 +66,13 @@ export default function HomePage() {
                 }}
                 transition={{
                   duration: 2,
-                  repeat: 999999,
+                  repeat: Infinity,
                   ease: "easeInOut",
                   delay: 0.5
                 }}
               />
               
-              {/* Main logo - using Heart icon as fallback */}
+              {/* Main logo */}
               <motion.div
                 className="w-full h-full flex items-center justify-center relative z-10"
                 animate={{
@@ -81,7 +80,7 @@ export default function HomePage() {
                 }}
                 transition={{
                   duration: 4,
-                  repeat: 999999,
+                  repeat: Infinity,
                   ease: "easeInOut"
                 }}
               >
@@ -89,7 +88,7 @@ export default function HomePage() {
               </motion.div>
               
               {/* Sparkle effects */}
-              {[...Array(6)].map((_, i) => (
+              {Array.from({ length: 6 }, (_, i) => (
                 <motion.div
                   key={i}
                   className="absolute w-1 h-1 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full"
@@ -104,7 +103,7 @@ export default function HomePage() {
                   }}
                   transition={{
                     duration: 2,
-                    repeat: 999999,
+                    repeat: Infinity,
                     delay: i * 0.3,
                     ease: "easeInOut"
                   }}
@@ -116,7 +115,9 @@ export default function HomePage() {
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 SoulLift
               </span>
-              <span className="block text-xl sm:text-2xl lg:text-3xl font-normal text-gray-700 mt-1">Audio</span>
+              <span className="block text-xl sm:text-2xl lg:text-3xl font-normal text-gray-700 mt-1">
+                Audio
+              </span>
             </h1>
             
             <p className="text-base sm:text-lg text-gray-600 mb-6 max-w-2xl mx-auto leading-relaxed px-2">
@@ -127,121 +128,19 @@ export default function HomePage() {
           {/* Main Action Cards */}
           <div className="flex flex-col items-center gap-4 max-w-xs sm:max-w-sm mx-auto mb-6">
             <Link href="/define">
-              <button className="
-                relative
-                bg-gradient-to-br from-purple-400 to-purple-600 
-                rounded-2xl 
-                p-4 
-                shadow-xl 
-                text-white 
-                font-semibold 
-                text-base
-                transform 
-                hover:scale-105 
-                transition-all 
-                duration-200
-                border-0
-                w-64
-                overflow-hidden
-                before:absolute
-                before:inset-0
-                before:bg-gradient-to-br
-                before:from-white/30
-                before:via-white/10
-                before:to-transparent
-                before:rounded-2xl
-                before:pointer-events-none
-                after:absolute
-                after:top-0
-                after:left-0
-                after:right-0
-                after:h-1/2
-                after:bg-gradient-to-b
-                after:from-white/20
-                after:to-transparent
-                after:rounded-t-2xl
-                after:pointer-events-none
-              ">
+              <button className="relative bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl p-4 shadow-xl text-white font-semibold text-base transform hover:scale-105 transition-all duration-200 border-0 w-64 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/30 before:via-white/10 before:to-transparent before:rounded-2xl before:pointer-events-none after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-b after:from-white/20 after:to-transparent after:rounded-t-2xl after:pointer-events-none">
                 <span className="relative z-10">Create New Soul Hug</span>
               </button>
             </Link>
 
             <Link href="/examples">
-              <button className="
-                relative
-                bg-gradient-to-br from-green-400 to-green-600 
-                rounded-2xl 
-                p-4 
-                shadow-xl 
-                text-white 
-                font-semibold 
-                text-base
-                transform 
-                hover:scale-105 
-                transition-all 
-                duration-200
-                border-0
-                w-64
-                overflow-hidden
-                before:absolute
-                before:inset-0
-                before:bg-gradient-to-br
-                before:from-white/30
-                before:via-white/10
-                before:to-transparent
-                before:rounded-2xl
-                before:pointer-events-none
-                after:absolute
-                after:top-0
-                after:left-0
-                after:right-0
-                after:h-1/2
-                after:bg-gradient-to-b
-                after:from-white/20
-                after:to-transparent
-                after:rounded-t-2xl
-                after:pointer-events-none
-              ">
+              <button className="relative bg-gradient-to-br from-green-400 to-green-600 rounded-2xl p-4 shadow-xl text-white font-semibold text-base transform hover:scale-105 transition-all duration-200 border-0 w-64 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/30 before:via-white/10 before:to-transparent before:rounded-2xl before:pointer-events-none after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-b after:from-white/20 after:to-transparent after:rounded-t-2xl after:pointer-events-none">
                 <span className="relative z-10">View Soul Hug Examples</span>
               </button>
             </Link>
 
             <Link href="/my-hugs">
-              <button className="
-                relative
-                bg-gradient-to-br from-blue-400 to-blue-600 
-                rounded-2xl 
-                p-4 
-                shadow-xl 
-                text-white 
-                font-semibold 
-                text-base
-                transform 
-                hover:scale-105 
-                transition-all 
-                duration-200
-                border-0
-                w-64
-                overflow-hidden
-                before:absolute
-                before:inset-0
-                before:bg-gradient-to-br
-                before:from-white/30
-                before:via-white/10
-                before:to-transparent
-                before:rounded-2xl
-                before:pointer-events-none
-                after:absolute
-                after:top-0
-                after:left-0
-                after:right-0
-                after:h-1/2
-                after:bg-gradient-to-b
-                after:from-white/20
-                after:to-transparent
-                after:rounded-t-2xl
-                after:pointer-events-none
-              ">
+              <button className="relative bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl p-4 shadow-xl text-white font-semibold text-base transform hover:scale-105 transition-all duration-200 border-0 w-64 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/30 before:via-white/10 before:to-transparent before:rounded-2xl before:pointer-events-none after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-b after:from-white/20 after:to-transparent after:rounded-t-2xl after:pointer-events-none">
                 <span className="relative z-10">View My Soul Hugs</span>
               </button>
             </Link>

@@ -5,56 +5,56 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useSoulHug } from '../context/SoulHugContext'
 import ProgressIndicator from '../components/ProgressIndicator'
 
+const promptCards = [
+  { 
+    title: "When they showed unwavering kindness", 
+    image: "https://images.pexels.com/photos/1181533/pexels-photo-1181533.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  { 
+    title: "How their smile lights up rooms", 
+    image: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  { 
+    title: "Their gift of making everyone feel welcome", 
+    image: "https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  { 
+    title: "The natural way they comfort others", 
+    image: "https://images.pexels.com/photos/1181533/pexels-photo-1181533.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  { 
+    title: "What you see blossoming in them", 
+    image: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  { 
+    title: "That time they stood up bravely", 
+    image: "https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  { 
+    title: "The small ways they show care", 
+    image: "https://images.pexels.com/photos/1181533/pexels-photo-1181533.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  { 
+    title: "Why they deserve all the love", 
+    image: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400"
+  },
+  { 
+    title: "The real them that shines through", 
+    image: "https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=400"
+  }
+]
+
+const descriptorOptions = [
+  'Smart', 'Caring', 'Loyal', 'Funny', 'Patient', 'Brave',
+  'Creative', 'Thoughtful', 'Strong', 'Loving', 'Honest', 'Supportive'
+]
+
 export default function GatherPage() {
   const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
   
   const [ingredients, setIngredients] = useState<string[]>(currentSoulHug.ingredients || [])
   const [descriptors, setDescriptors] = useState<string[]>(currentSoulHug.descriptors || [])
   const [writingModal, setWritingModal] = useState({ isOpen: false, prompt: '', story: '' })
-
-  const promptCards = [
-    { 
-      title: "When they showed unwavering kindness", 
-      image: "https://images.pexels.com/photos/1181533/pexels-photo-1181533.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    { 
-      title: "How their smile lights up rooms", 
-      image: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    { 
-      title: "Their gift of making everyone feel welcome", 
-      image: "https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    { 
-      title: "The natural way they comfort others", 
-      image: "https://images.pexels.com/photos/1181533/pexels-photo-1181533.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    { 
-      title: "What you see blossoming in them", 
-      image: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    { 
-      title: "That time they stood up bravely", 
-      image: "https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    { 
-      title: "The small ways they show care", 
-      image: "https://images.pexels.com/photos/1181533/pexels-photo-1181533.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    { 
-      title: "Why they deserve all the love", 
-      image: "https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400"
-    },
-    { 
-      title: "The real them that shines through", 
-      image: "https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=400"
-    }
-  ]
-
-  const descriptorOptions = [
-    'Smart', 'Caring', 'Loyal', 'Funny', 'Patient', 'Brave',
-    'Creative', 'Thoughtful', 'Strong', 'Loving', 'Honest', 'Supportive'
-  ]
 
   const openWritingModal = (prompt: string) => {
     setWritingModal({ isOpen: true, prompt, story: '' })
@@ -96,6 +96,7 @@ export default function GatherPage() {
   return (
     <div className="min-h-screen bg-[#F3F7FF] pb-20">
       <div className="max-w-4xl mx-auto px-4 py-6">
+        {/* Header */}
         <div className="text-center mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold mb-3">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
@@ -111,6 +112,7 @@ export default function GatherPage() {
         </div>
 
         <div className="space-y-6">
+          {/* Story Prompts */}
           <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-4 border border-white/50">
             <h3 className="text-lg font-semibold mb-4 text-[#4D5563]">Story Prompts</h3>
             
@@ -134,6 +136,7 @@ export default function GatherPage() {
             </div>
           </div>
 
+          {/* Descriptors */}
           <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-4 border border-white/50">
             <h3 className="text-lg font-semibold mb-4 text-[#4D5563]">Choose Descriptors</h3>
             <div className="grid grid-cols-3 gap-2">
@@ -153,6 +156,7 @@ export default function GatherPage() {
             </div>
           </div>
 
+          {/* Stories Collection */}
           <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-4 min-h-[400px] border border-white/50">
             <h3 className="text-lg font-semibold mb-4 text-[#4D5563]">
               Your Stories ({ingredients.length})
@@ -200,6 +204,7 @@ export default function GatherPage() {
               </div>
             )}
 
+            {/* Selected Descriptors */}
             {descriptors.length > 0 && (
               <div className="mt-4 pt-4 border-t border-white/30">
                 <h4 className="text-sm font-medium mb-2 text-[#4D5563]/80">Selected Descriptors</h4>
@@ -218,6 +223,7 @@ export default function GatherPage() {
           </div>
         </div>
 
+        {/* Navigation */}
         <div className="flex justify-between items-center mt-6">
           <Link href="/define">
             <button className="flex items-center justify-center w-12 h-12 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-200 shadow-xl border border-gray-600">
@@ -239,6 +245,7 @@ export default function GatherPage() {
           </Link>
         </div>
 
+        {/* Writing Modal */}
         <AnimatePresence>
           {writingModal.isOpen && (
             <motion.div 
