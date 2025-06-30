@@ -107,6 +107,9 @@ With gratitude and love`
                 Craft Your Message
               </span>
             </h1>
+            
+            {/* Progress Indicator at top */}
+            <ProgressIndicator className="mt-8" />
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
@@ -299,8 +302,6 @@ With gratitude and love`
               </button>
             </Link>
           </div>
-
-          <ProgressIndicator className="mt-8" />
         </div>
       </div>
     </div>

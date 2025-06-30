@@ -74,6 +74,9 @@ export default function DefinePage() {
           <p className="text-lg text-[#4D5563]">
             Tell us about the message you want to create
           </p>
+          
+          {/* Progress Indicator at top */}
+          <ProgressIndicator className="mt-8" />
         </div>
 
         {/* Form Container */}
@@ -215,8 +218,6 @@ export default function DefinePage() {
             </Link>
           </div>
         </div>
-
-        <ProgressIndicator className="mt-8" />
       </div>
     </div>
   )

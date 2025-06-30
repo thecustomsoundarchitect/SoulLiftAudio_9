@@ -35,6 +35,49 @@ export default function MyHugsPage() {
     }
   }
 
+  // Mock data for demonstration
+  const mockSoulHugs = [
+    {
+      id: '1',
+      title: 'Happy Birthday Mom',
+      description: 'Birthday Message • 3:45',
+      recipient: 'Mom',
+      coreFeeling: 'love',
+      occasion: 'Birthday',
+      duration: '3:45',
+      createdAt: '2024-01-15',
+      audioUrl: '/audio/birthday-mom.mp3',
+      coverImage: 'https://images.pexels.com/photos/1181533/pexels-photo-1181533.jpeg?auto=compress&cs=tinysrgb&w=400'
+    },
+    {
+      id: '2',
+      title: "You've Got This, Sarah",
+      description: 'Encouragement • 2:30',
+      recipient: 'Sarah',
+      coreFeeling: 'encouragement',
+      occasion: 'Support',
+      duration: '2:30',
+      createdAt: '2024-01-10',
+      audioUrl: '/audio/encouragement-sarah.mp3',
+      coverImage: 'https://images.pexels.com/photos/1587927/pexels-photo-1587927.jpeg?auto=compress&cs=tinysrgb&w=400'
+    },
+    {
+      id: '3',
+      title: 'Thank You, Dad',
+      description: 'Gratitude • 4:15',
+      recipient: 'Dad',
+      coreFeeling: 'gratitude',
+      occasion: 'Thank You',
+      duration: '4:15',
+      createdAt: '2024-01-05',
+      audioUrl: '/audio/gratitude-dad.mp3',
+      coverImage: 'https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=400'
+    }
+  ]
+
+  // Use mock data if no saved hugs exist
+  const displayHugs = savedSoulHugs.length > 0 ? savedSoulHugs : mockSoulHugs
+
   return (
     <div className="min-h-screen bg-[#F3F7FF]">
 
@@ -75,145 +118,92 @@ export default function MyHugsPage() {
           </motion.p>
         </motion.div>
 
-        {savedSoulHugs.length === 0 ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+        >
+          <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-white/50">
+            <ExpandableCardDemo />
+          </div>
+          
+          {/* Floating Dock Demo */}
           <motion.div 
-            className="text-center py-16"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-          >
-            <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/50">
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="mb-8"
-              >
-                <Heart className="w-20 h-20 mx-auto text-[#4D5563]/60" />
-              </motion.div>
-              <motion.h3 
-                className="text-2xl font-semibold mb-4 text-[#4D5563]"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-              >
-                No Soul Hugs Yet
-              </motion.h3>
-              <motion.p 
-                className="mb-8 text-lg text-[#4D5563]/80"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.0 }}
-              >
-                Create your first heartfelt message to get started
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 }}
-              >
-                <Link href="/define">
-                  <motion.button 
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg shadow-xl"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Plus className="w-5 h-5 mr-2" />
-                    Create Your First Soul Hug
-                  </motion.button>
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-          >
-            <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-white/50">
-              <ExpandableCardDemo />
-            </div>
-            
-            {/* Floating Dock Demo */}
-            <motion.div 
-              className="mt-16"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0, duration: 0.6 }}
-            >
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-semibold mb-4">
-                  <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Quick Navigation</span>
-                </h3>
-                <p className="text-[#4D5563]/80">
-                  Access your favorite features with our floating dock
-                </p>
-              </div>
-              <FloatingDockDemo />
-            </motion.div>
-          </motion.div>
-        )}
-
-        {/* Stats */}
-        {savedSoulHugs.length > 0 && (
-          <motion.div 
-            className="mt-16 pt-8 border-t border-white/30"
+            className="mt-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.6 }}
           >
-            <div className="grid grid-cols-3 gap-6">
-              <motion.div 
-                className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
-                whileHover={{ scale: 1.05, y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <motion.div 
-                  className="text-3xl font-bold text-purple-600 mb-2"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  {savedSoulHugs.length}
-                </motion.div>
-                <div className="text-sm font-medium text-[#4D5563]">Total Hugs</div>
-              </motion.div>
-              
-              <motion.div 
-                className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
-                whileHover={{ scale: 1.05, y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <motion.div 
-                  className="text-3xl font-bold text-blue-600 mb-2"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                >
-                  {savedSoulHugs.reduce((total, hug) => {
-                    const duration = hug.duration || '2:30'
-                    const [min, sec] = duration.split(':').map(Number)
-                    return total + min + sec / 60
-                  }, 0).toFixed(0)}
-                </motion.div>
-                <div className="text-sm font-medium text-[#4D5563]">Minutes Created</div>
-              </motion.div>
-              
-              <motion.div 
-                className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
-                whileHover={{ scale: 1.05, y: -5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <motion.div 
-                  className="text-3xl font-bold text-green-600 mb-2"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                >
-                  {new Set(savedSoulHugs.map(hug => hug.recipient)).size}
-                </motion.div>
-                <div className="text-sm font-medium text-[#4D5563]">People Touched</div>
-              </motion.div>
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-semibold mb-4">
+                <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Quick Navigation</span>
+              </h3>
+              <p className="text-[#4D5563]/80">
+                Access your favorite features with our floating dock
+              </p>
             </div>
+            <FloatingDockDemo />
           </motion.div>
-        )}
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div 
+          className="mt-16 pt-8 border-t border-white/30"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, duration: 0.6 }}
+        >
+          <div className="grid grid-cols-3 gap-6">
+            <motion.div 
+              className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <motion.div 
+                className="text-3xl font-bold text-purple-600 mb-2"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                {displayHugs.length}
+              </motion.div>
+              <div className="text-sm font-medium text-[#4D5563]">Total Hugs</div>
+            </motion.div>
+            
+            <motion.div 
+              className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <motion.div 
+                className="text-3xl font-bold text-blue-600 mb-2"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+              >
+                {displayHugs.reduce((total, hug) => {
+                  const duration = hug.duration || '2:30'
+                  const [min, sec] = duration.split(':').map(Number)
+                  return total + min + sec / 60
+                }, 0).toFixed(0)}
+              </motion.div>
+              <div className="text-sm font-medium text-[#4D5563]">Minutes Created</div>
+            </motion.div>
+            
+            <motion.div 
+              className="text-center bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-xl border border-white/30"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <motion.div 
+                className="text-3xl font-bold text-green-600 mb-2"
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+              >
+                {new Set(displayHugs.map(hug => hug.recipient)).size}
+              </motion.div>
+              <div className="text-sm font-medium text-[#4D5563]">People Touched</div>
+            </motion.div>
+          </div>
+        </motion.div>
 
         {/* Create New Button */}
         <motion.div 
