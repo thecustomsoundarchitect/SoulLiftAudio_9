@@ -363,32 +363,6 @@ export default function DefinePage() {
                 </motion.div>
               )}
             </AnimatePresence>
-            
-            <Link href="/gather">
-              <motion.button 
-                onClick={handleContinue}
-                disabled={!canProceed}
-                whileHover={canProceed ? { scale: 1.05, y: -2 } : {}}
-                whileTap={canProceed ? { scale: 0.95 } : {}}
-                className={`inline-flex items-center px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-2xl relative overflow-hidden ${
-                  canProceed
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-purple-500/25'
-                    : 'bg-gray-300 cursor-not-allowed text-gray-500'
-                }`}
-              >
-                {canProceed && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 opacity-0"
-                    whileHover={{ opacity: 0.3 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center">
-                  Continue to Gather
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </span>
-              </motion.button>
-            </Link>
           </motion.div>
         </motion.div>
       </div>
