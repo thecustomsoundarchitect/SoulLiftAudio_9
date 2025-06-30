@@ -307,19 +307,17 @@ export default function DefinePage() {
 
           <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
             <Link href="/">
-              <button className="flex items-center justify-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-200 shadow-xl border border-gray-600">
-                <ArrowLeft className="w-5 h-5 mr-2" />
-                Back
+              <button className="flex items-center justify-center w-12 h-12 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-200 shadow-xl border border-gray-600">
+                <ArrowLeft className="w-5 h-5" />
               </button>
             </Link>
             
             <Link href="/gather">
               <button
                 onClick={handleContinue}
-                className="flex items-center justify-center px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-xl bg-gray-800 hover:bg-gray-700 text-white border border-gray-600"
+                className="flex items-center justify-center w-12 h-12 rounded-full font-medium transition-all duration-300 shadow-xl bg-gray-800 hover:bg-gray-700 text-white border border-gray-600"
               >
-                Continue
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
           </div>
