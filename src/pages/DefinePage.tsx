@@ -4,6 +4,7 @@ import { ArrowRight, ArrowLeft, Heart, CheckCircle, Sparkles, User, Calendar, Pa
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSoulHug } from '../context/SoulHugContext'
 import ProgressIndicator from '../components/ProgressIndicator'
+import { PlaceholdersAndVanishInput } from '../components/ui/placeholders-and-vanish-input'
 
 export default function DefinePage() {
   const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
@@ -29,6 +30,18 @@ export default function DefinePage() {
     'Professional & Respectful', 'Serious & Thoughtful', 'Grateful & Appreciative'
   ]
 
+  // Placeholders for the feeling input
+  const feelingPlaceholders = [
+    "deeply appreciated and valued",
+    "completely loved and cherished",
+    "truly understood and seen",
+    "incredibly proud and accomplished",
+    "genuinely supported and cared for",
+    "absolutely amazing and special",
+    "wonderfully unique and important",
+    "perfectly loved just as they are"
+  ]
+
   const canProceed = formData.coreFeeling.trim().length > 0 && formData.tone.length > 0
 
   // Calculate completed fields
@@ -49,6 +62,19 @@ export default function DefinePage() {
       occasion: formData.occasion,
       tone: formData.tone
     })
+  }
+
+  const handleFeelingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({...formData, coreFeeling: e.target.value})
+  }
+
+  const handleFeelingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    // Focus next field or continue
+    const toneSelect = document.querySelector('select[name="tone"]') as HTMLSelectElement
+    if (toneSelect) {
+      toneSelect.focus()
+    }
   }
 
   return (
@@ -182,7 +208,7 @@ export default function DefinePage() {
               </div>
             </motion.div>
 
-            {/* Core Feeling Field */}
+            {/* Core Feeling Field with PlaceholdersAndVanishInput */}
             <motion.div 
               className="space-y-4"
               initial={{ opacity: 0, x: -20 }}
@@ -210,21 +236,18 @@ export default function DefinePage() {
               </label>
               
               <div className="ml-16">
-                <input
-                  type="text"
+                <PlaceholdersAndVanishInput
+                  placeholders={feelingPlaceholders}
+                  onChange={handleFeelingChange}
+                  onSubmit={handleFeelingSubmit}
                   value={formData.coreFeeling}
-                  onChange={(e) => setFormData({...formData, coreFeeling: e.target.value})}
-                  onFocus={() => setFocusedField('coreFeeling')}
-                  onBlur={() => setFocusedField(null)}
-                  placeholder="e.g., deeply appreciated, truly valued, completely loved..."
-                  className={`w-full px-6 py-4 bg-white/70 backdrop-blur-md border-2 rounded-2xl transition-all duration-300 placeholder-[#4D5563]/40 text-[#4D5563] text-lg shadow-lg ${
+                  className={`transition-all duration-300 ${
                     completedFields.includes('coreFeeling')
                       ? 'border-green-400 bg-green-50/50 shadow-green-200/50'
                       : focusedField === 'coreFeeling'
                         ? 'border-purple-500 bg-purple-50/50 shadow-purple-200/50 scale-[1.02]'
-                        : 'border-white/40 hover:border-purple-300 focus:border-purple-500 focus:bg-white/90'
+                        : 'border-white/40 hover:border-purple-300 focus-within:border-purple-500'
                   }`}
-                  required
                 />
               </div>
             </motion.div>
@@ -303,6 +326,7 @@ export default function DefinePage() {
                 </label>
                 
                 <select
+                  name="tone"
                   value={formData.tone}
                   onChange={(e) => setFormData({...formData, tone: e.target.value})}
                   onFocus={() => setFocusedField('tone')}
