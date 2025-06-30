@@ -1,15 +1,15 @@
 import { Link, useLocation } from 'wouter'
-import { Home, Heart, Archive, User } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 export default function BottomNavigation() {
   const [location] = useLocation()
 
   const navItems = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/define', label: 'Create', icon: Heart },
-    { path: '/my-hugs', label: 'My Hugs', icon: Archive },
-    { path: '/soul-archive', label: 'Profile', icon: User }
+    { path: '/', icon: ArrowUp },
+    { path: '/define', icon: ArrowRight },
+    { path: '/my-hugs', icon: ArrowDown },
+    { path: '/soul-archive', icon: ArrowLeft }
   ]
 
   const isActive = (path: string) => {
@@ -24,11 +24,11 @@ export default function BottomNavigation() {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="flex items-center justify-around py-2">
+      <div className="flex items-center justify-around py-1">
         {navItems.map((item) => (
           <Link key={item.path} href={item.path}>
             <motion.button
-              className={`flex flex-col items-center py-2 px-4 rounded-lg transition-colors ${
+              className={`p-2 rounded-lg transition-colors ${
                 isActive(item.path)
                   ? 'text-purple-400'
                   : 'text-gray-400 hover:text-gray-200'
@@ -43,21 +43,8 @@ export default function BottomNavigation() {
                 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <item.icon className="w-6 h-6" />
+                <item.icon className="w-4 h-4" />
               </motion.div>
-              <span className={`text-xs mt-1 font-medium ${
-                isActive(item.path) ? 'text-purple-400' : 'text-gray-400'
-              }`}>
-                {item.label}
-              </span>
-              {isActive(item.path) && (
-                <motion.div
-                  className="w-1 h-1 bg-purple-400 rounded-full mt-1"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                />
-              )}
             </motion.button>
           </Link>
         ))}
