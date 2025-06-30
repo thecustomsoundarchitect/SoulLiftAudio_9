@@ -179,7 +179,7 @@ export default function DefinePage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.0, duration: 0.5 }}
             >
-              <label className="flex items-center text-sm font-bold text-[#4D5563] group">
+              <label htmlFor="recipient-input" className="flex items-center text-sm font-bold text-[#4D5563] group">
                 {getFieldIcon('recipient', completedFields.includes('recipient'), focusedField === 'recipient')}
                 <div className="flex-1">
                   <span>Who is this for?</span>
@@ -188,6 +188,8 @@ export default function DefinePage() {
               </label>
               
               <input
+                id="recipient-input"
+                name="recipient"
                 type="text"
                 value={formData.recipient}
                 onChange={(e) => setFormData({...formData, recipient: e.target.value})}
@@ -205,7 +207,7 @@ export default function DefinePage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.2, duration: 0.5 }}
             >
-              <label className="flex items-center text-sm font-bold text-[#4D5563] group">
+              <label htmlFor="core-feeling-input" className="flex items-center text-sm font-bold text-[#4D5563] group">
                 {getFieldIcon('coreFeeling', completedFields.includes('coreFeeling'), focusedField === 'coreFeeling')}
                 <div className="flex-1">
                   <span>How do you want them to feel?</span>
@@ -229,12 +231,14 @@ export default function DefinePage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.4, duration: 0.5 }}
               >
-                <label className="flex items-center text-sm font-bold text-[#4D5563] group">
+                <label htmlFor="occasion-select" className="flex items-center text-sm font-bold text-[#4D5563] group">
                   {getFieldIcon('occasion', completedFields.includes('occasion'), focusedField === 'occasion')}
                   <span>Occasion</span>
                 </label>
                 
                 <select
+                  id="occasion-select"
+                  name="occasion"
                   value={formData.occasion}
                   onChange={(e) => setFormData({...formData, occasion: e.target.value})}
                   onFocus={() => setFocusedField('occasion')}
@@ -256,7 +260,7 @@ export default function DefinePage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.6, duration: 0.5 }}
               >
-                <label className="flex items-center text-sm font-bold text-[#4D5563] group">
+                <label htmlFor="tone-select" className="flex items-center text-sm font-bold text-[#4D5563] group">
                   {getFieldIcon('tone', completedFields.includes('tone'), focusedField === 'tone')}
                   <div className="flex-1">
                     <span>Tone</span>
@@ -264,6 +268,7 @@ export default function DefinePage() {
                 </label>
                 
                 <select
+                  id="tone-select"
                   name="tone"
                   value={formData.tone}
                   onChange={(e) => setFormData({...formData, tone: e.target.value})}
