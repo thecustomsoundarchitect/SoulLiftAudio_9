@@ -116,47 +116,42 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({ onRecordingComplet
   }
 
   return (
-    <div className={`bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 ${className}`}>
-      <h3 className="text-xl font-semibold mb-4 flex items-center text-orange-700">
-        <Mic className="w-6 h-6 mr-2 text-primary" />
-        Record Your Voice
-      </h3>
-      
+    <div className={`${className}`}>
       {error && (
-        <div className="mb-4 p-3 bg-red-500/20 backdrop-blur-sm border border-red-400/30 rounded-lg text-red-600 text-sm">
+        <div className="mb-4 p-3 bg-red-100/80 backdrop-blur-sm border border-red-300 rounded-lg text-red-700 text-sm shadow-lg">
           {error}
         </div>
       )}
 
       <div className="text-center mb-4">
-        <div className={`w-24 h-24 mx-auto mb-4 rounded-full flex items-center justify-center transition-all duration-300 ${
+        <div className={`w-24 h-24 mx-auto mb-4 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer shadow-xl ${
           isRecording 
-            ? 'bg-red-500 animate-pulse shadow-lg scale-110' 
+            ? 'bg-gradient-to-br from-red-400 to-red-600 animate-pulse scale-110' 
             : audioBlob 
-              ? 'bg-green-500 hover:bg-green-600' 
-              : 'bg-purple-500 hover:bg-purple-600'
-        } cursor-pointer`}>
+              ? 'bg-gradient-to-br from-green-400 to-green-600 hover:scale-105' 
+              : 'bg-gradient-to-br from-purple-400 to-purple-600 hover:scale-105'
+        }`}>
           <Mic className="w-8 h-8 text-white" />
         </div>
         
         {isRecording && (
-          <div className="text-red-500 font-mono text-lg mb-2">
+          <div className="text-red-600 font-mono text-lg mb-2 font-semibold">
             REC {formatTime(recordingTime)}
           </div>
         )}
         
         {audioBlob && !isRecording && (
-          <div className="text-green-500 font-mono text-sm mb-2">
+          <div className="text-green-600 font-mono text-sm mb-2 font-medium">
             Recorded: {formatTime(recordingTime)}
           </div>
         )}
       </div>
 
-      <div className="flex justify-center space-x-2 mb-4">
+      <div className="flex justify-center space-x-3 mb-4">
         {!isRecording && !audioBlob && (
           <button
             onClick={startRecording}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
           >
             <Mic className="w-4 h-4 mr-2" />
             Start Recording
@@ -166,7 +161,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({ onRecordingComplet
         {isRecording && (
           <button
             onClick={stopRecording}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center"
+            className="bg-gradient-to-r from-red-500 to-red-600 hover:shadow-xl text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
           >
             <Square className="w-4 h-4 mr-2" />
             Stop Recording
@@ -177,7 +172,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({ onRecordingComplet
           <>
             <button
               onClick={isPlaying ? pauseRecording : playRecording}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center"
+              className="bg-gradient-to-r from-blue-500 to-blue-600 hover:shadow-xl text-white px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
             >
               {isPlaying ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
               {isPlaying ? 'Pause' : 'Play'}
@@ -185,7 +180,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({ onRecordingComplet
             
             <button
               onClick={startRecording}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center"
+              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:shadow-xl text-white px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
               Re-record
@@ -193,7 +188,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({ onRecordingComplet
             
             <button
               onClick={deleteRecording}
-              className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center"
+              className="bg-gradient-to-r from-gray-400 to-gray-500 hover:shadow-xl text-white px-4 py-3 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               Delete

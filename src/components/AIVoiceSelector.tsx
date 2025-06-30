@@ -64,13 +64,8 @@ export const AIVoiceSelector: React.FC<AIVoiceSelectorProps> = ({
   }
 
   return (
-    <div className={`bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 ${className}`}>
-      <h3 className="text-xl font-semibold mb-4 flex items-center text-blue-700">
-        <Volume2 className="w-6 h-6 mr-2 text-primary" />
-        AI Voice Option
-      </h3>
-      
-      <p className="text-sm text-secondary mb-4">
+    <div className={`${className}`}>
+      <p className="text-sm text-[#4D5563]/80 mb-4">
         Don't want to record? Let AI read your message with a warm, natural voice.
       </p>
       
@@ -78,27 +73,27 @@ export const AIVoiceSelector: React.FC<AIVoiceSelectorProps> = ({
         {voiceOptions.map((voice) => (
           <div
             key={voice.value}
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+            className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 shadow-lg ${
               selectedVoice === voice.value
-                ? 'border-purple-500 bg-white/20 backdrop-blur-md'
-                : 'border-white/30 hover:border-white/50 bg-white/10 backdrop-blur-md'
+                ? 'border-purple-500 bg-purple-50/80 backdrop-blur-md'
+                : 'border-white/40 hover:border-purple-300 bg-white/60 backdrop-blur-md hover:bg-white/80'
             }`}
             onClick={() => setSelectedVoice(voice.value)}
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <h4 className="font-medium text-primary">{voice.label}</h4>
-                <p className="text-sm text-secondary mt-1">{voice.description}</p>
+                <h4 className="font-medium text-[#4D5563]">{voice.label}</h4>
+                <p className="text-sm text-[#4D5563]/80 mt-1">{voice.description}</p>
               </div>
               <button
                 onClick={(e) => {
                   e.stopPropagation()
                   playPreview(voice.preview)
                 }}
-                className="ml-3 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors"
+                className="ml-3 p-2 bg-white/60 hover:bg-white/80 backdrop-blur-sm rounded-lg transition-colors shadow-md"
                 title="Preview voice"
               >
-                <Play className="w-4 h-4 text-primary" />
+                <Play className="w-4 h-4 text-[#4D5563]" />
               </button>
             </div>
           </div>
@@ -106,9 +101,9 @@ export const AIVoiceSelector: React.FC<AIVoiceSelectorProps> = ({
       </div>
       
       {generatedAudio && (
-        <div className="mb-4 p-3 bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-lg">
+        <div className="mb-4 p-3 bg-green-100/80 backdrop-blur-sm border border-green-300 rounded-lg shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-green-600 text-sm font-medium">Voice generated successfully!</span>
+            <span className="text-green-700 text-sm font-medium">Voice generated successfully!</span>
             <audio controls className="h-8">
               <source src={generatedAudio} type="audio/mpeg" />
             </audio>
@@ -119,14 +114,14 @@ export const AIVoiceSelector: React.FC<AIVoiceSelectorProps> = ({
       <button
         onClick={generateVoice}
         disabled={isGenerating || !message.trim()}
-        className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-3 rounded-lg font-medium transition-colors flex items-center justify-center"
+        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-3 rounded-xl font-medium transition-all duration-200 flex items-center justify-center shadow-lg"
       >
         <Wand2 className="w-4 h-4 mr-2" />
         {isGenerating ? 'Generating Voice...' : 'Generate AI Voice'}
       </button>
       
       {!message.trim() && (
-        <p className="text-xs text-muted mt-2 text-center">
+        <p className="text-xs text-[#4D5563]/60 mt-2 text-center">
           Complete your message in the Craft step to generate AI voice
         </p>
       )}

@@ -79,18 +79,13 @@ export const CoverImageSelector: React.FC<CoverImageSelectorProps> = ({
   }
 
   return (
-    <div className={`bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 ${className}`}>
-      <h3 className="text-xl font-semibold mb-4 flex items-center text-green-700">
-        <Image className="w-6 h-6 mr-2 text-primary" />
-        Cover Image
-      </h3>
-      
+    <div className={`${className}`}>
       <div className="grid grid-cols-3 gap-3 mb-4">
         {presetImages.map((image) => (
           <button
             key={image.id}
             onClick={() => handlePresetSelect(image)}
-            className={`aspect-square rounded-lg ${image.gradient} flex items-center justify-center transition-all relative group ${
+            className={`aspect-square rounded-lg ${image.gradient} flex items-center justify-center transition-all relative group shadow-lg ${
               selectedImage === image.id ? 'ring-4 ring-green-500 scale-105' : 'hover:scale-105'
             }`}
           >
@@ -109,11 +104,11 @@ export const CoverImageSelector: React.FC<CoverImageSelectorProps> = ({
           <img 
             src={customImage} 
             alt="Custom cover" 
-            className="w-full h-32 object-cover rounded-lg"
+            className="w-full h-32 object-cover rounded-lg shadow-lg"
           />
           <button
             onClick={clearSelection}
-            className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full transition-colors"
+            className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 text-white rounded-full transition-colors shadow-lg"
           >
             <X className="w-3 h-3" />
           </button>
@@ -124,14 +119,14 @@ export const CoverImageSelector: React.FC<CoverImageSelectorProps> = ({
       )}
 
       {selectedImage && !customImage && (
-        <div className="mb-4 p-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg">
+        <div className="mb-4 p-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-primary font-medium text-sm">
+            <span className="text-[#4D5563] font-medium text-sm">
               Selected: {presetImages.find(img => img.id === selectedImage)?.name}
             </span>
             <button
               onClick={clearSelection}
-              className="text-secondary hover:text-primary text-xs underline"
+              className="text-[#4D5563]/60 hover:text-[#4D5563] text-xs underline"
             >
               Remove
             </button>
@@ -139,9 +134,9 @@ export const CoverImageSelector: React.FC<CoverImageSelectorProps> = ({
         </div>
       )}
       
-      <label className="w-full border-2 border-dashed border-white/30 rounded-lg p-4 text-center hover:border-white/50 transition-colors cursor-pointer block">
-        <Upload className="w-6 h-6 text-muted mx-auto mb-2" />
-        <span className="text-sm text-secondary">Upload Custom Image</span>
+      <label className="w-full border-2 border-dashed border-white/40 rounded-lg p-4 text-center hover:border-white/60 transition-colors cursor-pointer block bg-white/30 backdrop-blur-md shadow-lg">
+        <Upload className="w-6 h-6 text-[#4D5563]/60 mx-auto mb-2" />
+        <span className="text-sm text-[#4D5563]/80">Upload Custom Image</span>
         <input
           type="file"
           accept="image/*"
