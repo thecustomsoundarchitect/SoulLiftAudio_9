@@ -19,7 +19,7 @@ export default function BottomNavigation() {
 
   return (
     <motion.div 
-      className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50"
+      className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-700 z-50"
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -30,8 +30,8 @@ export default function BottomNavigation() {
             <motion.button
               className={`flex flex-col items-center py-2 px-4 rounded-lg transition-colors ${
                 isActive(item.path)
-                  ? 'text-purple-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-purple-400'
+                  : 'text-gray-400 hover:text-gray-200'
               }`}
               whileTap={{ scale: 0.95 }}
               whileHover={{ scale: 1.05 }}
@@ -39,20 +39,20 @@ export default function BottomNavigation() {
               <motion.div
                 animate={{
                   scale: isActive(item.path) ? 1.1 : 1,
-                  color: isActive(item.path) ? '#9333ea' : '#6b7280'
+                  color: isActive(item.path) ? '#c084fc' : '#9ca3af'
                 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <item.icon className="w-6 h-6" />
               </motion.div>
               <span className={`text-xs mt-1 font-medium ${
-                isActive(item.path) ? 'text-purple-600' : 'text-gray-500'
+                isActive(item.path) ? 'text-purple-400' : 'text-gray-400'
               }`}>
                 {item.label}
               </span>
               {isActive(item.path) && (
                 <motion.div
-                  className="w-1 h-1 bg-purple-600 rounded-full mt-1"
+                  className="w-1 h-1 bg-purple-400 rounded-full mt-1"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 300 }}
