@@ -7,11 +7,12 @@ import CraftPage from './pages/CraftPage'
 import AudioHugPage from './pages/AudioHugPage'
 import MyHugsPage from './pages/MyHugsPage'
 import SoulArchivePage from './pages/SoulArchivePage'
+import ExamplesPage from './pages/ExamplesPage'
 import BottomNavigation from './components/BottomNavigation'
 
 function AppContent() {
   const [location] = useLocation()
-  const showNavigation = location !== '/'
+  const showNavigation = location !== '/' && location !== '/examples'
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#311A55] via-[#5B2885] to-[#241946]">
@@ -19,6 +20,7 @@ function AppContent() {
       <main>
         <Switch>
           <Route path="/" component={HomePage} />
+          <Route path="/examples" component={ExamplesPage} />
           <Route path="/define" component={DefinePage} />
           <Route path="/gather" component={GatherPage} />
           <Route path="/craft" component={CraftPage} />
