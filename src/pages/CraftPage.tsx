@@ -265,21 +265,21 @@ With gratitude and love`
         {/* Navigation */}
         <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
           <Link href="/gather">
-            <button className="flex items-center justify-center w-12 h-12 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition-all duration-200 shadow-xl border border-gray-600">
-              <ArrowLeft className="w-5 h-5" />
+            <button className="text-[#4D5563] hover:text-purple-600 transition-colors duration-200 p-2">
+              <ArrowLeft className="w-6 h-6" />
             </button>
           </Link>
           
           <Link href="/audio-hug">
             <button
               disabled={!message.trim()}
-              className={`flex items-center justify-center w-12 h-12 rounded-full font-medium transition-all duration-300 shadow-xl ${
+              className={`transition-colors duration-200 p-2 ${
                 message.trim()
-                  ? 'bg-gray-800 hover:bg-gray-700 text-white border border-gray-600'
-                  : 'bg-gray-300 cursor-not-allowed text-gray-500'
+                  ? 'text-[#4D5563] hover:text-purple-600'
+                  : 'text-gray-300 cursor-not-allowed'
               }`}
             >
-              <ArrowLeft className="w-5 h-5 rotate-180" />
+              <ArrowLeft className="w-6 h-6 rotate-180" />
             </button>
           </Link>
         </div>
