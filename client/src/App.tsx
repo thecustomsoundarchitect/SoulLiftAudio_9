@@ -9,6 +9,7 @@ import MyHugsPage from './pages/MyHugsPage'
 import SoulArchivePage from './pages/SoulArchivePage'
 import ExamplesPage from './pages/ExamplesPage'
 import BottomNavigation from './components/BottomNavigation'
+import { SoulHugProvider } from './context/SoulHugContext'
 
 function AppContent() {
   const [location] = useLocation()
@@ -44,9 +45,11 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <SoulHugProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </SoulHugProvider>
   )
 }
 

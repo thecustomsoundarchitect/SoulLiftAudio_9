@@ -1,0 +1,36 @@
+[vite] connecting...
+[vite] connected.
+useSoulHug must be used within a SoulHugProvider
+useSoulHug must be used within a SoulHugProvider
+The above error occurred in the <DefinePage> component:
+
+    at DefinePage (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/src/pages/DefinePage.tsx:61:52)
+    at Route (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=7028e72f:323:16)
+    at Switch (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=7028e72f:379:17)
+    at main
+    at div
+    at AppContent (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/src/App.tsx?v=XqxMn2SceDpiA9qzR3Dyc:31:22)
+    at Router (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=7028e72f:291:17)
+    at App
+    at SoulHugProvider (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/src/context/SoulHugContext.tsx?v=XqxMn2SceDpiA9qzR3Dyc:29:35)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+at DefinePage (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/src/pages/DefinePage.tsx:61:52)
+at Route (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=7028e72f:323:16)
+at Switch (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=7028e72f:379:17)
+at main
+at div
+at AppContent (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/src/App.tsx?v=XqxMn2SceDpiA9qzR3Dyc:31:22)
+at Router (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=7028e72f:291:17)
+at App
+at SoulHugProvider (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/src/context/SoulHugContext.tsx?v=XqxMn2SceDpiA9qzR3Dyc:29:35)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+at t.value (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://f44e3af0-965a-42ba-bb3f-2e9d1c2a2178-00-3iyqap2n90gqm.worf.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+useSoulHug must be used within a SoulHugProvider

@@ -1,7 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
-import { SoulHugProvider } from './context/SoulHugContext';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -11,8 +10,6 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <SoulHugProvider>
-      <App />
-    </SoulHugProvider>
+    <App />
   </StrictMode>
 );
