@@ -56,7 +56,7 @@ export default function DefinePage() {
   const isFormComplete = formData.coreFeeling && formData.tone
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-300 to-purple-600 pb-20 font-['Poppins']">
+    <div className="min-h-screen bg-[#F3F7FF] pb-20 font-['Poppins']">
       <div className="max-w-md mx-auto px-4 py-6">
         <div className="space-y-6">
           {/* Title */}
