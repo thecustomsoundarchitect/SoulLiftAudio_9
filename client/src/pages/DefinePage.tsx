@@ -84,7 +84,7 @@ export default function DefinePage() {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(dropdownOpen === 'feeling' ? null : 'feeling')}
-                  className="w-full p-4 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
                 >
                   <span className={formData.coreFeeling ? 'text-gray-900' : 'text-gray-500'}>
                     {formData.coreFeeling || 'How Do You Want Them to Feel After'}
@@ -111,7 +111,7 @@ export default function DefinePage() {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(dropdownOpen === 'tone' ? null : 'tone')}
-                  className="w-full p-4 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
                 >
                   <span className={formData.tone ? 'text-gray-900' : 'text-gray-500'}>
                     {formData.tone || 'Tone Of the Message'}
@@ -147,7 +147,7 @@ export default function DefinePage() {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(dropdownOpen === 'occasion' ? null : 'occasion')}
-                  className="w-full p-4 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
                 >
                   <span className={formData.occasion ? 'text-gray-900' : 'text-gray-500'}>
                     {formData.occasion || 'Occasion'}
@@ -176,7 +176,7 @@ export default function DefinePage() {
                 placeholder="Enter who is this for eg. Name"
                 value={formData.recipient}
                 onChange={(e) => setFormData({...formData, recipient: e.target.value})}
-                className="w-full p-4 border-2 border-gray-300 rounded-full bg-white placeholder-gray-500 focus:border-purple-400 focus:outline-none transition-colors"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-full bg-white placeholder-gray-500 focus:border-purple-400 focus:outline-none transition-colors"
               />
 
               {/* Age Sliders */}
