@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Set Calibri as the default font */
+/* Set Poppins as the default font */
 * {
-  font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Custom CSS for SoulLift Audio */
@@ -102,29 +102,33 @@
   color: var(--text-muted);
 }
 
-/* Slider styling for audio controls */
+/* Custom slider styling for Define page */
 .slider {
-  background: linear-gradient(to right, #8B5CF6 0%, #3B82F6 100%);
+  -webkit-appearance: none;
+  appearance: none;
+  background: #d1d5db;
+  outline: none;
 }
 
 .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
   appearance: none;
-  height: 20px;
-  width: 20px;
+  width: 24px;
+  height: 24px;
+  background: #8B5CF6;
   border-radius: 50%;
-  background: #ffffff;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
 
 .slider::-moz-range-thumb {
-  height: 20px;
-  width: 20px;
+  width: 24px;
+  height: 24px;
+  background: #8B5CF6;
   border-radius: 50%;
-  background: #ffffff;
   cursor: pointer;
   border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
 
 /* Custom scrollbar */

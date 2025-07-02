@@ -1,31 +1,28 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'wouter'
-import { ArrowRight, ArrowLeft, CheckCircle, User, Calendar, Palette } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { ArrowRight, ChevronDown } from 'lucide-react'
 import { useSoulHug } from '../context/SoulHugContext'
-import ProgressIndicator from '../components/ProgressIndicator'
-import { PlaceholdersAndVanishInput } from '../components/ui/placeholders-and-vanish-input'
 
-const occasions = [
-  'Birthday', 'Anniversary', 'Graduation', 'New Job', 'Difficult Time',
-  'Just Because', 'Thank You', 'Apology', 'Encouragement', 'Celebration'
-]
-
-const tones = [
-  'Warm & Loving', 'Playful & Fun', 'Deep & Meaningful', 'Gentle & Comforting',
-  'Inspiring & Uplifting', 'Heartfelt & Sincere', 'Light & Cheerful',
-  'Professional & Respectful', 'Serious & Thoughtful', 'Grateful & Appreciative'
-]
-
-const feelingPlaceholders = [
+const feelingOptions = [
   "deeply appreciated and valued",
-  "completely loved and cherished",
+  "completely loved and cherished", 
   "truly understood and seen",
   "incredibly proud and accomplished",
   "genuinely supported and cared for",
   "absolutely amazing and special",
   "wonderfully unique and important",
   "perfectly loved just as they are"
+]
+
+const toneOptions = [
+  'Warm & Loving', 'Playful & Fun', 'Deep & Meaningful', 'Gentle & Comforting',
+  'Inspiring & Uplifting', 'Heartfelt & Sincere', 'Light & Cheerful',
+  'Professional & Respectful', 'Serious & Thoughtful', 'Grateful & Appreciative'
+]
+
+const occasions = [
+  'Birthday', 'Anniversary', 'Graduation', 'New Job', 'Difficult Time',
+  'Just Because', 'Thank You', 'Apology', 'Encouragement', 'Celebration'
 ]
 
 export default function DefinePage() {
@@ -35,21 +32,12 @@ export default function DefinePage() {
     recipient: currentSoulHug.recipient || '',
     coreFeeling: currentSoulHug.coreFeeling || '',
     occasion: currentSoulHug.occasion || '',
-    tone: currentSoulHug.tone || ''
+    tone: currentSoulHug.tone || '',
+    theirAge: 25,
+    yourAge: 30
   })
 
-  const [completedFields, setCompletedFields] = useState<string[]>([])
-  const [focusedField, setFocusedField] = useState<string | null>(null)
-
-  useEffect(() => {
-    const completed = []
-    if (formData.recipient.trim()) completed.push('recipient')
-    if (formData.coreFeeling.trim()) completed.push('coreFeeling')
-    if (formData.occasion) completed.push('occasion')
-    if (formData.tone) completed.push('tone')
-    
-    setCompletedFields(completed)
-  }, [formData])
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
 
   const handleContinue = () => {
     updateCurrentSoulHug({
@@ -60,251 +48,196 @@ export default function DefinePage() {
     })
   }
 
-  const handleFeelingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({...formData, coreFeeling: e.target.value})
+  const handleDropdownSelect = (field: string, value: string) => {
+    setFormData({...formData, [field]: value})
+    setDropdownOpen(null)
   }
 
-  const handleFeelingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const toneSelect = document.querySelector('select[name="tone"]') as HTMLSelectElement
-    if (toneSelect) {
-      toneSelect.focus()
-    }
-  }
-
-  const getFieldIcon = (fieldName: string, isCompleted: boolean, isFocused: boolean) => {
-    const iconMap = {
-      recipient: User,
-      coreFeeling: CheckCircle,
-      occasion: Calendar,
-      tone: Palette
-    }
-    
-    const IconComponent = iconMap[fieldName as keyof typeof iconMap] || CheckCircle
-    
-    return (
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 transition-all duration-300 ${
-        isCompleted 
-          ? 'bg-gradient-to-r from-green-400 to-emerald-500 shadow-lg' 
-          : isFocused
-            ? 'bg-gradient-to-r from-purple-400 to-blue-500 shadow-lg'
-            : 'bg-white/60 backdrop-blur-md border-2 border-white/40'
-      }`}>
-        <IconComponent className="w-4 h-4 text-white" />
-      </div>
-    )
-  }
-
-  const getFieldClasses = (fieldName: string) => {
-    const isCompleted = completedFields.includes(fieldName)
-    const isFocused = focusedField === fieldName
-    
-    return `w-full px-3 py-2 bg-white/70 backdrop-blur-md border-2 rounded-xl transition-all duration-300 text-[#4D5563] shadow-lg text-sm ${
-      isCompleted
-        ? 'border-green-400 bg-green-50/50 shadow-green-200/50'
-        : isFocused
-          ? 'border-purple-500 bg-purple-50/50 shadow-purple-200/50'
-          : 'border-white/40 hover:border-purple-300 focus:border-purple-500 focus:bg-white/90'
-    }`
-  }
+  const isFormComplete = formData.coreFeeling && formData.tone
 
   return (
-    <div className="min-h-screen bg-[#F3F7FF] relative overflow-hidden pb-20">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-purple-200/30 to-blue-200/30 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-32 left-16 w-48 h-48 bg-gradient-to-tr from-blue-200/30 to-purple-200/30 rounded-full blur-2xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-gradient-to-br from-purple-300/20 to-pink-300/20 rounded-full blur-xl animate-pulse delay-500"></div>
-      </div>
+    <div className="min-h-screen bg-gray-100 p-4 font-['Poppins']">
+      <div className="max-w-md mx-auto bg-white rounded-3xl shadow-lg overflow-hidden">
+        {/* Header with decorative circle */}
+        <div className="bg-gradient-to-br from-purple-400 to-pink-400 h-24 relative">
+          <div className="absolute top-4 right-4 w-8 h-8 bg-purple-600 rounded-full"></div>
+          <div className="absolute bottom-0 right-0 w-24 h-24 bg-pink-500 rounded-tl-full"></div>
+        </div>
 
-      {/* Back button */}
-      <motion.div 
-        className="fixed top-4 left-4 z-20"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <Link href="/">
-          <button className="flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-lg rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/50 group hover:bg-white">
-            <ArrowLeft className="w-5 h-5 text-[#4D5563] group-hover:text-purple-600 transition-colors" />
-          </button>
-        </Link>
-      </motion.div>
+        <div className="p-6 space-y-6">
+          {/* Title */}
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-purple-600 mb-2">Define Your Message</h1>
+            <p className="text-gray-600 text-sm">
+              "We'll help you find the perfect words to share."
+            </p>
+          </div>
 
-      <div className="relative z-10 max-w-lg mx-auto px-4 py-8">
-        {/* Header */}
-        <motion.div 
-          className="text-center mb-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-xl sm:text-2xl font-bold mb-3">
-            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Define Your Message
-            </span>
-          </h1>
-          
-          <motion.p 
-            className="text-sm text-[#4D5563] leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            Tell us about the heartfelt message you want to create
-          </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-          >
-            <ProgressIndicator className="mt-4" />
-          </motion.div>
-        </motion.div>
-
-        {/* Form */}
-        <motion.div 
-          className="bg-white/80 backdrop-blur-lg rounded-2xl p-4 shadow-2xl border border-white/50 relative overflow-hidden"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.6 }}
-        >
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-blue-600"></div>
-          
-          <div className="space-y-4">
-            {/* Recipient Field */}
-            <motion.div 
-              className="space-y-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.0, duration: 0.5 }}
-            >
-              <label htmlFor="recipient-input" className="flex items-center text-sm font-bold text-[#4D5563] group">
-                {getFieldIcon('recipient', completedFields.includes('recipient'), focusedField === 'recipient')}
-                <div className="flex-1">
-                  <span>Who is this for?</span>
-                  <span className="font-normal text-xs ml-1 text-[#4D5563]/60">(Optional)</span>
-                </div>
-              </label>
-              
-              <input
-                id="recipient-input"
-                name="recipient"
-                type="text"
-                value={formData.recipient}
-                onChange={(e) => setFormData({...formData, recipient: e.target.value})}
-                onFocus={() => setFocusedField('recipient')}
-                onBlur={() => setFocusedField(null)}
-                placeholder="Enter their name or leave blank..."
-                className={`${getFieldClasses('recipient')} placeholder-[#4D5563]/40`}
-              />
-            </motion.div>
-
-            {/* Core Feeling Field */}
-            <motion.div 
-              className="space-y-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.2, duration: 0.5 }}
-            >
-              <label htmlFor="core-feeling-input" className="flex items-center text-sm font-bold text-[#4D5563] group">
-                {getFieldIcon('coreFeeling', completedFields.includes('coreFeeling'), focusedField === 'coreFeeling')}
-                <div className="flex-1">
-                  <span>How do you want them to feel?</span>
-                </div>
-              </label>
-              
-              <PlaceholdersAndVanishInput
-                placeholders={feelingPlaceholders}
-                onChange={handleFeelingChange}
-                onSubmit={handleFeelingSubmit}
-                value={formData.coreFeeling}
-                className={`transition-all duration-300 ${getFieldClasses('coreFeeling')}`}
-              />
-            </motion.div>
-
-            {/* Occasion and Tone Fields */}
-            <div className="grid grid-cols-1 gap-4">
-              <motion.div 
-                className="space-y-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.4, duration: 0.5 }}
-              >
-                <label htmlFor="occasion-select" className="flex items-center text-sm font-bold text-[#4D5563] group">
-                  {getFieldIcon('occasion', completedFields.includes('occasion'), focusedField === 'occasion')}
-                  <span>Occasion</span>
-                </label>
-                
-                <select
-                  id="occasion-select"
-                  name="occasion"
-                  value={formData.occasion}
-                  onChange={(e) => setFormData({...formData, occasion: e.target.value})}
-                  onFocus={() => setFocusedField('occasion')}
-                  onBlur={() => setFocusedField(null)}
-                  className={`${getFieldClasses('occasion')} appearance-none cursor-pointer`}
+          {/* Essential Section */}
+          <div>
+            <h2 className="text-pink-500 font-semibold text-sm uppercase tracking-wide mb-4">
+              ESSENTIAL
+            </h2>
+            
+            <div className="space-y-4">
+              {/* How Do You Want Them to Feel */}
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(dropdownOpen === 'feeling' ? null : 'feeling')}
+                  className="w-full p-4 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
                 >
-                  <option value="" className="bg-white text-[#4D5563]">Select occasion...</option>
-                  {occasions.map(occasion => (
-                    <option key={occasion} value={occasion} className="bg-white text-[#4D5563]">
-                      {occasion}
-                    </option>
-                  ))}
-                </select>
-              </motion.div>
-
-              <motion.div 
-                className="space-y-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.6, duration: 0.5 }}
-              >
-                <label htmlFor="tone-select" className="flex items-center text-sm font-bold text-[#4D5563] group">
-                  {getFieldIcon('tone', completedFields.includes('tone'), focusedField === 'tone')}
-                  <div className="flex-1">
-                    <span>Tone</span>
+                  <span className={formData.coreFeeling ? 'text-gray-900' : 'text-gray-500'}>
+                    {formData.coreFeeling || 'How Do You Want Them to Feel After'}
+                  </span>
+                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                </button>
+                
+                {dropdownOpen === 'feeling' && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-10 max-h-60 overflow-y-auto">
+                    {feelingOptions.map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => handleDropdownSelect('coreFeeling', option)}
+                        className="w-full p-3 text-left hover:bg-gray-50 text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
+                      >
+                        {option}
+                      </button>
+                    ))}
                   </div>
-                </label>
-                
-                <select
-                  id="tone-select"
-                  name="tone"
-                  value={formData.tone}
-                  onChange={(e) => setFormData({...formData, tone: e.target.value})}
-                  onFocus={() => setFocusedField('tone')}
-                  onBlur={() => setFocusedField(null)}
-                  className={`${getFieldClasses('tone')} appearance-none cursor-pointer`}
+                )}
+              </div>
+
+              {/* Tone of the Message */}
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(dropdownOpen === 'tone' ? null : 'tone')}
+                  className="w-full p-4 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
                 >
-                  <option value="" className="bg-white text-[#4D5563]">Select tone...</option>
-                  {tones.map(tone => (
-                    <option key={tone} value={tone} className="bg-white text-[#4D5563]">
-                      {tone}
-                    </option>
-                  ))}
-                </select>
-              </motion.div>
+                  <span className={formData.tone ? 'text-gray-900' : 'text-gray-500'}>
+                    {formData.tone || 'Tone Of the Message'}
+                  </span>
+                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                </button>
+                
+                {dropdownOpen === 'tone' && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-10 max-h-60 overflow-y-auto">
+                    {toneOptions.map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => handleDropdownSelect('tone', option)}
+                        className="w-full p-3 text-left hover:bg-gray-50 text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Navigation */}
-          <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
-            <Link href="/">
-              <button className="text-[#4D5563] hover:text-purple-600 transition-colors duration-200 p-2">
-                <ArrowLeft className="w-6 h-6" />
-              </button>
-            </Link>
+          {/* Just For Extra Heart Section */}
+          <div>
+            <h2 className="text-pink-500 font-semibold text-sm uppercase tracking-wide mb-4">
+              JUST FOR EXTRA HEART
+            </h2>
             
+            <div className="space-y-4">
+              {/* Occasion */}
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(dropdownOpen === 'occasion' ? null : 'occasion')}
+                  className="w-full p-4 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
+                >
+                  <span className={formData.occasion ? 'text-gray-900' : 'text-gray-500'}>
+                    {formData.occasion || 'Occasion'}
+                  </span>
+                  <ChevronDown className="w-5 h-5 text-gray-400" />
+                </button>
+                
+                {dropdownOpen === 'occasion' && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-10 max-h-60 overflow-y-auto">
+                    {occasions.map((option) => (
+                      <button
+                        key={option}
+                        onClick={() => handleDropdownSelect('occasion', option)}
+                        className="w-full p-3 text-left hover:bg-gray-50 text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Recipient Name */}
+              <input
+                type="text"
+                placeholder="Enter who is this for eg. Name"
+                value={formData.recipient}
+                onChange={(e) => setFormData({...formData, recipient: e.target.value})}
+                className="w-full p-4 border-2 border-gray-300 rounded-full bg-white placeholder-gray-500 focus:border-purple-400 focus:outline-none transition-colors"
+              />
+
+              {/* Age Sliders */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">Their Age</label>
+                  <div className="relative">
+                    <input
+                      type="range"
+                      min="1"
+                      max="100"
+                      value={formData.theirAge}
+                      onChange={(e) => setFormData({...formData, theirAge: parseInt(e.target.value)})}
+                      className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div 
+                      className="absolute top-1/2 transform -translate-y-1/2 w-6 h-6 bg-purple-500 rounded-full pointer-events-none"
+                      style={{left: `calc(${(formData.theirAge - 1) / 99 * 100}% - 12px)`}}
+                    ></div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">Your Age</label>
+                  <div className="relative">
+                    <input
+                      type="range"
+                      min="1"
+                      max="100"
+                      value={formData.yourAge}
+                      onChange={(e) => setFormData({...formData, yourAge: parseInt(e.target.value)})}
+                      className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div 
+                      className="absolute top-1/2 transform -translate-y-1/2 w-6 h-6 bg-purple-500 rounded-full pointer-events-none"
+                      style={{left: `calc(${(formData.yourAge - 1) / 99 * 100}% - 12px)`}}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Continue Button */}
+          <div className="pt-4">
             <Link href="/gather">
               <button
                 onClick={handleContinue}
-                className="text-[#4D5563] hover:text-purple-600 transition-colors duration-200 p-2"
+                disabled={!isFormComplete}
+                className={`w-full py-4 rounded-full font-semibold flex items-center justify-center space-x-2 transition-all ${
+                  isFormComplete
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-lg'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
               >
-                <ArrowRight className="w-6 h-6" />
+                <span>Continue</span>
+                <ArrowRight className="w-5 h-5" />
               </button>
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   )
