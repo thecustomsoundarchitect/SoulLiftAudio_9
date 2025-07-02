@@ -58,17 +58,17 @@ export default function DefinePage() {
   return (
     <div className="min-h-screen bg-gray-100 p-4 font-['Poppins']">
       <div className="max-w-md mx-auto bg-white rounded-3xl shadow-lg overflow-hidden">
-        {/* Header with decorative circle */}
-        <div className="bg-gradient-to-br from-purple-400 to-pink-400 h-24 relative">
-          <div className="absolute top-4 right-4 w-8 h-8 bg-purple-600 rounded-full"></div>
-          <div className="absolute bottom-0 right-0 w-24 h-24 bg-pink-500 rounded-tl-full"></div>
-        </div>
+        
 
         <div className="p-6 space-y-6">
           {/* Title */}
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-purple-600 mb-2">Define Your Message</h1>
-            <p className="text-gray-600 text-sm">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3">
+              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                Define Your Message
+              </span>
+            </h1>
+            <p className="text-lg text-[#4D5563] mb-4">
               "We'll help you find the perfect words to share."
             </p>
           </div>
