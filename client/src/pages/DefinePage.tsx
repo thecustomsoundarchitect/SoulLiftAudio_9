@@ -114,7 +114,7 @@ export default function DefinePage() {
                   onClick={() => setDropdownOpen(dropdownOpen === 'feeling' ? null : 'feeling')}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
                 >
-                  <span className={formData.coreFeeling ? 'text-xs font-medium text-gray-700' : 'text-xs font-medium text-gray-700'}>
+                  <span className="text-sm font-medium text-gray-700">
                     {formData.coreFeeling || 'How Do You Want Them to Feel After'}
                   </span>
                   <ChevronDown className="w-5 h-5 text-gray-400" />
@@ -126,7 +126,7 @@ export default function DefinePage() {
                       <button
                         key={option}
                         onClick={() => handleDropdownSelect('coreFeeling', option)}
-                        className="w-full p-3 text-left hover:bg-gray-50 text-xs font-medium text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
+                        className="w-full p-3 text-left hover:bg-gray-50 text-sm font-medium text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
                       >
                         {option}
                       </button>
@@ -141,7 +141,7 @@ export default function DefinePage() {
                   onClick={() => setDropdownOpen(dropdownOpen === 'tone' ? null : 'tone')}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
                 >
-                  <span className="text-xs font-medium text-gray-700">
+                  <span className="text-sm font-medium text-gray-700">
                     {formData.tone || 'Tone Of the Message'}
                   </span>
                   <ChevronDown className="w-5 h-5 text-gray-400" />
@@ -153,7 +153,7 @@ export default function DefinePage() {
                       <button
                         key={option}
                         onClick={() => handleDropdownSelect('tone', option)}
-                        className="w-full p-3 text-left hover:bg-gray-50 text-xs font-medium text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
+                        className="w-full p-3 text-left hover:bg-gray-50 text-sm font-medium text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
                       >
                         {option}
                       </button>
@@ -177,7 +177,7 @@ export default function DefinePage() {
                   onClick={() => setDropdownOpen(dropdownOpen === 'occasion' ? null : 'occasion')}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
                 >
-                  <span className="text-xs font-medium text-gray-700">
+                  <span className="text-sm font-medium text-gray-700">
                     {formData.occasion || 'Occasion'}
                   </span>
                   <ChevronDown className="w-5 h-5 text-gray-400" />
@@ -189,7 +189,7 @@ export default function DefinePage() {
                       <button
                         key={option}
                         onClick={() => handleDropdownSelect('occasion', option)}
-                        className="w-full p-3 text-left hover:bg-gray-50 text-xs font-medium text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
+                        className="w-full p-3 text-left hover:bg-gray-50 text-sm font-medium text-gray-700 first:rounded-t-2xl last:rounded-b-2xl"
                       >
                         {option}
                       </button>
