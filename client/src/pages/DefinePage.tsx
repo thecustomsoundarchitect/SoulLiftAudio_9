@@ -66,7 +66,7 @@ export default function DefinePage() {
                 Define Your Message
               </span>
             </h1>
-            <p className="text-lg text-[#4D5563] mb-4">
+            <p className="text-lg text-[#4D5563] mb-4 text-right">
               "We'll help you find the perfect words to share."
             </p>
           </div>
