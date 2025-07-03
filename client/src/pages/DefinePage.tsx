@@ -25,6 +25,36 @@ const occasions = [
   'Just Because', 'Thank You', 'Apology', 'Encouragement', 'Celebration'
 ]
 
+interface AgeSliderProps {
+  label: string
+  value: number
+  onChange: (value: number) => void
+  min?: number
+  max?: number
+}
+
+const AgeSlider: React.FC<AgeSliderProps> = ({ label, value, onChange, min = 5, max = 100 }) => (
+  <div className="mb-6">
+    <div className="flex justify-between items-center mb-3">
+      <span className="text-gray-700 font-medium">{label}</span>
+      <span className="text-purple-600 font-bold text-lg">{value}</span>
+    </div>
+    <div className="relative">
+      <input
+        type="range"
+        min={min}
+        max={max}
+        value={value}
+        onChange={(e) => onChange(parseInt(e.target.value))}
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer age-slider"
+        style={{
+          background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${((value - min) / (max - min)) * 100}%, #e5e7eb ${((value - min) / (max - min)) * 100}%, #e5e7eb 100%)`
+        }}
+      />
+    </div>
+  </div>
+)
+
 export default function DefinePage() {
   const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
   
@@ -179,41 +209,16 @@ export default function DefinePage() {
 
               {/* Age Sliders */}
               <div className="space-y-4">
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">Their Age</label>
-                  <div className="relative">
-                    <input
-                      type="range"
-                      min="1"
-                      max="100"
-                      value={formData.theirAge}
-                      onChange={(e) => setFormData({...formData, theirAge: parseInt(e.target.value)})}
-                      className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider"
-                    />
-                    <div 
-                      className="absolute top-1/2 transform -translate-y-1/2 w-6 h-6 bg-purple-500 rounded-full pointer-events-none"
-                      style={{left: `calc(${(formData.theirAge - 1) / 99 * 100}% - 12px)`}}
-                    ></div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">Your Age</label>
-                  <div className="relative">
-                    <input
-                      type="range"
-                      min="1"
-                      max="100"
-                      value={formData.yourAge}
-                      onChange={(e) => setFormData({...formData, yourAge: parseInt(e.target.value)})}
-                      className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer slider"
-                    />
-                    <div 
-                      className="absolute top-1/2 transform -translate-y-1/2 w-6 h-6 bg-purple-500 rounded-full pointer-events-none"
-                      style={{left: `calc(${(formData.yourAge - 1) / 99 * 100}% - 12px)`}}
-                    ></div>
-                  </div>
-                </div>
+                <AgeSlider
+                  label="Their Age"
+                  value={formData.theirAge}
+                  onChange={(value) => setFormData({...formData, theirAge: value})}
+                />
+                <AgeSlider
+                  label="Your Age"
+                  value={formData.yourAge}
+                  onChange={(value) => setFormData({...formData, yourAge: value})}
+                />
               </div>
             </div>
           </div>
