@@ -218,23 +218,7 @@ export default function DefinePage() {
             </div>
           </div>
 
-          {/* Continue Button */}
-          <div className="pt-4">
-            <Link href="/gather">
-              <button
-                onClick={handleContinue}
-                disabled={!isFormComplete}
-                className={`w-full py-4 rounded-full font-semibold flex items-center justify-center space-x-2 transition-all ${
-                  isFormComplete
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-lg'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                <span>Continue</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </Link>
-          </div>
+
         </div>
       </div>
     </div>
