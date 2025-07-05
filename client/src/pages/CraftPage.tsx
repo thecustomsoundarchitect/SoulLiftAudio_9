@@ -104,7 +104,7 @@ With gratitude and love`
   const wordCount = message ? message.split(' ').filter(word => word.length > 0).length : 0
 
   return (
-    <div className="min-h-screen bg-[#F3F7FF] pt-6 pb-20 px-4">
+    <div className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF] pt-6 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-6">
@@ -114,7 +114,7 @@ With gratitude and love`
             </span>
           </h1>
           
-          <ProgressIndicator className="mt-4" />
+
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
@@ -262,27 +262,7 @@ With gratitude and love`
           </p>
         </div>
 
-        {/* Navigation */}
-        <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/30">
-          <Link href="/gather">
-            <button className="text-[#4D5563] hover:text-purple-600 transition-colors duration-200 p-2">
-              <ArrowLeft className="w-6 h-6" />
-            </button>
-          </Link>
-          
-          <Link href="/audio-hug">
-            <button
-              disabled={!message.trim()}
-              className={`transition-colors duration-200 p-2 ${
-                message.trim()
-                  ? 'text-[#4D5563] hover:text-purple-600'
-                  : 'text-gray-300 cursor-not-allowed'
-              }`}
-            >
-              <ArrowLeft className="w-6 h-6 rotate-180" />
-            </button>
-          </Link>
-        </div>
+
       </div>
     </div>
   )

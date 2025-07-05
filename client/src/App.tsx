@@ -8,17 +8,18 @@ import AudioHugPage from './pages/AudioHugPage'
 import MyHugsPage from './pages/MyHugsPage'
 import SoulArchivePage from './pages/SoulArchivePage'
 import ExamplesPage from './pages/ExamplesPage'
-import BottomNavigation from './components/BottomNavigation'
+import WeavingPage from './pages/WeavingPage'
+// import BottomNavigation from './components/BottomNavigation'
 import { SoulHugProvider } from './context/SoulHugContext'
 
 function AppContent() {
-  const [location] = useLocation()
-  const showNavigation = location !== '/' && location !== '/examples'
+  const [location] = useLocation();
+  const showNavigation = location !== '/' && location !== '/examples';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#311A55] via-[#5B2885] to-[#241946]">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#311A55] via-[#5B2885] to-[#241946]">
       {showNavigation && <Navigation />}
-      <main>
+      <div className="flex-1 flex flex-col overflow-y-auto">
         <Switch>
           <Route path="/" component={HomePage} />
           <Route path="/examples" component={ExamplesPage} />
@@ -26,6 +27,7 @@ function AppContent() {
           <Route path="/gather" component={GatherPage} />
           <Route path="/craft" component={CraftPage} />
           <Route path="/audio-hug" component={AudioHugPage} />
+          <Route path="/weaving" component={WeavingPage} />
           <Route path="/my-hugs" component={MyHugsPage} />
           <Route path="/soul-archive" component={SoulArchivePage} />
           <Route>
@@ -37,10 +39,10 @@ function AppContent() {
             </div>
           </Route>
         </Switch>
-      </main>
-      <BottomNavigation />
+      </div>
+      {/* <BottomNavigation /> */}
     </div>
-  )
+  );
 }
 
 function App() {
