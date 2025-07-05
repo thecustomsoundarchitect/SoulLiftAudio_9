@@ -6,7 +6,7 @@ export default function SoulArchivePage() {
   const [activeTab, setActiveTab] = useState('profile')
 
   return (
-    <div className="min-h-screen bg-[#F3F7FF] relative overflow-hidden pb-20">
+    <div className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF] relative overflow-hidden">
       {/* Glass morphism overlay */}
       <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
       

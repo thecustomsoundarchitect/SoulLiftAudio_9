@@ -10,7 +10,7 @@ export interface SoulHug {
   descriptors?: string[]
   message?: string
   audioUrl?: string
-  coverImage?: string
+  coverImage?: string | null
   backgroundMusic?: string
   musicVolume?: number
   createdAt?: string

@@ -79,7 +79,7 @@ export default function MyHugsPage() {
   const displayHugs = savedSoulHugs.length > 0 ? savedSoulHugs : mockSoulHugs
 
   return (
-    <div className="min-h-screen bg-[#F3F7FF]">
+    <div className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]">
 
       {/* Floating back button */}
       <motion.div 

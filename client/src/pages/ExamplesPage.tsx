@@ -11,7 +11,7 @@ export default function ExamplesPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#F3F7FF]">
+    <div className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]">
       {/* Floating back button */}
       <motion.div 
         className="fixed top-6 left-6 z-10"

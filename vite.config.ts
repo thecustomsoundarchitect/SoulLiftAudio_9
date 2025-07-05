@@ -27,5 +27,6 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    sourcemap: false, // Disable source maps in production to reduce memory usage
   },
 });

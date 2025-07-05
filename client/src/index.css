@@ -1,6 +1,29 @@
+/* 
+ * Tailwind CSS directives 
+ * Note: These will show as CSS linting errors, but they are valid for Tailwind and can be safely ignored
+ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Gradient scrollbar for Collected Thoughts list */
+.gradient-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 8px;
+}
+.gradient-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #A259FF 0%, #FF6F91 100%);
+  border-radius: 8px;
+}
+.gradient-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* For Firefox */
+.gradient-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #A259FF #FF6F91;
+}
 
 /* Set Poppins as the default font */
 * {
@@ -9,18 +32,72 @@
 
 /* Custom CSS for SoulLift Audio */
 .soul-card {
-  @apply bg-white/95 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-2xl p-4 md:p-8 border border-white/20;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  padding: 1rem;
+  border: 1px solid rgba(255,255,255,0.2);
   color: #8A37EA;
+}
+@media (min-width: 768px) {
+  .soul-card {
+    border-radius: 1.5rem;
+    padding: 2rem;
+  }
 }
 
 .soul-button {
-  @apply bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2;
+  background: linear-gradient(to right, #7c3aed, #2563eb); /* bg-gradient-to-r from-purple-600 to-blue-600 */
+  color: #fff; /* text-white */
+  padding-left: 1.5rem; /* px-6 */
+  padding-right: 1.5rem;
+  padding-top: 0.75rem; /* py-3 */
+  padding-bottom: 0.75rem;
+  border-radius: 0.75rem; /* rounded-xl */
+  font-weight: 500; /* font-medium */
+  transition: all 0.2s;
   font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  outline: none;
+}
+.soul-button:hover {
+  box-shadow: 0 10px 20px rgba(60, 60, 180, 0.15); /* hover:shadow-lg */
+  transform: scale(1.05); /* hover:scale-105 */
+}
+.soul-button:focus {
+  outline: 2px solid #a78bfa; /* focus:ring-2 focus:ring-purple-400 */
+  outline-offset: 2px;
 }
 
 .soul-button-outline {
-  @apply border-2 border-white/30 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-medium transition-all duration-200 hover:bg-white/10 hover:border-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 min-h-12;
+  border: 2px solid rgba(255,255,255,0.3); /* border-2 border-white/30 */
+  color: #fff; /* text-white */
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem;
+  border-radius: 0.75rem; /* rounded-xl */
+  font-weight: 500; /* font-medium */
+  transition: all 0.2s;
+  min-height: 3rem; /* min-h-12 */
   font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  outline: none;
+}
+@media (min-width: 768px) {
+  .soul-button-outline {
+    padding-left: 1.5rem; /* md:px-6 */
+    padding-right: 1.5rem;
+    padding-top: 0.75rem; /* md:py-3 */
+    padding-bottom: 0.75rem;
+  }
+}
+.soul-button-outline:hover {
+  background: rgba(255,255,255,0.1); /* hover:bg-white/10 */
+  border-color: rgba(255,255,255,0.5); /* hover:border-white/50 */
+}
+.soul-button-outline:focus {
+  outline: 2px solid rgba(255,255,255,0.5); /* focus:ring-2 focus:ring-white/50 */
+  outline-offset: 2px;
 }
 
 /* Global text color override */
@@ -222,11 +299,13 @@ select:focus-visible {
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .soul-card {
-    @apply border-2 border-gray-800;
+    border-width: 2px;
+    border-color: #1f2937; /* Tailwind's gray-800 */
   }
   
   .soul-button {
-    @apply border-2 border-gray-800;
+    border-width: 2px;
+    border-color: #1f2937; /* Tailwind's gray-800 */
   }
 }
 
