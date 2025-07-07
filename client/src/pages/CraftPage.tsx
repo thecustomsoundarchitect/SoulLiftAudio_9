@@ -1,340 +1,338 @@
-import { useState, createContext, useContext, ReactNode } from 'react'
-import { X } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { useSoulHug } from '../context/SoulHugContext'
 
-// Context setup
-interface SoulHugState {
-  ingredients: string[];
-  descriptors: string[];
-}
-
-interface SoulHugContextType {
-  currentSoulHug: SoulHugState;
-  updateCurrentSoulHug: (updates: Partial<SoulHugState>) => void;
-}
-
-const SoulHugContext = createContext<SoulHugContextType | undefined>(undefined);
-
-const useSoulHug = () => {
-  const context = useContext(SoulHugContext);
-  if (context === undefined) {
-    throw new Error('useSoulHug must be used within a SoulHugProvider');
-  }
-  return context;
-};
-
-const SoulHugProvider = ({ children }: { children: ReactNode }) => {
-  const [currentSoulHug, setCurrentSoulHug] = useState<SoulHugState>({
-    ingredients: [],
-    descriptors: [],
-  });
-
-  const updateCurrentSoulHug = (updates: Partial<SoulHugState>) => {
-    setCurrentSoulHug(prev => ({ ...prev, ...updates }));
-  };
-
-  return (
-    <SoulHugContext.Provider value={{ currentSoulHug, updateCurrentSoulHug }}>
-      {children}
-    </SoulHugContext.Provider>
-  );
-};
+const LENGTH_OPTIONS = [
+  { label: '30 seconds', value: '30s' },
+  { label: '1 minute', value: '1m' },
+  { label: '1.5–2 minutes', value: '2m' }
+]
 
 function CraftPage() {
-  const navigate = useNavigate()
-  const { currentSoulHug, updateCurrentSoulHug } = useSoulHug();
-  const [ingredients, setIngredients] = useState<string[]>(currentSoulHug.ingredients || []);
-  const [descriptors, setDescriptors] = useState<string[]>(currentSoulHug.descriptors || []);
-  const [writingModal, setWritingModal] = useState({ isOpen: false, prompt: '', story: '' });
+  const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
+  // State for messageText, messageLength
+  const [message, setMessage] = useState(currentSoulHug.message || '')
+  const [selectedLength, setSelectedLength] = useState('1m')
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [showRegenerate, setShowRegenerate] = useState(false)
+  const [pendingLength, setPendingLength] = useState(selectedLength)
+  const [regeneratePrompt, setRegeneratePrompt] = useState('')
+  const [showPolishModal, setShowPolishModal] = useState(false)
+  const [polishedMessage, setPolishedMessage] = useState('')
+  const [showClearModal, setShowClearModal] = useState(false)
+  const [showExportMenu, setShowExportMenu] = useState(false)
+  const exportMenuRef = useRef<HTMLDivElement>(null)
+  const [showPrompt, setShowPrompt] = useState(false)
 
-  const dummyPrompts = [
-    "When they showed unwavering kindness",
-    "How their smile lights up rooms",
-    "Their gift of making everyone feel welcome",
-    "The natural way they comfort others",
-    "What you see blossoming in them",
-    "That time they stood up bravely",
-    "The small ways they show care",
-    "Why they deserve all the love"
-  ];
+  // Save to context on change
+  useEffect(() => {
+    updateCurrentSoulHug({
+      message: message
+    })
+  }, [message, selectedLength])
 
-  const dummyDescriptors = [
-    'Smart', 'Caring', 'Loyal', 'Funny', 'Patient', 'Brave',
-    'Creative', 'Thoughtful', 'Strong', 'Loving', 'Honest', 'Supportive'
-  ];
-
-  const openWritingModal = (prompt: string) => {
-    setWritingModal({ isOpen: true, prompt, story: '' });
-  };
-
-  const closeWritingModal = () => {
-    setWritingModal({ isOpen: false, prompt: '', story: '' });
-  };
-
-  const saveStory = () => {
-    if (writingModal.story.trim()) {
-      const storyIngredient = `${writingModal.prompt}: ${writingModal.story.trim()}`;
-      const newIngredients = [...ingredients, storyIngredient];
-      setIngredients(newIngredients);
-      updateCurrentSoulHug({ ingredients: newIngredients });
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
     }
-    closeWritingModal();
-  };
+  }, [message])
 
-  const removeIngredient = (ingredient: string) => {
-    const newIngredients = ingredients.filter(item => item !== ingredient);
-    setIngredients(newIngredients);
-    updateCurrentSoulHug({ ingredients: newIngredients });
-  };
+  // Save to Firestore on navigation (placeholder)
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      // TODO: Save to Firestore here
+      // saveToFirestore({ message, messageLength: selectedLength })
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [message, selectedLength])
 
-  const toggleDescriptor = (descriptor: string) => {
-    let newDescriptors: string[];
-    let newIngredients = [...ingredients];
-    
-    if (descriptors.includes(descriptor)) {
-      newDescriptors = descriptors.filter(item => item !== descriptor);
-      newIngredients = newIngredients.filter(item => item !== descriptor);
-    } else {
-      newDescriptors = [...descriptors, descriptor];
-      if (!newIngredients.includes(descriptor)) {
-        newIngredients.push(descriptor);
+  // Close export menu on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (showExportMenu && exportMenuRef.current && !exportMenuRef.current.contains(e.target as Node)) {
+        setShowExportMenu(false)
       }
     }
-    
-    setDescriptors(newDescriptors);
-    setIngredients(newIngredients);
-    updateCurrentSoulHug({ descriptors: newDescriptors, ingredients: newIngredients });
-  };
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [showExportMenu])
+
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value)
+    updateCurrentSoulHug({ message: e.target.value })
+  }
+
+  const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPendingLength(e.target.value)
+    setShowRegenerate(true)
+    setRegeneratePrompt(
+      `Would you like to regenerate your message for ${LENGTH_OPTIONS.find(o => o.value === e.target.value)?.label}? This will use your collected thoughts and may overwrite your current message.`
+    )
+  }
+
+  const handleRegenerate = () => {
+    setSelectedLength(pendingLength)
+    setMessage(`[AI-generated message for ${pendingLength} using your collected thoughts...]`)
+    updateCurrentSoulHug({ message: `[AI-generated message for ${pendingLength} using your collected thoughts...]` })
+    setShowRegenerate(false)
+  }
+
+  const handleCancelRegenerate = () => {
+    setPendingLength(selectedLength)
+    setShowRegenerate(false)
+  }
+
+  // Polish My Message
+  const handlePolish = () => {
+    // Simulate OpenAI polish
+    setPolishedMessage(`(Polished) ${message.trim()}\n\n[Clarity, flow, and warmth added by AI]`)
+    setShowPolishModal(true)
+  }
+  const handleApprovePolish = () => {
+    setMessage(polishedMessage)
+    updateCurrentSoulHug({ message: polishedMessage })
+    setShowPolishModal(false)
+  }
+  const handleCancelPolish = () => setShowPolishModal(false)
+
+  // Clear All
+  const handleClear = () => setShowClearModal(true)
+  const handleConfirmClear = () => {
+    setMessage('')
+    updateCurrentSoulHug({ message: '' })
+    setShowClearModal(false)
+  }
+  const handleCancelClear = () => setShowClearModal(false)
+
+  // Export
+  const handleCopy = () => {
+    navigator.clipboard.writeText(message)
+    setShowExportMenu(false)
+  }
+  const handleDownloadPDF = () => {
+    // Simple PDF download using window.print (for demo)
+    const win = window.open('', '', 'width=600,height=600')
+    win!.document.write(`<pre style='font-family:sans-serif'>${message.replace(/</g, '&lt;')}</pre>`)
+    win!.print()
+    win!.close()
+    setShowExportMenu(false)
+  }
+  const handleSaveForLater = () => {
+    // Simulate Firestore save
+    alert('Message saved for later! (Firestore integration needed)')
+    setShowExportMenu(false)
+  }
 
   return (
     <div className="flex-1 flex flex-col bg-[#F3F7FF] min-h-screen w-full overflow-x-hidden">
-      {/* Simple CSS for permanent scrollbar */}
-      <style>{`
-        .permanent-scroll {
-          overflow-y: scroll !important;
-          scrollbar-width: thin;
-          scrollbar-color: #8B5CF6 #f1f5f9;
-        }
-        .permanent-scroll::-webkit-scrollbar {
-          width: 8px;
-        }
-        .permanent-scroll::-webkit-scrollbar-track {
-          background: #f1f5f9;
-          border-radius: 4px;
-        }
-        .permanent-scroll::-webkit-scrollbar-thumb {
-          background: #8B5CF6;
-          border-radius: 4px;
-        }
-        .permanent-scroll::-webkit-scrollbar-thumb:hover {
-          background: #7c3aed;
-        }
-      `}</style>
-
-      <div className="max-w-2xl mx-auto px-4 py-6">
+      {/* Modal Popup for Regenerate Confirmation */}
+      {showRegenerate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-2 flex flex-col items-center">
+            <span className="text-base text-gray-800 text-center mb-4">{regeneratePrompt}</span>
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={handleRegenerate}
+                className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-full text-sm font-semibold shadow hover:scale-105 transition-all"
+              >
+                Yes, Regenerate
+              </button>
+              <button
+                onClick={handleCancelRegenerate}
+                className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full"
+              >
+                No, Keep Current
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Modal Popup for Polish My Message */}
+      {showPolishModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-2 flex flex-col items-center">
+            <span className="text-base text-gray-800 text-center mb-4">Approve this polished version?</span>
+            <textarea
+              className="w-full p-3 text-base text-gray-700 bg-gray-50 rounded border border-gray-200 mb-4"
+              value={polishedMessage}
+              readOnly
+              rows={6}
+            />
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={handleApprovePolish}
+                className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-full text-sm font-semibold shadow hover:scale-105 transition-all"
+              >
+                Replace My Message
+              </button>
+              <button
+                onClick={handleCancelPolish}
+                className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Modal Popup for Clear All */}
+      {showClearModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-2 flex flex-col items-center">
+            <span className="text-base text-gray-800 text-center mb-4">Are you sure you want to clear your message? This cannot be undone.</span>
+            <div className="flex gap-2 mt-2">
+              <button
+                onClick={handleConfirmClear}
+                className="px-4 py-2 bg-red-500 text-white rounded-full text-sm font-semibold shadow hover:scale-105 transition-all"
+              >
+                Yes, Clear All
+              </button>
+              <button
+                onClick={handleCancelClear}
+                className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="max-w-2xl mx-auto px-4 py-6 w-full">
         <div className="space-y-6">
           {/* Title */}
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-3">
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Gather Your Stories
+                Craft
               </span>
             </h1>
-            <div className="text-lg text-[#4D5563] mb-4 text-right" style={{lineHeight: '1.2'}}>
-              {`"We'll help you get the`}<br/>{`thoughts out!"`}
+            <div className="text-lg text-[#4D5563] mb-4 text-right pr-2" style={{lineHeight: '1.2'}}>
+              {`Let us help you shape your message`}
             </div>
           </div>
 
-          {/* Thought Prompts */}
-          <div>
-            <h2 className="text-pink-500 font-bold text-sm uppercase tracking-wide mb-4">
-              THOUGHT PROMPTS
-            </h2>
-            
-            <div className="space-y-4">
-              <div className="text-xs text-[#4D5563] mb-2">
-                Tap a prompt to open a text box and write your thoughts. Or, turn on 'Save Prompt Directly' to add that specific prompt to your thoughts.
-              </div>
-              <div className="grid grid-cols-1 gap-3">
-                {dummyPrompts.map((prompt, idx) => {
-                  const isToggled = ingredients.includes(prompt);
-                  return (
-                    <div key={idx} className="flex items-center bg-gray-200 rounded-xl px-3 py-2">
-                      <button
-                        onClick={() => openWritingModal(prompt)}
-                        className="flex-1 text-left text-[#4D5563] font-medium text-xs hover:underline focus:outline-none"
-                        style={{ fontSize: '0.78rem', lineHeight: 1.2 }}
-                      >
-                        {prompt}
-                      </button>
-                      <button
-                        onClick={() => {
-                          let newIngredients = [...ingredients];
-                          if (isToggled) {
-                            newIngredients = newIngredients.filter(item => item !== prompt);
-                          } else {
-                            newIngredients.push(prompt);
-                          }
-                          setIngredients(newIngredients);
-                          updateCurrentSoulHug({ ...currentSoulHug, ingredients: newIngredients });
-                        }}
-                        className={`ml-3 w-10 h-6 rounded-full flex items-center p-1 transition-colors duration-200 ${isToggled ? 'bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-400' : 'bg-gray-300'}`}
-                        style={{ border: isToggled ? '2px solid #b39ddb' : '2px solid #e5e7eb' }}
-                      >
-                        <span
-                          className={`block w-4 h-4 rounded-full shadow transition-transform duration-200 ${isToggled ? 'translate-x-4' : ''}`}
-                          style={{
-                            background: isToggled
-                              ? 'radial-gradient(circle at 60% 40%, #fff9c4 0%, #f5c6e7 60%, #b39ddb 100%)'
-                              : '#fff',
-                            boxShadow: isToggled ? '0 0 6px #b39ddb' : 'none',
-                            transition: 'background 0.2s, transform 0.2s'
-                          }}
-                        ></span>
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
+          {/* Length Selector */}
+          <div className="flex flex-col items-center mb-2">
+            <div className="flex gap-4">
+              {LENGTH_OPTIONS.map(opt => (
+                <label key={opt.value} className="flex items-center gap-1 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="length"
+                    value={opt.value}
+                    checked={pendingLength === opt.value}
+                    onChange={handleLengthChange}
+                    className="accent-purple-500"
+                  />
+                  <span className="text-sm text-gray-700">{opt.label}</span>
+                </label>
+              ))}
             </div>
           </div>
 
-          {/* Bottom Section: FIXED SIDE BY SIDE */}
-          <div className="flex flex-row gap-2">
-            {/* Descriptors */}
-            <div className="w-1/2 bg-white rounded-lg border border-gray-200 shadow-sm p-3">
-              <h3 className="text-pink-500 font-bold text-xs uppercase tracking-wide mb-3 text-center">
-                Descriptors
-              </h3>
-              <div 
-                className="grid grid-cols-2 sm:grid-cols-3 gap-1"
-                style={{ height: '200px', overflow: 'hidden' }}
-              >
-                {dummyDescriptors.map((descriptor, idx) => {
-                  const isSelected = descriptors.includes(descriptor);
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => toggleDescriptor(descriptor)}
-                      className={`text-[8px] sm:text-[9px] leading-tight py-1 px-1 rounded-full border cursor-pointer transition-all duration-200 font-medium text-center
-                        ${isSelected
-                          ? 'bg-[linear-gradient(90deg,_#fce7f3,_#ddd6fe)] border-violet-200 text-black shadow-sm'
-                          : 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200 hover:text-gray-800'}
-                      `}
-                      style={{
-                        height: '24px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      {descriptor}
-                    </button>
-                  );
-                })}
-              </div>
+          {/* Editable Text Box */}
+          <div className="w-full flex justify-center">
+            <div className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-0.5 shadow-sm">
+              <textarea
+                ref={textareaRef}
+                value={message}
+                onChange={handleMessageChange}
+                className="w-full p-5 text-base text-gray-700 bg-gray-50 rounded-2xl border-none shadow-none focus:ring-2 focus:ring-purple-400 focus:outline-none resize-none overflow-hidden min-h-[180px]"
+                placeholder="Craft your message here..."
+                rows={10}
+              />
             </div>
+          </div>
 
-            {/* Collected Thoughts - WITH PERMANENT SCROLLBAR */}
-            <div className="w-1/2 bg-white rounded-lg border border-gray-200 shadow-sm p-3">
-              <h3 className="text-pink-500 font-bold text-xs uppercase tracking-wide mb-3 text-center">
-                Collected Thoughts
-              </h3>
-              <div 
-                className="permanent-scroll bg-gray-50 border border-gray-200 rounded p-2"
-                style={{ height: '200px' }}
+          {/* Control Buttons */}
+          <div className="flex flex-wrap gap-3 justify-center mt-4">
+            <button
+              onClick={handlePolish}
+              className="px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-full text-sm font-semibold shadow hover:scale-105 transition-all"
+            >
+              Polish My Message
+            </button>
+            <button
+              onClick={handleClear}
+              className="px-5 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-semibold shadow hover:bg-gray-300 transition-all"
+            >
+              Clear All
+            </button>
+            <div className="relative" ref={exportMenuRef}>
+              <button
+                onClick={() => setShowExportMenu(v => !v)}
+                className="px-5 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold shadow hover:bg-blue-600 transition-all"
               >
-                {ingredients.length === 0 ? (
-                  <div className="text-xs text-gray-400 text-center pt-1">
-                    No thoughts yet
-                  </div>
-                ) : (
-                  <div className="space-y-1">
-                    {ingredients.map((ingredient, idx) => (
-                      <div key={idx} className="flex items-start gap-1">
-                        <span className="text-[10px] sm:text-[11px] text-gray-600 flex-1">{ingredient}</span>
-                        <button
-                          onClick={() => removeIngredient(ingredient)}
-                          className="text-red-300 hover:text-red-500 flex-shrink-0"
-                          title="Remove"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
+                Export Message
+              </button>
+              {showExportMenu && (
+                <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                  <button
+                    onClick={handleDownloadPDF}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Download as PDF
+                  </button>
+                  <button
+                    onClick={handleCopy}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Copy to Clipboard
+                  </button>
+                  <button
+                    onClick={handleSaveForLater}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Save for later
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Collected Thoughts - Clean Collapsible Card */}
+          <div className="flex flex-col items-center mt-6">
+            <button
+              onClick={() => setShowPrompt(v => !v)}
+              className="px-4 py-2 bg-white text-gray-600 rounded-lg text-sm font-medium shadow-sm border border-gray-200 hover:bg-gray-50 transition-all"
+            >
+              {showPrompt ? '−' : '+'} Collected Thoughts
+            </button>
+            {showPrompt && (
+              <div className="mt-3 w-full bg-white border border-gray-100 rounded-lg shadow-sm p-4 transition-all">
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {(() => {
+                    const allThoughts = [
+                      ...(currentSoulHug.ingredients || []),
+                      ...(currentSoulHug.descriptors || [])
+                    ];
+                    const uniqueThoughts = [...new Set(allThoughts)];
+                    return uniqueThoughts.map((thought, index) => (
+                      <span
+                        key={`thought-${index}`}
+                        className="px-3 py-1 bg-gray-50 text-gray-700 text-sm rounded-full border border-gray-200"
+                      >
+                        {thought}
+                      </span>
+                    ));
+                  })()}
+                </div>
+                
+                {(!currentSoulHug.ingredients || currentSoulHug.ingredients.length === 0) && 
+                 (!currentSoulHug.descriptors || currentSoulHug.descriptors.length === 0) && (
+                  <div className="text-center text-sm text-gray-400 py-4">
+                    Visit Define and Gather to collect thoughts
                   </div>
                 )}
-                {/* This invisible content forces the scrollbar to always show */}
-                <div style={{ height: '300px', width: '1px' }}></div>
               </div>
-            </div>
+            )}
           </div>
 
-          {/* Weave Button */}
-          <div className="mt-6 flex justify-center">
-            <button 
-              onClick={() => navigate('/weaving')}
-              className="w-40 bg-gradient-to-r from-purple-500 to-pink-400 text-white text-sm font-medium py-2 rounded-full flex items-center justify-center"
-            >
-              Weave
-              <span className="ml-1">›</span>
-            </button>
-          </div>
         </div>
-
-        {/* Writing Modal */}
-        <AnimatePresence>
-          {writingModal.isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="fixed inset-0 flex items-center justify-center z-50"
-            >
-              <div className="bg-white rounded-xl shadow-lg w-full max-w-md mx-auto p-6">
-                <div className="flex flex-col">
-                  <div className="text-center mb-4">
-                    <h3 className="text-lg font-semibold text-[#333]">
-                      {writingModal.prompt}
-                    </h3>
-                  </div>
-                  <div className="mb-4">
-                    <textarea
-                      value={writingModal.story}
-                      onChange={(e) => setWritingModal({ ...writingModal, story: e.target.value })}
-                      className="w-full p-3 text-sm rounded-lg border focus:ring-2 focus:ring-purple-400 focus:outline-none resize-none h-24"
-                      placeholder="Share your thoughts..."
-                    ></textarea>
-                  </div>
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={closeWritingModal}
-                      className="flex-1 px-4 py-2 text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
-                    >
-                      Skip
-                    </button>
-                    <button
-                      onClick={saveStory}
-                      className="flex-1 px-4 py-2 text-sm font-semibold bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-lg shadow-md hover:scale-105 transition-all"
-                    >
-                      Save Thought
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );
 }
 
-export default function App() {
-  return (
-    <SoulHugProvider>
-      <CraftPage />
-    </SoulHugProvider>
-  );
-}
+export default CraftPage
