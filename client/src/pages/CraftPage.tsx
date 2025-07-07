@@ -12,9 +12,12 @@ function CraftPage() {
   // State for messageText, messageLength
   const [message, setMessage] = useState(currentSoulHug.message || '')
   const [selectedLength, setSelectedLength] = useState('1m')
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const editorRef = useRef<HTMLDivElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [showRegenerate, setShowRegenerate] = useState(false)
   const [pendingLength, setPendingLength] = useState(selectedLength)
+  const [showColorPicker, setShowColorPicker] = useState(false)
+  const [showFontSizer, setShowFontSizer] = useState(false)
   const [regeneratePrompt, setRegeneratePrompt] = useState('')
   const [showPolishModal, setShowPolishModal] = useState(false)
   const [polishedMessage, setPolishedMessage] = useState('')
@@ -29,13 +32,6 @@ function CraftPage() {
       message: message
     })
   }, [message, selectedLength])
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
-    }
-  }, [message])
 
   // Save to Firestore on navigation (placeholder)
   useEffect(() => {
@@ -53,15 +49,60 @@ function CraftPage() {
       if (showExportMenu && exportMenuRef.current && !exportMenuRef.current.contains(e.target as Node)) {
         setShowExportMenu(false)
       }
+      if (showColorPicker) {
+        setShowColorPicker(false)
+      }
+      if (showFontSizer) {
+        setShowFontSizer(false)
+      }
     }
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
-  }, [showExportMenu])
+  }, [showExportMenu, showColorPicker, showFontSizer])
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value)
     updateCurrentSoulHug({ message: e.target.value })
   }
+
+  // Rich text editor functions
+  const handleEditorChange = () => {
+    if (editorRef.current) {
+      const content = editorRef.current.innerHTML
+      setMessage(content)
+      updateCurrentSoulHug({ message: content })
+    }
+  }
+
+  const executeCommand = (command: string, value?: string) => {
+    document.execCommand(command, false, value)
+    handleEditorChange()
+  }
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const result = e.target?.result as string
+        executeCommand('insertImage', result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const colors = [
+    '#000000', '#374151', '#6B7280', '#EF4444', '#F59E0B', 
+    '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#F97316',
+    '#84CC16', '#06B6D4', '#8B5CF6', '#E11D48'
+  ]
+
+  const fontSizes = [
+    { label: 'Small', value: '1' },
+    { label: 'Normal', value: '3' },
+    { label: 'Large', value: '5' },
+    { label: 'Extra Large', value: '7' }
+  ]
 
   const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPendingLength(e.target.value)
@@ -83,10 +124,23 @@ function CraftPage() {
     setShowRegenerate(false)
   }
 
+  // Utility to remove unwanted polish phrases
+  const cleanPolishText = (input: string) => {
+    // Remove all occurrences of unwanted phrases (case-insensitive, repeated, with/without brackets)
+    return input
+      .replace(/\(Polished\)/gi, '')
+      .replace(/\[Clarity, flow, and warmth added by AI\]/gi, '')
+      .replace(/\s{2,}/g, ' ') // collapse extra spaces
+      .trim()
+  }
+
   // Polish My Message
   const handlePolish = () => {
-    // Simulate OpenAI polish
-    setPolishedMessage(`(Polished) ${message.trim()}\n\n[Clarity, flow, and warmth added by AI]`)
+    // Extract text content from HTML for polishing
+    const tempDiv = document.createElement('div')
+    tempDiv.innerHTML = message
+    let textContent = tempDiv.textContent || tempDiv.innerText || ''
+    setPolishedMessage(textContent)
     setShowPolishModal(true)
   }
   const handleApprovePolish = () => {
@@ -153,11 +207,10 @@ function CraftPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-2 flex flex-col items-center">
             <span className="text-base text-gray-800 text-center mb-4">Approve this polished version?</span>
-            <textarea
-              className="w-full p-3 text-base text-gray-700 bg-gray-50 rounded border border-gray-200 mb-4"
-              value={polishedMessage}
-              readOnly
-              rows={6}
+            <div
+              className="w-full p-3 text-base text-gray-700 bg-gray-50 rounded border border-gray-200 mb-4 min-h-[80px]"
+              style={{ minHeight: '80px' }}
+              dangerouslySetInnerHTML={{ __html: polishedMessage }}
             />
             <div className="flex gap-2 mt-2">
               <button
@@ -204,11 +257,11 @@ function CraftPage() {
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-3">
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Craft
+                Craft the Perfect Message
               </span>
             </h1>
             <div className="text-lg text-[#4D5563] mb-4 text-right pr-2" style={{lineHeight: '1.2'}}>
-              {`Let us help you shape your message`}
+              {`"Let us help you shape your message"`}
             </div>
           </div>
 
@@ -233,14 +286,170 @@ function CraftPage() {
 
           {/* Editable Text Box */}
           <div className="w-full flex justify-center">
-            <div className="w-full bg-gray-50 border border-gray-200 rounded-2xl p-0.5 shadow-sm">
-              <textarea
-                ref={textareaRef}
-                value={message}
-                onChange={handleMessageChange}
-                className="w-full p-5 text-base text-gray-700 bg-gray-50 rounded-2xl border-none shadow-none focus:ring-2 focus:ring-purple-400 focus:outline-none resize-none overflow-hidden min-h-[180px]"
-                placeholder="Craft your message here..."
-                rows={10}
+            <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-sm">
+              {/* Rich Text Editor */}
+              <div
+                ref={editorRef}
+                contentEditable
+                onInput={handleEditorChange}
+                className="w-full p-5 text-base text-gray-700 bg-white rounded-t-2xl border-none shadow-none focus:ring-2 focus:ring-purple-400 focus:outline-none min-h-[180px]"
+                style={{ minHeight: '180px' }}
+                suppressContentEditableWarning={true}
+                dangerouslySetInnerHTML={{ __html: message }}
+              />
+              
+              {/* Toolbar */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-t border-gray-200 rounded-b-2xl">
+                <button
+                  onClick={() => executeCommand('undo')}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Undo"
+                >
+                  <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                  </svg>
+                </button>
+                
+                <button
+                  onClick={() => executeCommand('redo')}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Redo"
+                >
+                  <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6" />
+                  </svg>
+                </button>
+                
+                <div className="w-px h-6 bg-gray-300 mx-1"></div>
+                
+                <button
+                  onClick={() => executeCommand('bold')}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Bold"
+                >
+                  <span className="font-bold text-gray-700">B</span>
+                </button>
+                
+                <button
+                  onClick={() => executeCommand('italic')}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Italic"
+                >
+                  <span className="italic text-gray-700">I</span>
+                </button>
+                
+                <button
+                  onClick={() => executeCommand('underline')}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Underline"
+                >
+                  <span className="underline text-gray-700">U</span>
+                </button>
+                
+                <div className="w-px h-6 bg-gray-300 mx-1"></div>
+                
+                <div className="relative">
+                  <button
+                    onClick={() => setShowFontSizer(!showFontSizer)}
+                    className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                    title="Font Size"
+                  >
+                    <span className="text-gray-700 text-xs">Aa</span>
+                  </button>
+                  
+                  {showFontSizer && (
+                    <div className="absolute top-10 left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-10">
+                      <div className="flex flex-col gap-1">
+                        {fontSizes.map((size) => (
+                          <button
+                            key={size.value}
+                            onClick={() => {
+                              executeCommand('fontSize', size.value)
+                              setShowFontSizer(false)
+                            }}
+                            className="px-3 py-1 text-left text-gray-700 hover:bg-gray-100 rounded text-sm"
+                          >
+                            {size.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="w-px h-6 bg-gray-300 mx-1"></div>
+                
+                <button
+                  onClick={() => executeCommand('insertUnorderedList')}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Bullet List"
+                >
+                  <span className="text-gray-700">•</span>
+                </button>
+                
+                <button
+                  onClick={() => executeCommand('insertOrderedList')}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Numbered List"
+                >
+                  <span className="text-gray-700 text-sm">1.</span>
+                </button>
+                
+                <button
+                  onClick={() => executeCommand('formatBlock', 'blockquote')}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Quote"
+                >
+                  <span className="text-gray-700">"</span>
+                </button>
+                
+                <div className="w-px h-6 bg-gray-300 mx-1"></div>
+                
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                  title="Insert Image"
+                >
+                  <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </button>
+                
+                <div className="relative">
+                  <button
+                    onClick={() => setShowColorPicker(!showColorPicker)}
+                    className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
+                    title="Text Color"
+                  >
+                    <div className="w-4 h-4 rounded-full border border-gray-300 bg-gradient-to-r from-red-500 to-blue-500"></div>
+                  </button>
+                  
+                  {showColorPicker && (
+                    <div className="absolute top-10 left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10">
+                      <div className="grid grid-cols-7 gap-2">
+                        {colors.map((color) => (
+                          <button
+                            key={color}
+                            onClick={() => {
+                              executeCommand('foreColor', color)
+                              setShowColorPicker(false)
+                            }}
+                            className="w-12 h-12 rounded border border-gray-300 hover:scale-110 transition-transform"
+                            style={{ backgroundColor: color }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
               />
             </div>
           </div>
