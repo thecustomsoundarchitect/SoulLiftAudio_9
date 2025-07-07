@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
-import { useLocation } from 'wouter'
+import { useNavigate } from 'react-router-dom'
 
 export default function WeavingPage() {
-  const [, setLocation] = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Auto-redirect to craft page after 3 seconds
     const timer = setTimeout(() => {
-      setLocation('/craft')
+      navigate('/craft')
     }, 3000)
 
     return () => clearTimeout(timer)
-  }, [setLocation])
+  }, [navigate])
 
   return (
     <div className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF] font-['Poppins']">

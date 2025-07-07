@@ -1,269 +1,340 @@
-import { useState } from 'react'
-import { Link } from 'wouter'
-import { ArrowLeft, Download } from 'lucide-react'
-import { useSoulHug } from '../context/SoulHugContext'
-import ProgressIndicator from '../components/ProgressIndicator'
+import { useState, createContext, useContext, ReactNode } from 'react'
+import { X } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 
-const targetLengthOptions = [
-  '30s - Brief',
-  '1m - Heartfelt', 
-  '2m - Deep',
-  'Custom'
-]
+// Context setup
+interface SoulHugState {
+  ingredients: string[];
+  descriptors: string[];
+}
 
-export default function CraftPage() {
-  const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
-  
-  const [message, setMessage] = useState(currentSoulHug.message || '')
-  const [targetLength, setTargetLength] = useState('1m - Heartfelt')
-  const [isWeaving, setIsWeaving] = useState(false)
-  const [isPolishing, setIsPolishing] = useState(false)
+interface SoulHugContextType {
+  currentSoulHug: SoulHugState;
+  updateCurrentSoulHug: (updates: Partial<SoulHugState>) => void;
+}
 
-  const ingredients = currentSoulHug.ingredients || []
-  const descriptors = currentSoulHug.descriptors || []
+const SoulHugContext = createContext<SoulHugContextType | undefined>(undefined);
 
-  const handleMessageChange = (newMessage: string) => {
-    setMessage(newMessage)
-    updateCurrentSoulHug({ message: newMessage })
+const useSoulHug = () => {
+  const context = useContext(SoulHugContext);
+  if (context === undefined) {
+    throw new Error('useSoulHug must be used within a SoulHugProvider');
   }
+  return context;
+};
 
-  const handleDragStart = (e: React.DragEvent, ingredient: string) => {
-    e.dataTransfer.setData('text/plain', ingredient)
-  }
+const SoulHugProvider = ({ children }: { children: ReactNode }) => {
+  const [currentSoulHug, setCurrentSoulHug] = useState<SoulHugState>({
+    ingredients: [],
+    descriptors: [],
+  });
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    const draggedText = e.dataTransfer.getData('text/plain')
-    const textArea = e.target as HTMLTextAreaElement
-    const cursorPosition = textArea.selectionStart
-    const newMessage = message.slice(0, cursorPosition) + '\n\n' + draggedText + '\n\n' + message.slice(cursorPosition)
-    handleMessageChange(newMessage)
-  }
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-  }
-
-  const moveAllDescriptors = () => {
-    if (descriptors.length === 0) return
-    
-    const descriptorText = `\n\n${descriptors.join(', ')}\n\n`
-    const newMessage = message + descriptorText
-    handleMessageChange(newMessage)
-  }
-
-  const handleDescriptorDragStart = (e: React.DragEvent) => {
-    const descriptorText = `${descriptors.join(', ')}`
-    e.dataTransfer.setData('text/plain', descriptorText)
-  }
-
-  const aiWeave = () => {
-    setIsWeaving(true)
-    setTimeout(() => {
-      const weavedMessage = `Dear ${currentSoulHug.recipient || 'friend'},
-
-Your caring nature and thoughtful approach to everything you do truly sets you apart. When times get tough, you're always there with a warm smile and helping hand - that unwavering kindness you show makes such a difference in people's lives.
-
-What I admire most is your gift of making everyone feel welcome. You create such an inclusive environment wherever you go, and it's beautiful to witness. The natural way you comfort others, knowing exactly what to say when someone needs support, shows just how wise and loving you are.
-
-Your supportive spirit touches everyone around you. Thank you for being exactly who you are.
-
-With gratitude and love`
-
-      setMessage(weavedMessage)
-      updateCurrentSoulHug({ message: weavedMessage })
-      setIsWeaving(false)
-    }, 2000)
-  }
-
-  const aiPolish = () => {
-    if (!message.trim()) return
-    
-    setIsPolishing(true)
-    setTimeout(() => {
-      const polishedMessage = message
-        .replace(/\n\n/g, '\n\n')
-        .replace(/\. /g, '. ')
-        .trim()
-      setMessage(polishedMessage)
-      updateCurrentSoulHug({ message: polishedMessage })
-      setIsPolishing(false)
-    }, 1500)
-  }
-
-  const exportHug = () => {
-    const element = document.createElement('a')
-    const file = new Blob([message], { type: 'text/plain' })
-    element.href = URL.createObjectURL(file)
-    element.download = `soul-hug-message.txt`
-    document.body.appendChild(element)
-    element.click()
-    document.body.removeChild(element)
-  }
-
-  const wordCount = message ? message.split(' ').filter(word => word.length > 0).length : 0
+  const updateCurrentSoulHug = (updates: Partial<SoulHugState>) => {
+    setCurrentSoulHug(prev => ({ ...prev, ...updates }));
+  };
 
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF] pt-6 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-3">
-            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Craft Your Message
-            </span>
-          </h1>
-          
+    <SoulHugContext.Provider value={{ currentSoulHug, updateCurrentSoulHug }}>
+      {children}
+    </SoulHugContext.Provider>
+  );
+};
 
-        </div>
+function CraftPage() {
+  const navigate = useNavigate()
+  const { currentSoulHug, updateCurrentSoulHug } = useSoulHug();
+  const [ingredients, setIngredients] = useState<string[]>(currentSoulHug.ingredients || []);
+  const [descriptors, setDescriptors] = useState<string[]>(currentSoulHug.descriptors || []);
+  const [writingModal, setWritingModal] = useState({ isOpen: false, prompt: '', story: '' });
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Ingredients Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-[#4D5563]">Your Ingredients</h3>
+  const dummyPrompts = [
+    "When they showed unwavering kindness",
+    "How their smile lights up rooms",
+    "Their gift of making everyone feel welcome",
+    "The natural way they comfort others",
+    "What you see blossoming in them",
+    "That time they stood up bravely",
+    "The small ways they show care",
+    "Why they deserve all the love"
+  ];
+
+  const dummyDescriptors = [
+    'Smart', 'Caring', 'Loyal', 'Funny', 'Patient', 'Brave',
+    'Creative', 'Thoughtful', 'Strong', 'Loving', 'Honest', 'Supportive'
+  ];
+
+  const openWritingModal = (prompt: string) => {
+    setWritingModal({ isOpen: true, prompt, story: '' });
+  };
+
+  const closeWritingModal = () => {
+    setWritingModal({ isOpen: false, prompt: '', story: '' });
+  };
+
+  const saveStory = () => {
+    if (writingModal.story.trim()) {
+      const storyIngredient = `${writingModal.prompt}: ${writingModal.story.trim()}`;
+      const newIngredients = [...ingredients, storyIngredient];
+      setIngredients(newIngredients);
+      updateCurrentSoulHug({ ingredients: newIngredients });
+    }
+    closeWritingModal();
+  };
+
+  const removeIngredient = (ingredient: string) => {
+    const newIngredients = ingredients.filter(item => item !== ingredient);
+    setIngredients(newIngredients);
+    updateCurrentSoulHug({ ingredients: newIngredients });
+  };
+
+  const toggleDescriptor = (descriptor: string) => {
+    let newDescriptors: string[];
+    let newIngredients = [...ingredients];
+    
+    if (descriptors.includes(descriptor)) {
+      newDescriptors = descriptors.filter(item => item !== descriptor);
+      newIngredients = newIngredients.filter(item => item !== descriptor);
+    } else {
+      newDescriptors = [...descriptors, descriptor];
+      if (!newIngredients.includes(descriptor)) {
+        newIngredients.push(descriptor);
+      }
+    }
+    
+    setDescriptors(newDescriptors);
+    setIngredients(newIngredients);
+    updateCurrentSoulHug({ descriptors: newDescriptors, ingredients: newIngredients });
+  };
+
+  return (
+    <div className="flex-1 flex flex-col bg-[#F3F7FF] min-h-screen w-full overflow-x-hidden">
+      {/* Simple CSS for permanent scrollbar */}
+      <style>{`
+        .permanent-scroll {
+          overflow-y: scroll !important;
+          scrollbar-width: thin;
+          scrollbar-color: #8B5CF6 #f1f5f9;
+        }
+        .permanent-scroll::-webkit-scrollbar {
+          width: 8px;
+        }
+        .permanent-scroll::-webkit-scrollbar-track {
+          background: #f1f5f9;
+          border-radius: 4px;
+        }
+        .permanent-scroll::-webkit-scrollbar-thumb {
+          background: #8B5CF6;
+          border-radius: 4px;
+        }
+        .permanent-scroll::-webkit-scrollbar-thumb:hover {
+          background: #7c3aed;
+        }
+      `}</style>
+
+      <div className="max-w-2xl mx-auto px-4 py-6">
+        <div className="space-y-6">
+          {/* Title */}
+          <div className="text-center">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3">
+              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                Gather Your Stories
+              </span>
+            </h1>
+            <div className="text-lg text-[#4D5563] mb-4 text-right" style={{lineHeight: '1.2'}}>
+              {`"We'll help you get the`}<br/>{`thoughts out!"`}
+            </div>
+          </div>
+
+          {/* Thought Prompts */}
+          <div>
+            <h2 className="text-pink-500 font-bold text-sm uppercase tracking-wide mb-4">
+              THOUGHT PROMPTS
+            </h2>
             
-            {ingredients.length === 0 ? (
-              <div className="text-center py-6 bg-white/60 backdrop-blur-md rounded-xl border border-white/30">
-                <p className="text-sm text-[#4D5563]/60">No ingredients available</p>
-                <p className="text-xs mt-1 text-[#4D5563]/40">Go back to Gather to collect some!</p>
+            <div className="space-y-4">
+              <div className="text-xs text-[#4D5563] mb-2">
+                Tap a prompt to open a text box and write your thoughts. Or, turn on 'Save Prompt Directly' to add that specific prompt to your thoughts.
               </div>
-            ) : (
-              <div className="space-y-2">
-                {ingredients.map((ingredient, index) => (
-                  <div
-                    key={index}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, ingredient)}
-                    className="bg-white/60 hover:bg-white/80 backdrop-blur-md rounded-lg p-3 shadow-lg cursor-grab active:cursor-grabbing transition-all duration-200 border border-white/30"
-                  >
-                    <p className="text-sm leading-relaxed text-[#4D5563]">
-                      {ingredient.includes(':') ? (
-                        <>
-                          <span className="font-medium block mb-1 text-[#4D5563]">
-                            {ingredient.split(':')[0]}
-                          </span>
-                          <span className="text-[#4D5563]/80">
-                            {ingredient.split(':').slice(1).join(':').trim()}
-                          </span>
-                        </>
-                      ) : (
-                        <span className="font-medium text-[#4D5563]">{ingredient}</span>
-                      )}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Descriptors */}
-            {descriptors.length > 0 && (
-              <div className="bg-white/60 backdrop-blur-md rounded-xl p-4 shadow-xl border border-white/30">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-[#4D5563]">Selected Descriptors</h4>
-                  <button
-                    onClick={moveAllDescriptors}
-                    className="text-xs bg-white/60 hover:bg-white/80 backdrop-blur-md px-2 py-1 rounded-full transition-colors text-[#4D5563] shadow-md border border-white/30"
-                  >
-                    Move All
-                  </button>
-                </div>
-                <div 
-                  draggable={descriptors.length > 0}
-                  onDragStart={handleDescriptorDragStart}
-                  className="bg-white/60 backdrop-blur-md rounded-lg p-2 shadow-lg border border-white/30 cursor-grab active:cursor-grabbing hover:bg-white/80 transition-all duration-200"
-                >
-                  <div className="flex flex-wrap gap-1">
-                    {descriptors.map((descriptor, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 bg-white/60 backdrop-blur-md rounded-full text-xs font-medium text-[#4D5563] shadow-md border border-white/30"
+              <div className="grid grid-cols-1 gap-3">
+                {dummyPrompts.map((prompt, idx) => {
+                  const isToggled = ingredients.includes(prompt);
+                  return (
+                    <div key={idx} className="flex items-center bg-gray-200 rounded-xl px-3 py-2">
+                      <button
+                        onClick={() => openWritingModal(prompt)}
+                        className="flex-1 text-left text-[#4D5563] font-medium text-xs hover:underline focus:outline-none"
+                        style={{ fontSize: '0.78rem', lineHeight: 1.2 }}
                       >
-                        {descriptor}
-                      </span>
+                        {prompt}
+                      </button>
+                      <button
+                        onClick={() => {
+                          let newIngredients = [...ingredients];
+                          if (isToggled) {
+                            newIngredients = newIngredients.filter(item => item !== prompt);
+                          } else {
+                            newIngredients.push(prompt);
+                          }
+                          setIngredients(newIngredients);
+                          updateCurrentSoulHug({ ...currentSoulHug, ingredients: newIngredients });
+                        }}
+                        className={`ml-3 w-10 h-6 rounded-full flex items-center p-1 transition-colors duration-200 ${isToggled ? 'bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-400' : 'bg-gray-300'}`}
+                        style={{ border: isToggled ? '2px solid #b39ddb' : '2px solid #e5e7eb' }}
+                      >
+                        <span
+                          className={`block w-4 h-4 rounded-full shadow transition-transform duration-200 ${isToggled ? 'translate-x-4' : ''}`}
+                          style={{
+                            background: isToggled
+                              ? 'radial-gradient(circle at 60% 40%, #fff9c4 0%, #f5c6e7 60%, #b39ddb 100%)'
+                              : '#fff',
+                            boxShadow: isToggled ? '0 0 6px #b39ddb' : 'none',
+                            transition: 'background 0.2s, transform 0.2s'
+                          }}
+                        ></span>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Section: FIXED SIDE BY SIDE */}
+          <div className="flex flex-row gap-2">
+            {/* Descriptors */}
+            <div className="w-1/2 bg-white rounded-lg border border-gray-200 shadow-sm p-3">
+              <h3 className="text-pink-500 font-bold text-xs uppercase tracking-wide mb-3 text-center">
+                Descriptors
+              </h3>
+              <div 
+                className="grid grid-cols-2 sm:grid-cols-3 gap-1"
+                style={{ height: '200px', overflow: 'hidden' }}
+              >
+                {dummyDescriptors.map((descriptor, idx) => {
+                  const isSelected = descriptors.includes(descriptor);
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => toggleDescriptor(descriptor)}
+                      className={`text-[8px] sm:text-[9px] leading-tight py-1 px-1 rounded-full border cursor-pointer transition-all duration-200 font-medium text-center
+                        ${isSelected
+                          ? 'bg-[linear-gradient(90deg,_#fce7f3,_#ddd6fe)] border-violet-200 text-black shadow-sm'
+                          : 'bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200 hover:text-gray-800'}
+                      `}
+                      style={{
+                        height: '24px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {descriptor}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Collected Thoughts - WITH PERMANENT SCROLLBAR */}
+            <div className="w-1/2 bg-white rounded-lg border border-gray-200 shadow-sm p-3">
+              <h3 className="text-pink-500 font-bold text-xs uppercase tracking-wide mb-3 text-center">
+                Collected Thoughts
+              </h3>
+              <div 
+                className="permanent-scroll bg-gray-50 border border-gray-200 rounded p-2"
+                style={{ height: '200px' }}
+              >
+                {ingredients.length === 0 ? (
+                  <div className="text-xs text-gray-400 text-center pt-1">
+                    No thoughts yet
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    {ingredients.map((ingredient, idx) => (
+                      <div key={idx} className="flex items-start gap-1">
+                        <span className="text-[10px] sm:text-[11px] text-gray-600 flex-1">{ingredient}</span>
+                        <button
+                          onClick={() => removeIngredient(ingredient)}
+                          className="text-red-300 hover:text-red-500 flex-shrink-0"
+                          title="Remove"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
                     ))}
                   </div>
+                )}
+                {/* This invisible content forces the scrollbar to always show */}
+                <div style={{ height: '300px', width: '1px' }}></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Weave Button */}
+          <div className="mt-6 flex justify-center">
+            <button 
+              onClick={() => navigate('/weaving')}
+              className="w-40 bg-gradient-to-r from-purple-500 to-pink-400 text-white text-sm font-medium py-2 rounded-full flex items-center justify-center"
+            >
+              Weave
+              <span className="ml-1">›</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Writing Modal */}
+        <AnimatePresence>
+          {writingModal.isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="fixed inset-0 flex items-center justify-center z-50"
+            >
+              <div className="bg-white rounded-xl shadow-lg w-full max-w-md mx-auto p-6">
+                <div className="flex flex-col">
+                  <div className="text-center mb-4">
+                    <h3 className="text-lg font-semibold text-[#333]">
+                      {writingModal.prompt}
+                    </h3>
+                  </div>
+                  <div className="mb-4">
+                    <textarea
+                      value={writingModal.story}
+                      onChange={(e) => setWritingModal({ ...writingModal, story: e.target.value })}
+                      className="w-full p-3 text-sm rounded-lg border focus:ring-2 focus:ring-purple-400 focus:outline-none resize-none h-24"
+                      placeholder="Share your thoughts..."
+                    ></textarea>
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={closeWritingModal}
+                      className="flex-1 px-4 py-2 text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition"
+                    >
+                      Skip
+                    </button>
+                    <button
+                      onClick={saveStory}
+                      className="flex-1 px-4 py-2 text-sm font-semibold bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-lg shadow-md hover:scale-105 transition-all"
+                    >
+                      Save Thought
+                    </button>
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-
-          {/* Message Section */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-[#4D5563]">Your Soul Hug Message</h3>
-              <div className="text-sm text-[#4D5563]/80">
-                {wordCount} words
-              </div>
-            </div>
-
-            <textarea
-              id="message-input"
-              name="message"
-              value={message}
-              onChange={(e) => handleMessageChange(e.target.value)}
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              placeholder="Begin crafting your Soul Hug here... Drag ingredients from the left or start typing your heart's message."
-              className="w-full h-64 p-3 border-2 border-dashed border-white/40 bg-white/60 backdrop-blur-md rounded-xl focus:outline-none focus:border-purple-400 focus:bg-white/80 resize-none leading-relaxed text-[#4D5563] placeholder-[#4D5563]/40 shadow-lg"
-            />
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="mt-6 pt-4 border-t border-white/30">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
-            <div className="flex items-center space-x-3">
-              <label htmlFor="target-length" className="text-sm font-medium text-[#4D5563]">
-                Target Length
-              </label>
-              <select
-                id="target-length"
-                name="targetLength"
-                value={targetLength}
-                onChange={(e) => setTargetLength(e.target.value)}
-                className="px-2 py-1 border border-white/30 bg-white/60 backdrop-blur-md rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 text-sm text-[#4D5563] shadow-lg"
-              >
-                {targetLengthOptions.map(option => (
-                  <option key={option} value={option}>{option}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={aiWeave}
-                disabled={isWeaving || ingredients.length === 0}
-                className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl border border-gray-600 text-sm"
-              >
-                {isWeaving ? 'AI Weaving...' : 'AI Weave'}
-              </button>
-              
-              <button
-                onClick={aiPolish}
-                disabled={isPolishing || !message.trim()}
-                className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl border border-gray-600 text-sm"
-              >
-                {isPolishing ? 'AI Polishing...' : 'AI Polish'}
-              </button>
-
-              <button
-                onClick={exportHug}
-                disabled={!message.trim()}
-                className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-full font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl border border-gray-600 text-sm flex items-center"
-              >
-                <Download className="w-4 h-4 mr-1" />
-                Export
-              </button>
-            </div>
-          </div>
-
-          <p className="text-xs mt-3 text-[#4D5563]/60">
-            Pro tip: Drag ingredients from the left to add them to your message. Use AI Weave to create from ingredients, or AI Polish to refine existing text.
-          </p>
-        </div>
-
-
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
-  )
+  );
+}
+
+export default function App() {
+  return (
+    <SoulHugProvider>
+      <CraftPage />
+    </SoulHugProvider>
+  );
 }

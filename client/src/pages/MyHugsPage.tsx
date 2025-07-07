@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Play, Heart, Calendar, Download, Share2, X, Plus, Sparkles, CheckCircle, Star } from 'lucide-react'
-import { Link } from 'wouter'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSoulHug } from '../context/SoulHugContext'
 import ExpandableCardDemo from '../components/ui/expandable-card-demo-standard'
@@ -87,7 +87,7 @@ export default function MyHugsPage() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <Link href="/">
+        <Link to="/">
           <button className="flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-lg rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 group hover:bg-white">
             <Heart className="w-5 h-5 text-[#4D5563] group-hover:text-purple-600 transition-colors" />
           </button>
@@ -212,7 +212,7 @@ export default function MyHugsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.6 }}
         >
-          <Link href="/define">
+          <Link to="/define">
             <motion.button 
               className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg relative overflow-hidden shadow-xl"
               whileHover={{ scale: 1.05 }}

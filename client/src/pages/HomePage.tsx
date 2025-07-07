@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Link } from 'wouter'
+import { Link } from 'react-router-dom'
 import { Heart } from 'lucide-react'
 import { WavyBackground } from '../components/ui/wavy-background'
 
@@ -127,19 +127,19 @@ export default function HomePage() {
 
           {/* Main Action Cards */}
           <div className="flex flex-col items-center gap-4 max-w-xs sm:max-w-sm mx-auto mb-6">
-            <Link href="/define">
+            <Link to="/define">
               <button className="relative bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl p-4 shadow-xl text-white font-semibold text-base transform hover:scale-105 transition-all duration-200 border-0 w-64 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/30 before:via-white/10 before:to-transparent before:rounded-2xl before:pointer-events-none after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-b after:from-white/20 after:to-transparent after:rounded-t-2xl after:pointer-events-none">
                 <span className="relative z-10">Create New Soul Hug</span>
               </button>
             </Link>
 
-            <Link href="/examples">
+            <Link to="/examples">
               <button className="relative bg-gradient-to-br from-green-400 to-green-600 rounded-2xl p-4 shadow-xl text-white font-semibold text-base transform hover:scale-105 transition-all duration-200 border-0 w-64 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/30 before:via-white/10 before:to-transparent before:rounded-2xl before:pointer-events-none after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-b after:from-white/20 after:to-transparent after:rounded-t-2xl after:pointer-events-none">
                 <span className="relative z-10">View Soul Hug Examples</span>
               </button>
             </Link>
 
-            <Link href="/my-hugs">
+            <Link to="/my-hugs">
               <button className="relative bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl p-4 shadow-xl text-white font-semibold text-base transform hover:scale-105 transition-all duration-200 border-0 w-64 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-br before:from-white/30 before:via-white/10 before:to-transparent before:rounded-2xl before:pointer-events-none after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-b after:from-white/20 after:to-transparent after:rounded-t-2xl after:pointer-events-none">
                 <span className="relative z-10">View My Soul Hugs</span>
               </button>

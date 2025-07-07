@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'wouter'
-import { Heart, Infinity, Menu, X } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+import { Heart, Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Navigation() {
-  const [location] = useLocation()
+  const location = useLocation()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const navItems = [
@@ -27,7 +27,7 @@ export default function Navigation() {
       <nav className="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-12 md:h-16">
-            <Link href="/" className="flex items-center space-x-2" onClick={closeMobileMenu}>
+            <Link to="/" className="flex items-center space-x-2" onClick={closeMobileMenu}>
               <Heart className="w-8 h-8 text-purple-600" />
               <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 SoulLift
@@ -39,9 +39,9 @@ export default function Navigation() {
               {navItems.map((item) => (
                 <Link
                   key={item.path}
-                  href={item.path}
+                  to={item.path}
                   className={`flex items-center space-x-1 px-4 py-2 rounded-xl transition-all duration-200 ${
-                    location === item.path
+                    location.pathname === item.path
                       ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
                       : 'text-gray-700 hover:text-purple-600 hover:bg-purple-50'
                   }`}
@@ -103,10 +103,10 @@ export default function Navigation() {
                       transition={{ delay: index * 0.1, duration: 0.2 }}
                     >
                       <Link
-                        href={item.path}
+                        to={item.path}
                         onClick={closeMobileMenu}
                         className={`flex items-center space-x-4 px-4 py-4 rounded-xl transition-all duration-200 ${
-                          location === item.path
+                          location.pathname === item.path
                             ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
                             : 'text-gray-700 hover:bg-purple-50 hover:text-purple-600'
                         }`}

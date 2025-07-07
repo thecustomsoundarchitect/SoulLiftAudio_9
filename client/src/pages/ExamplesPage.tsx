@@ -1,4 +1,4 @@
-import { Link } from 'wouter'
+import { Link } from 'react-router-dom'
 import { ArrowLeft, Play, Heart, Clock, User } from 'lucide-react'
 import { motion } from 'framer-motion'
 import AnimatedTestimonialsDemo from '../components/ui/animated-testimonials-demo'
@@ -18,7 +18,7 @@ export default function ExamplesPage() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <Link href="/">
+        <Link to="/">
           <button className="flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-lg rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 group hover:bg-white">
             <ArrowLeft className="w-5 h-5 text-[#4D5563] group-hover:text-purple-600 transition-colors" />
           </button>
@@ -155,7 +155,7 @@ export default function ExamplesPage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/define">
+              <Link to="/define">
                 <motion.button 
                   className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg shadow-xl"
                   whileHover={{ scale: 1.05 }}
@@ -166,7 +166,7 @@ export default function ExamplesPage() {
                 </motion.button>
               </Link>
               
-              <Link href="/my-hugs">
+              <Link to="/my-hugs">
                 <motion.button 
                   className="bg-white/60 hover:bg-white/80 backdrop-blur-md text-[#4D5563] px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg shadow-xl border border-white/30"
                   whileHover={{ scale: 1.05 }}

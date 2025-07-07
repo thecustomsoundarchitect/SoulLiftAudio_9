@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Link } from 'wouter'
+import { Link } from 'react-router-dom'
 import { Mic, Square, Play, Pause, Trash2, Download, Share2, ArrowLeft, Music, Image, Volume2, Wand2, RotateCcw } from 'lucide-react'
 import { useSoulHug } from '../context/SoulHugContext'
 import { AudioRecorder } from '../components/AudioRecorder'
@@ -147,18 +147,21 @@ With gratitude and love`
     recipient: currentSoulHug.recipient
   }
 
+
   return (
-    <div className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF] font-['Poppins']">
-      <div className="max-w-4xl mx-auto px-4 py-6 w-full">
+    <div className="flex-1 flex flex-col bg-[#F3F7FF] min-h-screen w-full overflow-x-hidden font-['Poppins']">
+      <div className="max-w-md mx-auto px-4 py-6">
         <div className="space-y-6">
-          {/* Title */}
+          {/* Title and Subtitle - match Craft/GatherPage */}
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-3">
               <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Create Your Audio
+                Create Your Audio Hug
               </span>
             </h1>
-
+            <div className="text-lg text-[#4D5563] mb-4 text-right" style={{lineHeight: '1.2'}}>
+              {`"We'll help you get the`}<br/>{`audio just right!"`}
+            </div>
           </div>
 
           {/* Message Preview Section */}

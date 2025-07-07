@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'wouter'
+import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { useSoulHug } from '../context/SoulHugContext'
 
@@ -56,6 +56,7 @@ const AgeSlider: React.FC<AgeSliderProps> = ({ label, value, onChange, min = 5, 
 )
 
 export default function DefinePage() {
+  const navigate = useNavigate()
   const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
   
   const [formData, setFormData] = useState({
@@ -76,6 +77,7 @@ export default function DefinePage() {
       occasion: formData.occasion,
       tone: formData.tone
     })
+    navigate('/gather')
   }
 
   const handleDropdownSelect = (field: string, value: string) => {
@@ -222,6 +224,23 @@ export default function DefinePage() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Continue Button */}
+        <div className="mt-8 text-center">
+          <button
+            onClick={handleContinue}
+            disabled={!isFormComplete}
+            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-12 py-4 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center w-full"
+          >
+            Continue
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </button>
+          {!isFormComplete && (
+            <p className="text-xs mt-2 text-gray-500">
+              Please select a feeling and tone to continue.
+            </p>
+          )}
         </div>
       </div>
     </div>
