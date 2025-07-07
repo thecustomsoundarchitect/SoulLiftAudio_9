@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { useSoulHug } from '../context/SoulHugContext'
 
 const LENGTH_OPTIONS = [
-  { label: '30 seconds', value: '30s' },
-  { label: '1 minute', value: '1m' },
-  { label: '1.5–2 minutes', value: '2m' }
+  { label: '30 SEC', value: '30s' },
+  { label: '60 SEC', value: '1m' },
+  { label: '90-120 SEC', value: '2m' }
 ]
 
 function CraftPage() {
@@ -31,7 +31,7 @@ function CraftPage() {
     updateCurrentSoulHug({
       message: message
     })
-  }, [message, selectedLength])
+  }, [message])
 
   // Save to Firestore on navigation (placeholder)
   useEffect(() => {
@@ -79,6 +79,14 @@ function CraftPage() {
     handleEditorChange()
   }
 
+  const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPendingLength(e.target.value)
+    setShowRegenerate(true)
+    setRegeneratePrompt(
+      `Would you like to regenerate your message for ${LENGTH_OPTIONS.find(o => o.value === e.target.value)?.label}? This will use your collected thoughts and may overwrite your current message.`
+    )
+  }
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
@@ -103,14 +111,6 @@ function CraftPage() {
     { label: 'Large', value: '5' },
     { label: 'Extra Large', value: '7' }
   ]
-
-  const handleLengthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPendingLength(e.target.value)
-    setShowRegenerate(true)
-    setRegeneratePrompt(
-      `Would you like to regenerate your message for ${LENGTH_OPTIONS.find(o => o.value === e.target.value)?.label}? This will use your collected thoughts and may overwrite your current message.`
-    )
-  }
 
   const handleRegenerate = () => {
     setSelectedLength(pendingLength)
@@ -265,34 +265,33 @@ function CraftPage() {
             </div>
           </div>
 
-          {/* Length Selector */}
-          <div className="flex flex-col items-center mb-2">
-            <div className="flex gap-4">
-              {LENGTH_OPTIONS.map(opt => (
-                <label key={opt.value} className="flex items-center gap-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="length"
-                    value={opt.value}
-                    checked={pendingLength === opt.value}
-                    onChange={handleLengthChange}
-                    className="accent-purple-500"
-                  />
-                  <span className="text-sm text-gray-700">{opt.label}</span>
-                </label>
-              ))}
-            </div>
-          </div>
+          {/* Editable Text Box Area */}
+          <div className="w-full flex justify-center items-start gap-4">
+            {/* Editor */}
+            <div className="flex-grow w-full bg-white border border-gray-200 rounded-2xl shadow-sm">
+              {/* Length Selector */}
+              <div className="flex justify-start items-center gap-4 px-4 pt-3 pb-2">
+                {LENGTH_OPTIONS.map(opt => (
+                  <label key={opt.value} className="flex items-center gap-1.5 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="length"
+                      value={opt.value}
+                      checked={pendingLength === opt.value}
+                      onChange={handleLengthChange}
+                      className="accent-purple-500 h-4 w-4"
+                    />
+                    <span className="text-xs font-medium text-gray-600">{opt.label}</span>
+                  </label>
+                ))}
+              </div>
 
-          {/* Editable Text Box */}
-          <div className="w-full flex justify-center">
-            <div className="w-full bg-white border border-gray-200 rounded-2xl shadow-sm">
               {/* Rich Text Editor */}
               <div
                 ref={editorRef}
                 contentEditable
                 onInput={handleEditorChange}
-                className="w-full p-5 text-base text-gray-700 bg-white rounded-t-2xl border-none shadow-none focus:ring-2 focus:ring-purple-400 focus:outline-none min-h-[180px]"
+                className="w-full p-5 text-base text-gray-700 bg-white rounded-t-2xl border-none shadow-none focus:ring-2 focus:ring-purple-400 focus:outline-none min-h-[180px] border-t border-gray-200"
                 style={{ minHeight: '180px' }}
                 suppressContentEditableWarning={true}
                 dangerouslySetInnerHTML={{ __html: message }}
@@ -415,7 +414,7 @@ function CraftPage() {
                   </svg>
                 </button>
                 
-                <div className="relative">
+                <div className="relative flex items-center gap-2">
                   <button
                     onClick={() => setShowColorPicker(!showColorPicker)}
                     className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
@@ -423,7 +422,6 @@ function CraftPage() {
                   >
                     <div className="w-4 h-4 rounded-full border border-gray-300 bg-gradient-to-r from-red-500 to-blue-500"></div>
                   </button>
-                  
                   {showColorPicker && (
                     <div className="absolute top-10 left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10">
                       <div className="grid grid-cols-7 gap-2">
@@ -441,6 +439,9 @@ function CraftPage() {
                       </div>
                     </div>
                   )}
+                  <span className="ml-3 text-[10px] text-gray-400 bg-white bg-opacity-80 px-1.5 py-0.5 rounded-full border border-gray-100 whitespace-nowrap" style={{fontSize: '10px', lineHeight: '1'}}>
+                    Est. Read 1 Min
+                  </span>
                 </div>
               </div>
               
@@ -501,41 +502,43 @@ function CraftPage() {
           </div>
 
           {/* Collected Thoughts - Clean Collapsible Card */}
-          <div className="flex flex-col items-center mt-6">
+          <div className="w-full mt-6">
             <button
               onClick={() => setShowPrompt(v => !v)}
               className="px-4 py-2 bg-white text-gray-600 rounded-lg text-sm font-medium shadow-sm border border-gray-200 hover:bg-gray-50 transition-all"
             >
-              {showPrompt ? '−' : '+'} Collected Thoughts
+              Original Collected Thoughts
             </button>
-            {showPrompt && (
-              <div className="mt-3 w-full bg-white border border-gray-100 rounded-lg shadow-sm p-4 transition-all">
-                <div className="flex flex-wrap gap-2 justify-center">
+            <div className={`transition-all duration-500 ease-in-out overflow-hidden ${showPrompt ? 'max-h-96 mt-3' : 'max-h-0'}`}>
+              <div className="w-full bg-white border border-gray-100 rounded-lg shadow-sm p-4">
+                <ul className="list-disc list-inside space-y-1">
                   {(() => {
                     const allThoughts = [
                       ...(currentSoulHug.ingredients || []),
                       ...(currentSoulHug.descriptors || [])
                     ];
                     const uniqueThoughts = [...new Set(allThoughts)];
+
+                    if (uniqueThoughts.length === 0) {
+                      return (
+                        <li className="text-sm text-gray-400 list-none">
+                          Visit Define and Gather to collect thoughts
+                        </li>
+                      );
+                    }
+                    
                     return uniqueThoughts.map((thought, index) => (
-                      <span
+                      <li
                         key={`thought-${index}`}
-                        className="px-3 py-1 bg-gray-50 text-gray-700 text-sm rounded-full border border-gray-200"
+                        className="text-sm text-gray-700"
                       >
                         {thought}
-                      </span>
+                      </li>
                     ));
                   })()}
-                </div>
-                
-                {(!currentSoulHug.ingredients || currentSoulHug.ingredients.length === 0) && 
-                 (!currentSoulHug.descriptors || currentSoulHug.descriptors.length === 0) && (
-                  <div className="text-center text-sm text-gray-400 py-4">
-                    Visit Define and Gather to collect thoughts
-                  </div>
-                )}
+                </ul>
               </div>
-            )}
+            </div>
           </div>
 
         </div>
@@ -544,4 +547,4 @@ function CraftPage() {
   );
 }
 
-export default CraftPage
+export default CraftPage;

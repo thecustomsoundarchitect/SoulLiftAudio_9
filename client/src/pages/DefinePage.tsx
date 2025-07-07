@@ -88,7 +88,7 @@ export default function DefinePage() {
   const isFormComplete = formData.coreFeeling && formData.tone
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF] font-['Poppins']">
+    <div className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF]">
       <div className="max-w-md mx-auto px-4 py-6">
         <div className="space-y-6">
           {/* Title */}
@@ -228,14 +228,15 @@ export default function DefinePage() {
 
         {/* Continue Button */}
         <div className="mt-8 text-center">
-          <button
-            onClick={handleContinue}
-            disabled={!isFormComplete}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-12 py-4 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center w-full"
-          >
-            Continue
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </button>
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={handleContinue}
+              disabled={!isFormComplete}
+              className="w-40 bg-gradient-to-r from-purple-500 to-pink-400 text-white text-sm font-medium py-2 rounded-full flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none"
+            >
+              Gather
+            </button>
+          </div>
           {!isFormComplete && (
             <p className="text-xs mt-2 text-gray-500">
               Please select a feeling and tone to continue.
