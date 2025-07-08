@@ -5,17 +5,18 @@ import { WavyBackground } from '../components/ui/wavy-background'
 
 export default function HomePage() {
   return (
-    <WavyBackground
-      className="flex-1 flex flex-col"
-      containerClassName="flex-1 flex flex-col"
-      colors={["#5B2885", "#DF86F9", "#29D3FF"]}
-      waveWidth={50}
-      backgroundFill="white"
-      blur={15}
-      speed="slow"
-      waveOpacity={0.2}
-    >
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-4 overflow-y-auto">
+    <div className="flex-1 flex flex-col overflow-y-auto">
+      <WavyBackground
+        className="min-h-full"
+        containerClassName="min-h-full"
+        colors={["#5B2885", "#DF86F9", "#29D3FF"]}
+        waveWidth={50}
+        backgroundFill="white"
+        blur={15}
+        speed="slow"
+        waveOpacity={0.2}
+      >
+        <div className="relative z-10 min-h-full flex flex-col justify-center px-4">
         <div className="max-w-sm sm:max-w-2xl lg:max-w-6xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-8">
@@ -155,5 +156,6 @@ export default function HomePage() {
         </div>
       </div>
     </WavyBackground>
+    </div>
   )
 }

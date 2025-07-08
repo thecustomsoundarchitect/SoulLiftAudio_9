@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useSoulHug } from '../context/SoulHugContext'
 import ExpandableCardDemo from '../components/ui/expandable-card-demo-standard'
-import FloatingDockDemo from '../components/ui/floating-dock-demo'
 
 export default function MyHugsPage() {
   const { savedSoulHugs, loadSavedSoulHugs, deleteSoulHug } = useSoulHug()
@@ -83,21 +82,7 @@ export default function MyHugsPage() {
       className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-
-      {/* Floating back button */}
-      <motion.div 
-        className="fixed top-6 left-6 z-10"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <Link to="/">
-          <button className="flex items-center justify-center w-12 h-12 bg-white/90 backdrop-blur-lg rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 group hover:bg-white">
-            <Heart className="w-5 h-5 text-[#4D5563] group-hover:text-purple-600 transition-colors" />
-          </button>
-        </Link>
-      </motion.div>
-
-      <div className="max-w-4xl mx-auto px-6 py-20">
+      <div className="max-w-4xl mx-auto px-6 py-20 pb-16 sm:pb-20">
         {/* Header */}
         <motion.div 
           className="text-center mb-16"
@@ -105,20 +90,14 @@ export default function MyHugsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-3">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               My Soul Hugs
             </span>
           </h1>
-          
-          <motion.p 
-            className="text-xl text-[#4D5563] leading-relaxed max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            Your saved creations and heartfelt messages
-          </motion.p>
+          <p className="text-lg text-[#4D5563] mb-4">
+            "Your saved creations and heartfelt messages"
+          </p>
         </motion.div>
 
         <motion.div
@@ -129,24 +108,6 @@ export default function MyHugsPage() {
           <div className="bg-white/80 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-white/50">
             <ExpandableCardDemo />
           </div>
-          
-          {/* Floating Dock Demo */}
-          <motion.div 
-            className="mt-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.6 }}
-          >
-            <div className="text-center mb-8">
-              <h3 className="text-2xl font-semibold mb-4">
-                <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Quick Navigation</span>
-              </h3>
-              <p className="text-[#4D5563]/80">
-                Access your favorite features with our floating dock
-              </p>
-            </div>
-            <FloatingDockDemo />
-          </motion.div>
         </motion.div>
 
         {/* Stats */}
