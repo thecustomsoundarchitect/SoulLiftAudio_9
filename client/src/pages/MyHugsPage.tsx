@@ -79,7 +79,10 @@ export default function MyHugsPage() {
   const displayHugs = savedSoulHugs.length > 0 ? savedSoulHugs : mockSoulHugs
 
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]">
+    <div 
+      className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]"
+      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+    >
 
       {/* Floating back button */}
       <motion.div 
@@ -214,20 +217,13 @@ export default function MyHugsPage() {
         >
           <Link to="/define">
             <motion.button 
-              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg relative overflow-hidden shadow-xl"
+              className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="relative z-10 flex items-center">
+              <span className="flex items-center">
                 <Plus className="w-5 h-5 mr-2" />
                 Create New Soul Hug
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-purple-200/50 to-transparent"
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                >
-                  <Sparkles className="w-5 h-5 opacity-70" />
-                </motion.div>
               </span>
             </motion.button>
           </Link>

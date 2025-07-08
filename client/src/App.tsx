@@ -9,6 +9,7 @@ import AudioHugPage from './pages/AudioHugPage';
 import ExamplesPage from './pages/ExamplesPage';
 import MyHugsPage from './pages/MyHugsPage';
 import WeavingPage from './pages/WeavingPage';
+import UserProfilePage from './pages/UserProfilePage';
 import { SoulHugProvider } from './context/SoulHugContext';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="/examples" element={<ExamplesPage />} />
               <Route path="/my-hugs" element={<MyHugsPage />} />
               <Route path="/weaving" element={<WeavingPage />} />
+              <Route path="/user-profile" element={<UserProfilePage />} />
             </Routes>
           </main>
         </div>

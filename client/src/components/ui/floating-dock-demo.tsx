@@ -52,7 +52,7 @@ export default function FloatingDockDemo() {
       icon: (
         <User className="h-full w-full text-indigo-500 dark:text-indigo-300" />
       ),
-      href: "/soul-archive",
+      href: "/user-profile",
     },
     {
       title: "GitHub",

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { User, Heart, Calendar, Award, Settings, Edit3 } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-export default function SoulArchivePage() {
+export default function UserProfilePage() {
   const [activeTab, setActiveTab] = useState('profile')
 
   return (
@@ -79,7 +79,7 @@ export default function SoulArchivePage() {
                       <span className="font-medium text-[#4D5563]">January 2024</span>
                     </div>
                   </div>
-                  <button className="mt-4 flex items-center mx-auto px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:shadow-xl transition-all duration-200">
+                  <button className="mt-4 flex items-center mx-auto px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:shadow-xl transition-all duration-200 text-lg">
                     <Edit3 className="w-4 h-4 mr-2" />
                     Edit Profile
                   </button>
