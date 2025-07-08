@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Mic, Square, Play, Pause, Trash2, Download, Share2, ArrowLeft, Music, Image, Volume2, Wand2, RotateCcw } from 'lucide-react'
 import { useSoulHug } from '../context/SoulHugContext'
@@ -25,23 +25,6 @@ export default function AudioHugPage() {
 
   const [isMixing, setIsMixing] = useState(false)
   const [mixedAudioUrl, setMixedAudioUrl] = useState<string | null>(null)
-
-  useEffect(() => {
-    return () => {
-      if (audioUrl) {
-        URL.revokeObjectURL(audioUrl)
-      }
-      if (generatedVoiceUrl) {
-        URL.revokeObjectURL(generatedVoiceUrl)
-      }
-      if (mixedAudioUrl) {
-        URL.revokeObjectURL(mixedAudioUrl)
-      }
-      if (coverImage && coverImage.startsWith('blob:')) {
-        URL.revokeObjectURL(coverImage)
-      }
-    }
-  }, [audioUrl, generatedVoiceUrl, mixedAudioUrl, coverImage])
 
   const soulHugMessage = `Dear ${currentSoulHug.recipient || 'Beautiful Soul'},
 
@@ -150,10 +133,10 @@ With gratitude and love`
 
   return (
     <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF] min-h-screen w-full overflow-x-hidden"
+      className="flex-1 flex flex-col bg-[#F3F7FF]"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      <div className="max-w-md mx-auto px-4 py-6">
+      <div className="max-w-md mx-auto px-4 py-6 pb-24 sm:pb-28">
         <div className="space-y-6">
           {/* Title and Subtitle - match Craft/GatherPage */}
           <div className="text-center">

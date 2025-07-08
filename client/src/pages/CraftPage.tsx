@@ -180,7 +180,7 @@ function CraftPage() {
 
   return (
     <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF] min-h-screen w-full overflow-x-hidden"
+      className="flex-1 flex flex-col bg-[#F3F7FF]"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
       {/* Modal Popup for Regenerate Confirmation */}
@@ -254,7 +254,7 @@ function CraftPage() {
           </div>
         </div>
       )}
-      <div className="max-w-2xl mx-auto px-4 py-6 w-full">
+      <div className="max-w-2xl mx-auto px-4 py-6 w-full pb-24 sm:pb-28">
         <div className="space-y-6">
           {/* Title */}
           <div className="text-center">

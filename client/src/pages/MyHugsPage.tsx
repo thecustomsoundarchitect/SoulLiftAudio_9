@@ -79,10 +79,11 @@ export default function MyHugsPage() {
 
   return (
     <div 
-      className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]"
+      className="flex-1 flex flex-col bg-[#F3F7FF]"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      <div className="max-w-4xl mx-auto px-6 py-20 pb-16 sm:pb-20">
+
+      <div className="max-w-4xl mx-auto px-6 py-20 pb-24 sm:pb-28">
         {/* Header */}
         <motion.div 
           className="text-center mb-16"
@@ -90,14 +91,20 @@ export default function MyHugsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-2xl sm:text-3xl font-bold mb-3">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               My Soul Hugs
             </span>
           </h1>
-          <p className="text-lg text-[#4D5563] mb-4">
-            "Your saved creations and heartfelt messages"
-          </p>
+          
+          <motion.p 
+            className="text-xl text-[#4D5563] leading-relaxed max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+          >
+            Your saved creations and heartfelt messages
+          </motion.p>
         </motion.div>
 
         <motion.div

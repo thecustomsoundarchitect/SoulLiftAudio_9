@@ -12,7 +12,7 @@ export default function ExamplesPage() {
 
   return (
     <div 
-      className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]"
+      className="flex-1 flex flex-col bg-[#F3F7FF]"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
       {/* Floating back button */}
@@ -28,7 +28,7 @@ export default function ExamplesPage() {
         </Link>
       </motion.div>
 
-      <div className="max-w-6xl mx-auto px-6 py-20">
+      <div className="max-w-6xl mx-auto px-6 py-20 pb-24 sm:pb-28">
         {/* Header */}
         <motion.div 
           className="text-center mb-16"

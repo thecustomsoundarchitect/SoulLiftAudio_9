@@ -7,7 +7,7 @@ export default function SoulArchivePage() {
 
   return (
     <div 
-      className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF] relative overflow-hidden"
+      className="flex-1 flex flex-col bg-[#F3F7FF] relative overflow-hidden"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
       {/* Glass morphism overlay */}
@@ -18,7 +18,7 @@ export default function SoulArchivePage() {
       <div className="absolute bottom-32 left-12 w-40 h-40 bg-white/15 rounded-full blur-2xl animate-pulse delay-800"></div>
       <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-white/10 rounded-full blur-lg animate-pulse delay-1100"></div>
 
-      <div className="max-w-4xl mx-auto px-6 py-8 relative z-10">
+      <div className="max-w-4xl mx-auto px-6 py-8 relative z-10 pb-24 sm:pb-28">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">

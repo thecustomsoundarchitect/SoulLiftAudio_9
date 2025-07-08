@@ -71,40 +71,8 @@ function GatherPage() {
   };
 
   return (
-    <div style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
-      <div className="flex-1 flex flex-col bg-[#F3F7FF] min-h-screen w-full overflow-x-hidden">
-        {/* Custom scrollbar for Collected Thoughts, matching title gradient */}
-        <style>{`
-          .permanent-scroll {
-            overflow-y: scroll !important;
-            scrollbar-width: thin !important;
-            scrollbar-color: #8b5cf6 #f3f4f6 !important;
-          }
-          .permanent-scroll::-webkit-scrollbar {
-            width: 10px !important;
-            display: block !important;
-          }
-          .permanent-scroll::-webkit-scrollbar-track {
-            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%) !important;
-            border-radius: 6px !important;
-            border: 1px solid #e5e7eb !important;
-          }
-          .permanent-scroll::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #9333ea 0%, #7c3aed 25%, #6366f1 50%, #3b82f6 75%, #2563eb 100%) !important;
-            border-radius: 6px !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-          }
-          .permanent-scroll::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 25%, #5b21b6 50%, #4338ca 75%, #1d4ed8 100%) !important;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
-          }
-          .permanent-scroll::-webkit-scrollbar-thumb:active {
-            background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 25%, #4c1d95 50%, #3730a3 75%, #1e3a8a 100%) !important;
-          }
-        `}</style>
-
-        <div className="max-w-2xl mx-auto px-4 py-6">
+    <div className="flex-1 flex flex-col bg-[#F3F7FF]" style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
+        <div className="max-w-2xl mx-auto px-4 py-6 pb-24 sm:pb-28">
           <div className="space-y-6">
             {/* Title */}
             <div className="text-center">
@@ -182,7 +150,6 @@ function GatherPage() {
                 </h3>
                 <div 
                   className="grid grid-cols-2 sm:grid-cols-3 gap-1"
-                  style={{ height: '200px', overflow: 'hidden' }}
                 >
                   {dummyDescriptors.map((descriptor, idx) => {
                     const isSelected = descriptors.includes(descriptor);
@@ -215,8 +182,8 @@ function GatherPage() {
                   Collected Thoughts
                 </h3>
                 <div 
-                  className="permanent-scroll bg-gray-50 border border-gray-200 rounded p-2"
-                  style={{ height: '200px' }}
+                  className="bg-gray-50 border border-gray-200 rounded p-2 space-y-1"
+                  style={{ minHeight: '200px' }}
                 >
                   {ingredients.length === 0 ? (
                     <div className="text-xs text-gray-400 text-center pt-1">
@@ -243,8 +210,6 @@ function GatherPage() {
                       ))}
                     </div>
                   )}
-                  {/* This invisible content forces the scrollbar to always show */}
-                  <div style={{ height: '300px', width: '1px' }}></div>
                 </div>
               </div>
             </div>
@@ -305,7 +270,7 @@ function GatherPage() {
             )}
           </AnimatePresence>
         </div>
-      </div>
+      
     </div>
   );
 }

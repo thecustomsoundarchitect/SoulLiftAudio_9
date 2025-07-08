@@ -89,10 +89,10 @@ export default function DefinePage() {
 
   return (
     <div 
-      className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF]"
+      className="flex-1 flex flex-col bg-[#F3F7FF]"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      <div className="max-w-md mx-auto px-4 py-6">
+      <div className="max-w-md mx-auto px-4 py-6 pb-24 sm:pb-28">
         <div className="space-y-6">
           {/* Title */}
           <div className="text-center">

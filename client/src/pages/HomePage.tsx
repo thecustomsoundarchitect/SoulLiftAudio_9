@@ -5,7 +5,7 @@ import { WavyBackground } from '../components/ui/wavy-background'
 
 export default function HomePage() {
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto">
+    <div className="flex-1 flex flex-col">
       <WavyBackground
         className="min-h-full"
         containerClassName="min-h-full"
@@ -17,7 +17,7 @@ export default function HomePage() {
         waveOpacity={0.2}
       >
         <div className="relative z-10 min-h-full flex flex-col justify-center px-4">
-        <div className="max-w-sm sm:max-w-2xl lg:max-w-6xl mx-auto">
+        <div className="max-w-sm sm:max-w-2xl lg:max-w-6xl mx-auto pb-24 sm:pb-28">
           {/* Hero Section */}
           <div className="text-center mb-8">
             <motion.div
@@ -148,7 +148,7 @@ export default function HomePage() {
           </div>
 
           {/* Sign In CTA */}
-          <div className="text-center">
+          <div className="text-center pb-24 sm:pb-28">
             <button className="soul-button-outline text-sm px-6 py-2">
               Sign In to Save Your Creations
             </button>
