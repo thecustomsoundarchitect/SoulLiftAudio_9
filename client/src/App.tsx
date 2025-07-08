@@ -4,7 +4,6 @@ import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import DefinePage from './pages/DefinePage';
 import GatherPage from './pages/GatherPage';
-import WeaveTransferPage from './pages/WeaveTransferPage';
 import CraftPage from './pages/CraftPage';
 import AudioHugPage from './pages/AudioHugPage';
 import ExamplesPage from './pages/ExamplesPage';
@@ -28,7 +27,6 @@ export default function App() {
               <Route path="/examples" element={<ExamplesPage />} />
               <Route path="/my-hugs" element={<MyHugsPage />} />
               <Route path="/weaving" element={<WeavingPage />} />
-              <Route path="/weaving-test" element={<WeaveTransferPage />} />
             </Routes>
           </main>
         </div>

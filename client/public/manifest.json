@@ -1,0 +1,21 @@
+{
+  "name": "SoulLift Audio",
+  "short_name": "SoulLift",
+  "description": "AI-powered audio experience creator",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "/TheCustomSoundArchitect_A_modern_and_elegant_logo_design_for__SoulLift_Aud_e4b06ea4-3d6c-449a-b652-d7b1f84adc4e.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/TheCustomSoundArchitect_A_modern_and_elegant_logo_design_for__SoulLift_Aud_e4b06ea4-3d6c-449a-b652-d7b1f84adc4e.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

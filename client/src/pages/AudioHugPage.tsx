@@ -149,7 +149,10 @@ With gratitude and love`
 
 
   return (
-    <div className="flex-1 flex flex-col bg-[#F3F7FF] min-h-screen w-full overflow-x-hidden font-['Poppins']">
+    <div 
+      className="flex-1 flex flex-col bg-[#F3F7FF] min-h-screen w-full overflow-x-hidden"
+      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+    >
       <div className="max-w-md mx-auto px-4 py-6">
         <div className="space-y-6">
           {/* Title and Subtitle - match Craft/GatherPage */}
@@ -177,7 +180,7 @@ With gratitude and love`
                   {soulHugMessage.split(' ').length} words
                 </div>
               </div>
-              <div className="w-full h-64 p-3 bg-transparent resize-none leading-relaxed text-[#4D5563] placeholder-[#4D5563]/40">
+              <div className="w-full h-64 p-3 text-base resize-none leading-relaxed text-[#4D5563] placeholder-[#4D5563]/40">
                 {soulHugMessage}
               </div>
               <div className="flex items-center justify-between mt-3 text-xs text-[#4D5563]/70">
@@ -287,7 +290,7 @@ With gratitude and love`
               <button
                 onClick={mixAudio}
                 disabled={isMixing || !canMix}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-xl font-medium transition-all duration-200 flex items-center justify-center"
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center"
               >
                 <Music className="w-4 h-4 mr-2" />
                 {isMixing ? 'Mixing Audio...' : 'Mix Audio'}
@@ -340,7 +343,7 @@ With gratitude and love`
               <button
                 onClick={handleDownload}
                 disabled={!hasAudio}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center shadow-lg"
               >
                 <Download className="w-4 h-4 mr-2" />
                 Download
@@ -349,7 +352,7 @@ With gratitude and love`
               <button
                 onClick={handleShare}
                 disabled={!hasAudio}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-xl font-medium transition-all duration-200 flex items-center shadow-lg"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center shadow-lg"
               >
                 <Share2 className="w-4 h-4 mr-2" />
                 Share

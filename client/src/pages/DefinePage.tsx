@@ -36,7 +36,7 @@ interface AgeSliderProps {
 const AgeSlider: React.FC<AgeSliderProps> = ({ label, value, onChange, min = 5, max = 100 }) => (
   <div className="mb-6">
     <div className="flex justify-between items-center mb-3">
-      <span className="text-gray-700 font-medium">{label}</span>
+      <span className="text-gray-700 font-medium text-sm">{label}</span>
       <span className="text-purple-600 font-bold text-lg">{value}</span>
     </div>
     <div className="relative">
@@ -88,7 +88,10 @@ export default function DefinePage() {
   const isFormComplete = formData.coreFeeling && formData.tone
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF]">
+    <div 
+      className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF]"
+      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+    >
       <div className="max-w-md mx-auto px-4 py-6">
         <div className="space-y-6">
           {/* Title */}
@@ -206,7 +209,7 @@ export default function DefinePage() {
                 placeholder="Enter who is this for eg. Name"
                 value={formData.recipient}
                 onChange={(e) => setFormData({...formData, recipient: e.target.value})}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-full bg-white placeholder-gray-500 focus:border-purple-400 focus:outline-none transition-colors"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-full bg-white placeholder-gray-500 focus:border-purple-400 focus:outline-none transition-colors text-sm"
               />
 
               {/* Age Sliders */}

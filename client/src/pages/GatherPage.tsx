@@ -252,7 +252,7 @@ function GatherPage() {
             {/* Weave Button */}
             <div className="mt-6 flex justify-center">
               <button 
-                onClick={() => navigate('/weaving-test')}
+                onClick={() => navigate('/weaving')}
                 className="w-40 bg-gradient-to-r from-purple-500 to-pink-400 text-white text-sm font-medium py-2 rounded-full flex items-center justify-center"
               >
                 Craft
