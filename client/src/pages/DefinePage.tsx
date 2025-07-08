@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { useSoulHug } from '../context/SoulHugContext'
+import { motion } from 'framer-motion'
 
 const feelingOptions = [
   "deeply appreciated and valued",
@@ -92,7 +93,12 @@ export default function DefinePage() {
       className="flex-1 flex flex-col bg-[#F3F7FF]"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      <div className="max-w-md mx-auto px-4 py-6 pb-24 sm:pb-28">
+      <motion.div
+        className="max-w-md mx-auto px-4 py-12 pb-24 sm:pb-28"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
         <div className="space-y-6">
           {/* Title */}
           <div className="text-center">
@@ -246,7 +252,7 @@ export default function DefinePage() {
             </p>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

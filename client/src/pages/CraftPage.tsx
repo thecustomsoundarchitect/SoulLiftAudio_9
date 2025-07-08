@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSoulHug } from '../context/SoulHugContext'
+import { motion } from 'framer-motion'
 
 const LENGTH_OPTIONS = [
   { label: '30 SEC', value: '30s' },
@@ -254,7 +255,12 @@ function CraftPage() {
           </div>
         </div>
       )}
-      <div className="max-w-2xl mx-auto px-4 py-6 w-full pb-24 sm:pb-28">
+      <motion.div
+        className="max-w-2xl mx-auto px-4 py-12 w-full pb-24 sm:pb-28"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
         <div className="space-y-6">
           {/* Title */}
           <div className="text-center">
@@ -301,7 +307,7 @@ function CraftPage() {
               />
               
               {/* Toolbar */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-t border-gray-200 rounded-b-2xl">
+              <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-t border-gray-200 rounded-b-2xl overflow-x-auto flex-nowrap scrollbar-hide">
                 <button
                   onClick={() => executeCommand('undo')}
                   className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
@@ -442,10 +448,8 @@ function CraftPage() {
                       </div>
                     </div>
                   )}
-                  <span className="ml-3 text-[10px] text-gray-400 bg-white bg-opacity-80 px-1.5 py-0.5 rounded-full border border-gray-100 whitespace-nowrap" style={{fontSize: '10px', lineHeight: '1'}}>
-                    Est. Read 1 Min
-                  </span>
                 </div>
+              {/* End of editor/toolbar area */}
               </div>
               
               <input
@@ -458,8 +462,14 @@ function CraftPage() {
             </div>
           </div>
 
+          {/* Est. Read 1 Min badge - always visible, prominent, and outside scroll/overflow */}
+          <div className="w-full flex justify-center mt-4 mb-2">
+            <span className="text-xs font-semibold text-white bg-purple-600 px-3 py-1 rounded-full shadow border border-purple-700" style={{fontSize: '12px', lineHeight: '1.2'}}>
+              Est. Read 1 Min
+            </span>
+          </div>
           {/* Control Buttons */}
-          <div className="flex flex-wrap gap-3 justify-center mt-4">
+          <div className="flex flex-wrap gap-3 justify-center mt-2">
             <button
               onClick={handlePolish}
               className="px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-full text-sm font-semibold shadow hover:scale-105 transition-all"
@@ -545,7 +555,7 @@ function CraftPage() {
           </div>
 
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

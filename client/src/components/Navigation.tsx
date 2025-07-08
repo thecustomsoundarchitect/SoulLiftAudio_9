@@ -24,12 +24,12 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
+      <nav className="bg-black shadow-lg sticky top-0 z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-12 md:h-16">
             <Link to="/" className="flex items-center space-x-2" onClick={closeMobileMenu}>
               <Heart className="w-8 h-8 text-purple-600" />
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold text-white">
                 SoulLift
               </span>
             </Link>

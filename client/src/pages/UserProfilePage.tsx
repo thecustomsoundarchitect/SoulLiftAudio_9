@@ -6,9 +6,12 @@ export default function UserProfilePage() {
   const [activeTab, setActiveTab] = useState('profile')
 
   return (
-    <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF] relative"
+    <motion.div
+      className="flex-1 flex flex-col bg-[#F3F7FF] py-12 relative"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
     >
       {/* Glass morphism overlay */}
       <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
@@ -170,6 +173,6 @@ export default function UserProfilePage() {
             )}
           </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 
 export default function WeavingPage() {
@@ -14,28 +15,22 @@ export default function WeavingPage() {
   }, [navigate])
 
   return (
-    <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF]"
+    <motion.div
+      className="flex-1 flex flex-col bg-[#F3F7FF] py-12"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
     >
       <div className="flex-1 flex items-center justify-center pb-24 sm:pb-28">
         <div className="text-center">
           {/* Processing Image Placeholder */}
           <div className="mb-8 flex justify-center">
             <img
-              src="https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/loading.svg"
-              alt="Processing..."
-              className="w-32 h-32 animate-spin-slow"
-              style={{ animation: 'spin 2s linear infinite' }}
+              src="https://placehold.co/128x128/8B5CF6/FFFFFF?text=%E2%88%9E"
+              alt="Loading..."
+              className="w-32 h-32"
             />
-            <style>{`
-              @keyframes spin {
-                100% { transform: rotate(360deg); }
-              }
-              .animate-spin-slow {
-                animation: spin 2s linear infinite;
-              }
-            `}</style>
           </div>
 
           {/* Magic Text */}
@@ -65,6 +60,6 @@ export default function WeavingPage() {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

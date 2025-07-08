@@ -11,9 +11,12 @@ export default function ExamplesPage() {
   ]
 
   return (
-    <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF]"
+    <motion.div
+      className="flex-1 flex flex-col bg-[#F3F7FF] py-12"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
     >
       {/* Floating back button */}
       <motion.div 
@@ -172,6 +175,6 @@ export default function ExamplesPage() {
           </div>
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   )
 }

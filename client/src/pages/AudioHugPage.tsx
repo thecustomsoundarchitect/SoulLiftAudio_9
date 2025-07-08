@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Mic, Square, Play, Pause, Trash2, Download, Share2, ArrowLeft, Music, Image, Volume2, Wand2, RotateCcw } from 'lucide-react'
 import { useSoulHug } from '../context/SoulHugContext'
@@ -132,9 +133,12 @@ With gratitude and love`
 
 
   return (
-    <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF]"
+    <motion.div
+      className="flex-1 flex flex-col bg-[#F3F7FF] py-12"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
     >
       <div className="max-w-md mx-auto px-4 py-6 pb-24 sm:pb-28">
         <div className="space-y-6">
@@ -346,6 +350,6 @@ With gratitude and love`
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
