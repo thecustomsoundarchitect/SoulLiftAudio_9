@@ -11,7 +11,10 @@ export default function ExamplesPage() {
   ]
 
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]">
+    <div 
+      className="flex-1 flex flex-col overflow-y-auto bg-[#F3F7FF]"
+      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+    >
       {/* Floating back button */}
       <motion.div 
         className="fixed top-6 left-6 z-10"
@@ -163,17 +166,6 @@ export default function ExamplesPage() {
                 >
                   <Heart className="w-5 h-5 mr-2 inline" />
                   Create Your Soul Hug
-                </motion.button>
-              </Link>
-              
-              <Link to="/my-hugs">
-                <motion.button 
-                  className="bg-white/60 hover:bg-white/80 backdrop-blur-md text-[#4D5563] px-8 py-4 rounded-xl font-medium transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 text-lg shadow-xl border border-white/30"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Play className="w-5 h-5 mr-2 inline" />
-                  View My Hugs
                 </motion.button>
               </Link>
             </div>

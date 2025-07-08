@@ -14,7 +14,10 @@ export default function WeavingPage() {
   }, [navigate])
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF] font-['Poppins']">
+    <div 
+      className="flex-1 flex flex-col min-h-screen overflow-y-auto bg-[#F3F7FF]"
+      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+    >
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center">
           {/* Processing Image Placeholder */}
