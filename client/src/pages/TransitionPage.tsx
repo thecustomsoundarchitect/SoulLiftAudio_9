@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
-export default function WeavingPage() {
+export default function TransitionPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -42,22 +42,8 @@ export default function WeavingPage() {
 
           {/* Animated Dots Loader */}
           <div className="flex justify-center items-center mt-4">
-            <span className="inline-block w-3 h-3 mx-1 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></span>
-            <span className="inline-block w-3 h-3 mx-1 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
-            <span className="inline-block w-3 h-3 mx-1 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
-            <style>{`
-              @keyframes bounce {
-                0%, 80%, 100% { transform: translateY(0); }
-                40% { transform: translateY(-16px); }
-              }
-              .animate-bounce {
-                animation: bounce 1.2s infinite;
-              }
-            `}</style>
+            {/* ...existing code for loader... */}
           </div>
-          <p className="text-lg text-[#4D5563] mt-4">
-            Weaving your thoughts into something beautiful
-          </p>
         </div>
       </div>
     </motion.div>

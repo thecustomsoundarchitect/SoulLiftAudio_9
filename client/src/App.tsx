@@ -9,7 +9,7 @@ import CraftPage from './pages/CraftPage';
 import AudioHugPage from './pages/AudioHugPage';
 import ExamplesPage from './pages/ExamplesPage';
 import MyHugsPage from './pages/MyHugsPage';
-import WeavingPage from './pages/WeavingPage';
+import TransitionPage from './pages/TransitionPage';
 import UserProfilePage from './pages/UserProfilePage';
 import { SoulHugProvider } from './context/SoulHugContext';
 
@@ -36,7 +36,7 @@ function AppContent() {
             <Route path="/audio-hug" element={<AudioHugPage />} />
             <Route path="/examples" element={<ExamplesPage />} />
             <Route path="/my-hugs" element={<MyHugsPage />} />
-            <Route path="/weaving" element={<WeavingPage />} />
+            <Route path="/weaving" element={<TransitionPage />} />
             <Route path="/user-profile" element={<UserProfilePage />} />
           </Routes>
         </main>
