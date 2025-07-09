@@ -4,7 +4,8 @@ export async function generatePromptSeeds(
   recipient: string,
   occasion: string,
   recipientAge: string,
-  userAge: string
+  userAge: string,
+  additionalConstraint?: string
 ): Promise<string[]> {
   const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
   
@@ -12,7 +13,7 @@ export async function generatePromptSeeds(
     throw new Error('OpenAI API key not found in environment variables');
   }
 
-  const systemPrompt = `You are an expert at generating emotionally guided prompts for heartfelt messages. Generate 8 short, inspirational prompts that help users craft meaningful messages. Each prompt should be emotionally resonant and specific to the context provided.`;
+  const systemPrompt = `You are an expert at generating emotionally guided prompts for heartfelt messages. Generate 8 short, inspirational prompts that help users craft meaningful messages. Each prompt should be emotionally resonant and specific to the context provided. ${additionalConstraint || ''}`;
 
   const userPrompt = `Core feeling: ${coreFeeling}
 Tone: ${tone}
@@ -30,7 +31,7 @@ Please respond with a JSON array of 8 short inspirational prompts.`;
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-4',
+        model: 'gpt-3.5-turbo',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -54,7 +55,18 @@ Please respond with a JSON array of 8 short inspirational prompts.`;
       throw new Error('Response is not an array');
     }
     
-    return prompts;
+    // Handle both string and object responses
+    const processedPrompts = prompts.map(prompt => {
+      if (typeof prompt === 'string') {
+        return prompt;
+      } else if (prompt && typeof prompt === 'object' && prompt.prompt) {
+        return prompt.prompt;
+      } else {
+        return String(prompt);
+      }
+    });
+    
+    return processedPrompts;
   } catch (error) {
     console.error('Error generating prompt seeds:', error);
     throw error;
