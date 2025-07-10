@@ -36,8 +36,8 @@ Please respond with a JSON array of 8 short inspirational prompts.`;
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
         ],
-        max_tokens: 1000,
-        temperature: 0.7
+        max_tokens: 300, // reduced for faster response
+        temperature: 0.5 // lower for more deterministic and faster response
       })
     });
 
