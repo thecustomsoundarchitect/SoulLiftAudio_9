@@ -24,7 +24,7 @@ function AppContent() {
   }, [location.pathname]);
 
   return (
-    <SoulHugProvider>
+    <>
       <div className="flex flex-col min-h-screen min-h-dvh">
         <Navigation />
         <main ref={mainContentRef} className="flex-1 flex flex-col overflow-y-auto">
@@ -36,20 +36,22 @@ function AppContent() {
             <Route path="/audio-hug" element={<AudioHugPage />} />
             <Route path="/examples" element={<ExamplesPage />} />
             <Route path="/my-hugs" element={<MyHugsPage />} />
-            <Route path="/weaving" element={<TransitionPage />} />
+            <Route path="/stories" element={<TransitionPage />} />
             <Route path="/user-profile" element={<UserProfilePage />} />
           </Routes>
         </main>
         <BottomNavigationBar />
       </div>
-    </SoulHugProvider>
+    </>
   );
 }
 
 export default function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <SoulHugProvider>
+        <AppContent />
+      </SoulHugProvider>
     </BrowserRouter>
   );
 }

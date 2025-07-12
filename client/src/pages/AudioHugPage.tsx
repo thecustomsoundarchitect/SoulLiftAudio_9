@@ -31,7 +31,7 @@ export default function AudioHugPage() {
 
 I wanted to take a moment to remind you of something important - you are absolutely incredible, and here's why:
 
-${currentSoulHug.ingredients?.map(ingredient => `- ${ingredient}`).join('\n') || '- Your amazing spirit shines through everything you do'}
+${currentSoulHug.stories?.map(ingredient => `- ${ingredient}`).join('\n') || '- Your amazing spirit shines through everything you do'}
 
 ${currentSoulHug.descriptors?.length ? `You are: ${currentSoulHug.descriptors.join(', ')}` : ''}
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
@@ -8,8 +8,11 @@ import { generatePromptSeeds } from '../lib/openai'
 function GatherPage() {
   const navigate = useNavigate();
   const { currentSoulHug, updateCurrentSoulHug } = useSoulHug();
-  const [ingredients, setIngredients] = useState<string[]>(currentSoulHug.ingredients || []);
-  const [descriptors, setDescriptors] = useState<string[]>(currentSoulHug.descriptors || []);
+  // Use context as the single source of truth
+  const stories = currentSoulHug.stories || [];
+  const descriptors = currentSoulHug.descriptors || [];
+
+  // No local state for stories/descriptors; context is the single source of truth
   const [writingModal, setWritingModal] = useState({ isOpen: false, prompt: '', story: '' });
   const [promptSeeds, setPromptSeeds] = useState<(string | { prompt: string; context?: string })[]>([]);
   const [loading, setLoading] = useState(false);
@@ -26,29 +29,42 @@ function GatherPage() {
   ];
 
   useEffect(() => {
+    let didTimeout = false;
+    let timeoutId: NodeJS.Timeout;
     const loadPrompts = async () => {
       if (!currentSoulHug.coreFeeling) return;
-
       setLoading(true);
+      let fallbackUsed = false;
       try {
-        const prompts = await generatePromptSeeds(
+        const promptPromise = generatePromptSeeds(
           currentSoulHug.coreFeeling,
           currentSoulHug.tone || '',
           currentSoulHug.recipient || '',
           currentSoulHug.occasion || '',
-          '', // recipientAge placeholder
-          '', // userAge placeholder
+          '',
+          '',
           'Return 8 short prompts that are emotionally guided and between 1 to 9 words each.'
         );
-        setPromptSeeds(prompts);
+        // Fallback to dummy prompts if OpenAI is slow (timeout 2s)
+        timeoutId = setTimeout(() => {
+          didTimeout = true;
+          setPromptSeeds(dummyPrompts);
+          setLoading(false);
+          fallbackUsed = true;
+        }, 2000);
+        const prompts = await promptPromise;
+        if (!didTimeout) {
+          clearTimeout(timeoutId);
+          setPromptSeeds(prompts);
+        }
       } catch (error) {
-        console.error('Failed to load prompts', error);
+        if (!fallbackUsed) setPromptSeeds(dummyPrompts);
       } finally {
         setLoading(false);
       }
     };
-
     loadPrompts();
+    return () => clearTimeout(timeoutId);
   }, [currentSoulHug]);
 
   const dummyDescriptors = [
@@ -56,47 +72,55 @@ function GatherPage() {
     'Creative', 'Thoughtful', 'Strong', 'Loving', 'Honest', 'Supportive'
   ];
 
-  const openWritingModal = (prompt: string) => {
+  const openWritingModal = useCallback((prompt: string) => {
     setWritingModal({ isOpen: true, prompt, story: '' });
-  };
+  }, []);
 
-  const closeWritingModal = () => {
+  const closeWritingModal = useCallback(() => {
     setWritingModal({ isOpen: false, prompt: '', story: '' });
-  };
+  }, []);
+
+  const handlePromptToggle = useCallback((promptText: string) => {
+    const isToggled = stories.includes(promptText);
+    let newStories = isToggled
+      ? stories.filter(item => item !== promptText)
+      : [...stories, promptText];
+    updateCurrentSoulHug({ stories: newStories });
+  }, [updateCurrentSoulHug]);
 
   const saveStory = () => {
     if (writingModal.story.trim()) {
       const storyIngredient = `${writingModal.prompt}: ${writingModal.story.trim()}`;
-      const newIngredients = [...ingredients, storyIngredient];
-      setIngredients(newIngredients);
-      updateCurrentSoulHug({ ingredients: newIngredients });
+      if (!stories.includes(storyIngredient)) {
+        const newStories = [...stories, storyIngredient];
+        updateCurrentSoulHug({ stories: newStories });
+      }
     }
     closeWritingModal();
   };
 
   const removeIngredient = (ingredient: string) => {
-    const newIngredients = ingredients.filter(item => item !== ingredient);
-    setIngredients(newIngredients);
-    updateCurrentSoulHug({ ingredients: newIngredients });
+    const newStories = stories.filter(item => item !== ingredient);
+    updateCurrentSoulHug({ stories: newStories });
   };
 
   const toggleDescriptor = (descriptor: string) => {
-    let newDescriptors: string[];
-    let newIngredients = [...ingredients];
-    
+    let newDescriptors;
     if (descriptors.includes(descriptor)) {
       newDescriptors = descriptors.filter(item => item !== descriptor);
-      newIngredients = newIngredients.filter(item => item !== descriptor);
     } else {
       newDescriptors = [...descriptors, descriptor];
-      if (!newIngredients.includes(descriptor)) {
-        newIngredients.push(descriptor);
+    }
+    updateCurrentSoulHug({ descriptors: newDescriptors });
+    let newStories = [...stories];
+    if (stories.includes(descriptor)) {
+      newStories = newStories.filter(item => item !== descriptor);
+    } else {
+      if (!newStories.includes(descriptor)) {
+        newStories.push(descriptor);
       }
     }
-    
-    setDescriptors(newDescriptors);
-    setIngredients(newIngredients);
-    updateCurrentSoulHug({ descriptors: newDescriptors, ingredients: newIngredients });
+    updateCurrentSoulHug({ stories: newStories });
   };
 
   return (
@@ -137,9 +161,9 @@ function GatherPage() {
                   ) : (
                     (promptSeeds.length > 0 ? promptSeeds : dummyPrompts).map((prompt, idx) => {
                       const promptText = typeof prompt === 'string' ? prompt : prompt.prompt;
-                      const isToggled = ingredients.includes(promptText);
+                      const isToggled = stories.includes(promptText);
                       return (
-                        <div key={idx} className="flex items-center bg-gray-200 rounded-xl px-3 py-2">
+                        <div key={promptText} className="flex items-center bg-gray-200 rounded-xl px-3 py-2">
                           <button
                             onClick={() => openWritingModal(promptText)}
                             className="flex-1 text-left text-[#4D5563] font-medium text-xs hover:underline focus:outline-none"
@@ -148,16 +172,7 @@ function GatherPage() {
                             {promptText}
                           </button>
                           <button
-                            onClick={() => {
-                              let newIngredients = [...ingredients];
-                              if (isToggled) {
-                                newIngredients = newIngredients.filter(item => item !== promptText);
-                              } else {
-                                newIngredients.push(promptText);
-                              }
-                              setIngredients(newIngredients);
-                              updateCurrentSoulHug({ ...currentSoulHug, ingredients: newIngredients });
-                            }}
+                            onClick={() => handlePromptToggle(promptText)}
                             className={`ml-3 w-10 h-6 rounded-full flex items-center p-1 transition-colors duration-200 ${isToggled ? 'bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-400' : 'bg-gray-300'}`}
                             style={{ border: isToggled ? '2px solid #b39ddb' : '2px solid #e5e7eb' }}
                           >
@@ -216,13 +231,13 @@ function GatherPage() {
                   Collected Thoughts
                 </h3>
                 <div className="bg-gray-50 border border-gray-200 rounded p-2 space-y-1" style={{ minHeight: '200px' }}>
-                  {ingredients.length === 0 ? (
+                  {stories.length === 0 ? (
                     <div className="text-xs text-gray-400 text-center pt-1">
                       No thoughts yet
                     </div>
                   ) : (
                     <div className="space-y-1">
-                      {ingredients.map((ingredient, idx) => (
+                      {stories.map((ingredient, idx) => (
                         <div key={idx}>
                           <div className="flex items-start gap-1">
                             <span className="text-[10px] sm:text-[11px] text-gray-600 flex-1">{ingredient}</span>
@@ -234,7 +249,7 @@ function GatherPage() {
                               <X className="w-3 h-3" />
                             </button>
                           </div>
-                          {idx < ingredients.length - 1 && (
+                          {idx < stories.length - 1 && (
                             <div className="h-px bg-gray-200 mx-3 my-1 rounded-full" style={{ width: '90%' }} />
                           )}
                         </div>
@@ -247,7 +262,7 @@ function GatherPage() {
 
             <div className="mt-6 flex justify-center">
               <button 
-                onClick={() => navigate('/weaving')}
+                onClick={() => navigate('/stories')}
                 className="w-40 bg-gradient-to-r from-purple-500 to-pink-400 text-white text-sm font-medium py-2 rounded-full flex items-center justify-center"
               >
                 Craft

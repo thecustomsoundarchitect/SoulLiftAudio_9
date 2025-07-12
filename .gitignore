@@ -3,12 +3,7 @@ dist
 .DS_Store
 server/public
 vite.config.ts.*
-*.tar.gzclient/.env
-client/.env
-client/.env
-client/.env
+*.tar.gz
 client/.env
 *.env
-client/.env
-client/.env
-client/.env
+client/package.json

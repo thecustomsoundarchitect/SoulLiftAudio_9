@@ -6,9 +6,10 @@ export interface SoulHug {
   coreFeeling?: string
   occasion?: string
   tone?: string
-  ingredients?: string[]
+  stories?: string[]
   descriptors?: string[]
   message?: string
+  messageLength?: string
   audioUrl?: string
   coverImage?: string | null
   backgroundMusic?: string
@@ -37,7 +38,15 @@ export const useSoulHug = () => {
 }
 
 export const SoulHugProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentSoulHug, setCurrentSoulHug] = useState<SoulHug>({})
+  const [currentSoulHug, setCurrentSoulHug] = useState<SoulHug>({
+    // Add some test data to trigger auto-generation
+    stories: ['A wonderful memory of friendship'],
+    descriptors: ['heartwarming', 'joyful'],
+    coreFeeling: 'gratitude',
+    tone: 'warm',
+    recipient: 'best friend',
+    occasion: 'just because'
+  })
   const [savedSoulHugs, setSavedSoulHugs] = useState<SoulHug[]>([])
 
   const updateCurrentSoulHug = (updates: Partial<SoulHug>) => {

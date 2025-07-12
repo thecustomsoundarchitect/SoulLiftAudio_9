@@ -65,7 +65,7 @@ interface SoulHug {
   coreFeeling?: string
   occasion?: string
   tone?: string
-  ingredients?: string[]
+  stories?: string[]
   descriptors?: string[]
   message?: string
   audioUrl?: string
@@ -82,7 +82,7 @@ interface SoulHug {
 ### User Flow
 1. **Define** → Basic parameters (recipient, feeling, occasion, tone)
 2. **Gather** → Specific memories and descriptors
-3. **Craft** → Message composition with drag-and-drop ingredients
+3. **Craft** → Message composition with drag-and-drop stories
 4. **Audio** → Voice recording/generation, music, and visual elements
 5. **Deliver** → Export, share, and save options
 
