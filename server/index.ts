@@ -1,60 +1,147 @@
-import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5001;
+
+// Middleware
+app.use(cors({
+  origin: 'http://localhost:5173', // Your Vite frontend
+  credentials: true
+}));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
-    }
-  });
-
-  next();
+// Test endpoint
+app.get('/api/test', (req, res) => {
+  res.json({ message: "Server is working!" });
 });
 
-(async () => {
-  const server = await registerRoutes(app);
+// Generate Soul Hug message endpoint
+app.post('/api/generate-message', async (req, res) => {
+  try {
+    console.log('📨 Generate message request received');
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+    const { 
+      stories, 
+      descriptors, 
+      coreFeeling, 
+      tone, 
+      recipient, 
+      occasion, 
+      length 
+    } = req.body;
 
-    res.status(status).json({ message });
-    throw err;
-  });
+    // Validate required fields
+    if (!stories || !coreFeeling) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: stories and coreFeeling are required' 
+      });
+    }
 
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
+    // Get OpenAI API key
+    const apiKey = process.env.VITE_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
+    
+    if (!apiKey) {
+      console.error('❌ OpenAI API key not found in environment variables');
+      return res.status(500).json({ 
+        error: 'OpenAI API key not configured' 
+      });
+    }
+
+    // Create the prompt for OpenAI
+    const systemPrompt = `You are an expert at crafting heartfelt, personalized messages that make people feel deeply loved and appreciated. Create a beautiful, flowing message that incorporates the user's specific stories and feelings.
+
+The message should:
+- Feel authentic and personal
+- Flow naturally from one thought to the next
+- Incorporate the specific stories and descriptors provided
+- Match the requested tone and occasion
+- Make the recipient feel the intended core feeling
+- Be approximately ${length} in length`;
+
+    const userPrompt = `Create a heartfelt message for ${recipient || 'someone special'} that makes them feel ${coreFeeling}.
+
+${occasion ? `Occasion: ${occasion}` : ''}
+${tone ? `Tone: ${tone}` : ''}
+
+Stories and memories to include:
+${stories.map((story: string, i: number) => `${i + 1}. ${story}`).join('\n')}
+
+${descriptors && descriptors.length > 0 ? `Qualities to highlight: ${descriptors.join(', ')}` : ''}
+
+Please create a warm, flowing message that weaves these elements together naturally. Do not use quotes or asterisks. Return only the message text.`;
+
+    console.log('🤖 Calling OpenAI API...');
+    
+    // Call OpenAI API
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 500
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error('❌ OpenAI API error:', response.status, errorData);
+      return res.status(response.status).json({ 
+        error: `OpenAI API error: ${response.status} ${response.statusText}` 
+      });
+    }
+
+    const data = await response.json();
+    const generatedMessage = data.choices?.[0]?.message?.content;
+
+    if (!generatedMessage) {
+      console.error('❌ No message content in OpenAI response');
+      return res.status(500).json({ 
+        error: 'No message generated by OpenAI' 
+      });
+    }
+
+    console.log('✅ Message generated successfully');
+    console.log('Generated message length:', generatedMessage.length);
+
+    // Return the generated message
+    res.json({ 
+      message: generatedMessage.trim(),
+      metadata: {
+        length: generatedMessage.trim().length,
+        storiesUsed: stories.length,
+        descriptorsUsed: descriptors?.length || 0
+      }
+    });
+
+  } catch (error: any) {
+    console.error('❌ Error generating message:', error);
+    res.status(500).json({ 
+      error: 'Failed to generate message',
+      details: error?.message || 'Unknown error' 
+    });
   }
+});
 
-  const port = 5000;
-  server.listen(port, () => {
-    log(`serving on port ${port}`);
-  });
-})();
+// Start server
+app.listen(PORT, () => {
+  console.log(`🌊 SoulLift backend server running on port ${PORT}`);
+  console.log(`📡 Test endpoint: http://localhost:${PORT}/api/test`);
+  console.log(`💜 Generate endpoint: http://localhost:${PORT}/api/generate-message`);
+  console.log(`🔑 OpenAI API key: ${process.env.VITE_OPENAI_API_KEY ? 'Configured ✅' : 'Missing ❌'}`);
+});
+
+export default app;
