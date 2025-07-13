@@ -42,3 +42,5 @@ echo "Press Ctrl+C to stop all services"
 while true; do
   sleep 1
 done
+  sleep 1
+done
