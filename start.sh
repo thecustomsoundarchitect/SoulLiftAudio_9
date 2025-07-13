@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# Kill any running processes on ports 6002 and 5173
-echo "Shutting down any existing processes..."
-lsof -ti:6002 | xargs kill -9 2>/dev/null || true
-lsof -ti:5173 | xargs kill -9 2>/dev/null || true
+# If you encounter "EADDRINUSE" errors, please manually stop previous runs by pressing Ctrl+C.
+# This script no longer automatically kills processes due to environment compatibility issues.
 
 # Start the backend server
 echo "Starting backend server..."
