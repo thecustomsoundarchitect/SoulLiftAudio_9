@@ -1,8 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+// Load environment variables from the correct path
+dotenv.config({ path: path.resolve(process.cwd(), 'server', '.env') });
 
 const app = express();
 const PORT = process.env.PORT || 6002;
@@ -57,8 +59,10 @@ app.post('/api/generate-prompt-seeds', async (req, res) => {
     
     if (!apiKey) {
       console.error('❌ OpenAI API key not found in environment variables');
+      console.error('Available env vars:', Object.keys(process.env).filter(key => key.includes('OPENAI')));
+      console.error('Current working directory:', process.cwd());
       return res.status(500).json({ 
-        error: 'OpenAI API key not configured' 
+        error: 'OpenAI API key not configured. Please check your .env file in the server directory.' 
       });
     }
 
@@ -175,8 +179,9 @@ app.post('/api/generate-message', async (req, res) => {
     
     if (!apiKey) {
       console.error('❌ OpenAI API key not found in environment variables');
+      console.error('Available env vars:', Object.keys(process.env).filter(key => key.includes('OPENAI')));
       return res.status(500).json({ 
-        error: 'OpenAI API key not configured' 
+        error: 'OpenAI API key not configured. Please check your .env file in the server directory.' 
       });
     }
 
@@ -264,7 +269,8 @@ app.listen(PORT, () => {
   console.log(`🌊 SoulLift backend server running on port ${PORT}`);
   console.log(`📡 Test endpoint: http://localhost:${PORT}/api/test`);
   console.log(`💜 Generate endpoint: http://localhost:${PORT}/api/generate-message`);
-  console.log(`🔑 OpenAI API key: ${process.env.VITE_OPENAI_API_KEY ? 'Configured ✅' : 'Missing ❌'}`);
+  console.log(`🔑 OpenAI API key: ${(process.env.VITE_OPENAI_API_KEY || process.env.OPENAI_API_KEY) ? 'Configured ✅' : 'Missing ❌'}`);
+  console.log(`📁 Looking for .env file at: ${path.resolve(process.cwd(), 'server', '.env')}`);
 });
 
 export default app;
