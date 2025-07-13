@@ -23,7 +23,7 @@ npm run dev &
 CLIENT_PID=$!
 
 # Function to handle exit
-function cleanup {
+cleanup() {
   echo "Shutting down..."
   kill $SERVER_PID 2>/dev/null || true
   kill $CLIENT_PID 2>/dev/null || true
