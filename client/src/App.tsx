@@ -32,11 +32,12 @@ function AppContent() {
             <Route path="/" element={<HomePage />} />
             <Route path="/define" element={<DefinePage />} />
             <Route path="/gather" element={<GatherPage />} />
+            <Route path="/transition" element={<TransitionPage />} />
             <Route path="/craft" element={<CraftPage />} />
             <Route path="/audio-hug" element={<AudioHugPage />} />
             <Route path="/examples" element={<ExamplesPage />} />
             <Route path="/my-hugs" element={<MyHugsPage />} />
-            <Route path="/weaving" element={<TransitionPage />} />
+            {/* <Route path="/weaving" element={<TransitionPage />} /> */}
             <Route path="/user-profile" element={<UserProfilePage />} />
           </Routes>
         </main>
