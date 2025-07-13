@@ -7,7 +7,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 const app = express();
-const PORT = process.env.PORT || 6002;
+const PORT = process.env.PORT || 6003;
 
 // Handle graceful shutdown
 process.on('SIGTERM', () => {
