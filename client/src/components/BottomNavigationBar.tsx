@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { FloatingDock } from './ui/floating-dock'
 import { IconHome } from '@tabler/icons-react'
 import { Heart, Archive, User } from 'lucide-react'
+import { useSoulHug } from '../context/SoulHugContext'
 
 export default function BottomNavigationBar() {
   const location = useLocation();
