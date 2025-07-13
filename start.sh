@@ -39,4 +39,6 @@ echo "Backend: http://localhost:6002"
 echo "Frontend: http://localhost:5173"
 echo "Press Ctrl+C to stop all services"
 
-wait
+while true; do
+  sleep 1
+done
