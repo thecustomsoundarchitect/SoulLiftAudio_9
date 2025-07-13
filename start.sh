@@ -21,15 +21,10 @@ npm run dev &
 CLIENT_PID=$!
 
 # Function to handle exit
-cleanup() {
-  echo "Shutting down..."
-  kill $SERVER_PID 2>/dev/null || true
-  kill $CLIENT_PID 2>/dev/null || true
-  exit
-}
+# Directly execute kill commands on exit
 
 # Set up trap to call cleanup function on exit signals
-trap cleanup INT TERM
+trap "kill $SERVER_PID 2>/dev/null || true; kill $CLIENT_PID 2>/dev/null || true; exit" INT TERM
 
 # Keep script running
 echo "SoulLift Audio is running!"
