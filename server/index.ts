@@ -19,6 +19,18 @@ app.get('/api/test', (req, res) => {
   res.json({ message: "Server is working!" });
 });
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    message: "SoulLift Audio API Server", 
+    version: "1.0.0",
+    endpoints: {
+      test: "/api/test",
+      generateMessage: "/api/generate-message"
+    }
+  });
+});
+
 // Generate Soul Hug message endpoint
 app.post('/api/generate-message', async (req, res) => {
   try {
