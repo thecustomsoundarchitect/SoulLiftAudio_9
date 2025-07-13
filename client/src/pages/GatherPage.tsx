@@ -4,7 +4,6 @@ import { X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { useSoulHug } from '../context/SoulHugContext'
-import { generatePromptSeeds } from '../lib/openai'
 
 function GatherPage() {
   const navigate = useNavigate();
@@ -12,8 +11,6 @@ function GatherPage() {
   const [stories, setStories] = useState<string[]>(currentSoulHug.stories || []);
   const [descriptors, setDescriptors] = useState<string[]>(currentSoulHug.descriptors || []);
   const [writingModal, setWritingModal] = useState({ isOpen: false, prompt: '', story: '' });
-  const [promptSeeds, setPromptSeeds] = useState<(string | { prompt: string; context?: string })[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const dummyPrompts = [
     "When they showed unwavering kindness",
@@ -25,32 +22,6 @@ function GatherPage() {
     "The small ways they show care",
     "Why they deserve all the love"
   ];
-
-  useEffect(() => {
-    const loadPrompts = async () => {
-      if (!currentSoulHug.coreFeeling) return;
-
-      setLoading(true);
-      try {
-        const prompts = await generatePromptSeeds(
-          currentSoulHug.coreFeeling,
-          currentSoulHug.tone || '',
-          currentSoulHug.recipient || '',
-          currentSoulHug.occasion || '',
-          '', // recipientAge placeholder
-          '', // userAge placeholder
-          'Return 8 short prompts that are emotionally guided and between 1 to 9 words each.'
-        );
-        setPromptSeeds(prompts);
-      } catch (error) {
-        console.error('Failed to load prompts', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPrompts();
-  }, [currentSoulHug]);
 
   const dummyDescriptors = [
     'Smart', 'Caring', 'Loyal', 'Funny', 'Patient', 'Brave',
@@ -131,52 +102,45 @@ function GatherPage() {
                   Or, turn on <span className="font-semibold">Save Prompt Directly</span> to add that specific prompt to your thoughts.
                 </div>
                 <div className="grid grid-cols-1 gap-3">
-                  {loading ? (
-                    <div className="text-center py-8">
-                      <div className="text-gray-500">Loading personalized prompts...</div>
-                    </div>
-                  ) : (
-                    (promptSeeds.length > 0 ? promptSeeds : dummyPrompts).map((prompt, idx) => {
-                      const promptText = typeof prompt === 'string' ? prompt : prompt.prompt;
-                      const isToggled = stories.includes(promptText);
-                      return (
-                        <div key={idx} className="flex items-center bg-gray-200 rounded-xl px-3 py-2">
-                          <button
-                            onClick={() => openWritingModal(promptText)}
-                            className="flex-1 text-left text-[#4D5563] font-medium text-xs hover:underline focus:outline-none"
-                            style={{ fontSize: '0.78rem', lineHeight: 1.2 }}
-                          >
-                            {promptText}
-                          </button>
-                          <button
-                            onClick={() => {
-                              let newStories = [...stories];
-                              if (isToggled) {
-                                newStories = newStories.filter(item => item !== promptText);
-                              } else {
-                                newStories.push(promptText);
-                              }
-                              setStories(newStories);
-                              updateCurrentSoulHug({ ...currentSoulHug, stories: newStories });
+                  {dummyPrompts.map((prompt, idx) => {
+                    const isToggled = stories.includes(prompt);
+                    return (
+                      <div key={idx} className="flex items-center bg-gray-200 rounded-xl px-3 py-2">
+                        <button
+                          onClick={() => openWritingModal(prompt)}
+                          className="flex-1 text-left text-[#4D5563] font-medium text-xs hover:underline focus:outline-none"
+                          style={{ fontSize: '0.78rem', lineHeight: 1.2 }}
+                        >
+                          {prompt}
+                        </button>
+                        <button
+                          onClick={() => {
+                            let newStories = [...stories];
+                            if (isToggled) {
+                              newStories = newStories.filter(item => item !== prompt);
+                            } else {
+                              newStories.push(prompt);
+                            }
+                            setStories(newStories);
+                            updateCurrentSoulHug({ ...currentSoulHug, stories: newStories });
+                          }}
+                          className={`ml-3 w-10 h-6 rounded-full flex items-center p-1 transition-colors duration-200 ${isToggled ? 'bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-400' : 'bg-gray-300'}`}
+                          style={{ border: isToggled ? '2px solid #b39ddb' : '2px solid #e5e7eb' }}
+                        >
+                          <span
+                            className={`block w-4 h-4 rounded-full shadow transition-transform duration-200 ${isToggled ? 'translate-x-4' : ''}`}
+                            style={{
+                              background: isToggled
+                                ? 'radial-gradient(circle at 60% 40%, #fff9c4 0%, #f5c6e7 60%, #b39ddb 100%)'
+                                : '#fff',
+                              boxShadow: isToggled ? '0 0 6px #b39ddb' : 'none',
+                              transition: 'background 0.2s, transform 0.2s'
                             }}
-                            className={`ml-3 w-10 h-6 rounded-full flex items-center p-1 transition-colors duration-200 ${isToggled ? 'bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-400' : 'bg-gray-300'}`}
-                            style={{ border: isToggled ? '2px solid #b39ddb' : '2px solid #e5e7eb' }}
-                          >
-                            <span
-                              className={`block w-4 h-4 rounded-full shadow transition-transform duration-200 ${isToggled ? 'translate-x-4' : ''}`}
-                              style={{
-                                background: isToggled
-                                  ? 'radial-gradient(circle at 60% 40%, #fff9c4 0%, #f5c6e7 60%, #b39ddb 100%)'
-                                  : '#fff',
-                                boxShadow: isToggled ? '0 0 6px #b39ddb' : 'none',
-                                transition: 'background 0.2s, transform 0.2s'
-                              }}
-                            ></span>
-                          </button>
-                        </div>
-                      );
-                    })
-                  )}
+                          ></span>
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
