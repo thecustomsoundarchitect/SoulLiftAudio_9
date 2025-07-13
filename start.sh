@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Kill any running processes on ports 5000 and 5173
+# Kill any running processes on ports 6002 and 5173
 echo "Shutting down any existing processes..."
-lsof -ti:5000 | xargs kill -9 2>/dev/null || true
+lsof -ti:6002 | xargs kill -9 2>/dev/null || true
 lsof -ti:5173 | xargs kill -9 2>/dev/null || true
 
 # Start the backend server
@@ -35,7 +35,7 @@ trap cleanup INT TERM
 
 # Keep script running
 echo "SoulLift Audio is running!"
-echo "Backend: http://localhost:5000"
+echo "Backend: http://localhost:6002"
 echo "Frontend: http://localhost:5173"
 echo "Press Ctrl+C to stop all services"
 
