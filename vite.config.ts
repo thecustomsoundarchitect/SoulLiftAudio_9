@@ -29,4 +29,13 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: false, // Disable source maps in production to reduce memory usage
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:6002',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
 });
