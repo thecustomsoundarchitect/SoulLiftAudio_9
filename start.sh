@@ -20,9 +20,6 @@ cd ../client
 npm run dev &
 CLIENT_PID=$!
 
-# Function to handle exit
-# Directly execute kill commands on exit
-
 # Set up trap to call cleanup function on exit signals
 trap "kill $SERVER_PID 2>/dev/null || true; kill $CLIENT_PID 2>/dev/null || true; exit" INT TERM
 
