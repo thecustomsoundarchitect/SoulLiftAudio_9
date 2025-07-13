@@ -5,7 +5,7 @@ echo "🔍 Checking for processes using port 6002..."
 # Find process using port 6002
 PID=$(lsof -ti:6002)
 
-if [ ! -z "$PID" ]; then
+if [ -n "$PID" ]; then
     echo "📍 Found process $PID using port 6002"
     echo "🔪 Killing process $PID..."
     kill -9 $PID
