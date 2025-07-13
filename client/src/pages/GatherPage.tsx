@@ -26,30 +26,43 @@ function GatherPage() {
   ];
 
   useEffect(() => {
+    let didTimeout = false;
+    let timeoutId: NodeJS.Timeout;
     const loadPrompts = async () => {
       if (!currentSoulHug.coreFeeling) return;
-
       setLoading(true);
+      let fallbackUsed = false;
       try {
-        const prompts = await generatePromptSeeds(
+        const promptPromise = generatePromptSeeds(
           currentSoulHug.coreFeeling,
           currentSoulHug.tone || '',
           currentSoulHug.recipient || '',
           currentSoulHug.occasion || '',
-          '', // recipientAge placeholder
-          '', // userAge placeholder
+          '',
+          '',
           'Return 8 short prompts that are emotionally guided and between 1 to 9 words each.'
         );
-        setPromptSeeds(prompts);
+        // Fallback to dummy prompts if OpenAI is slow (timeout 2s)
+        timeoutId = setTimeout(() => {
+          didTimeout = true;
+          setPromptSeeds(dummyPrompts);
+          setLoading(false);
+          fallbackUsed = true;
+        }, 2000);
+        const prompts = await promptPromise;
+        if (!didTimeout) {
+          clearTimeout(timeoutId);
+          setPromptSeeds(prompts);
+        }
       } catch (error) {
-        console.error('Failed to load prompts', error);
+        if (!fallbackUsed) setPromptSeeds(dummyPrompts);
       } finally {
         setLoading(false);
       }
     };
-
     loadPrompts();
-  }, [currentSoulHug]);
+    return () => clearTimeout(timeoutId);
+  }, [currentSoulHug.coreFeeling, currentSoulHug.tone, currentSoulHug.recipient, currentSoulHug.occasion]);
 
   const dummyDescriptors = [
     'Smart', 'Caring', 'Loyal', 'Funny', 'Patient', 'Brave',

@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -10,7 +9,7 @@ const PORT = process.env.PORT || 5001;
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173', // Your Vite frontend
+  origin: 'http://localhost:5173',
   credentials: true
 }));
 app.use(express.json());
@@ -36,14 +35,12 @@ app.post('/api/generate-message', async (req, res) => {
       length 
     } = req.body;
 
-    // Validate required fields
     if (!stories || !coreFeeling) {
       return res.status(400).json({ 
         error: 'Missing required fields: stories and coreFeeling are required' 
       });
     }
 
-    // Get OpenAI API key
     const apiKey = process.env.VITE_OPENAI_API_KEY || process.env.OPENAI_API_KEY;
     
     if (!apiKey) {
@@ -53,7 +50,6 @@ app.post('/api/generate-message', async (req, res) => {
       });
     }
 
-    // Create the prompt for OpenAI
     const systemPrompt = `You are an expert at crafting heartfelt, personalized messages that make people feel deeply loved and appreciated. Create a beautiful, flowing message that incorporates the user's specific stories and feelings.
 
 The message should:
@@ -78,7 +74,6 @@ Please create a warm, flowing message that weaves these elements together natura
 
     console.log('🤖 Calling OpenAI API...');
     
-    // Call OpenAI API
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -117,7 +112,6 @@ Please create a warm, flowing message that weaves these elements together natura
     console.log('✅ Message generated successfully');
     console.log('Generated message length:', generatedMessage.length);
 
-    // Return the generated message
     res.json({ 
       message: generatedMessage.trim(),
       metadata: {
@@ -136,7 +130,6 @@ Please create a warm, flowing message that weaves these elements together natura
   }
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`🌊 SoulLift backend server running on port ${PORT}`);
   console.log(`📡 Test endpoint: http://localhost:${PORT}/api/test`);

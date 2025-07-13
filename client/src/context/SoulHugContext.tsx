@@ -36,9 +36,39 @@ export const useSoulHug = () => {
   return context
 }
 
+
+import { useEffect } from 'react';
+
 export const SoulHugProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [currentSoulHug, setCurrentSoulHug] = useState<SoulHug>({})
-  const [savedSoulHugs, setSavedSoulHugs] = useState<SoulHug[]>([])
+  const [currentSoulHug, setCurrentSoulHug] = useState<SoulHug>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('soullift-current-hug');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (error) {
+          console.error('Error parsing saved Soul Hug data:', error);
+        }
+      }
+    }
+    return {
+      recipient: '',
+      coreFeeling: '',
+      occasion: '',
+      tone: '',
+      stories: [],
+      descriptors: [],
+      message: '',
+      customPrompts: []
+    };
+  });
+  const [savedSoulHugs, setSavedSoulHugs] = useState<SoulHug[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('soullift-current-hug', JSON.stringify(currentSoulHug));
+    }
+  }, [currentSoulHug]);
 
   const updateCurrentSoulHug = (updates: Partial<SoulHug>) => {
     setCurrentSoulHug(prev => ({ ...prev, ...updates }))
@@ -68,6 +98,21 @@ export const SoulHugProvider: React.FC<{ children: ReactNode }> = ({ children })
     setSavedSoulHugs(updated)
   }
 
+  const clearForNewHug = () => {
+    const freshData = {
+      recipient: '',
+      coreFeeling: '',
+      occasion: '',
+      tone: '',
+      stories: [],
+      descriptors: [],
+      message: '',
+      customPrompts: []
+    };
+    setCurrentSoulHug(freshData);
+    localStorage.removeItem('soullift-current-hug');
+  };
+
   return (
     <SoulHugContext.Provider value={{
       currentSoulHug,
@@ -75,7 +120,8 @@ export const SoulHugProvider: React.FC<{ children: ReactNode }> = ({ children })
       savedSoulHugs,
       saveCurrentSoulHug,
       loadSavedSoulHugs,
-      deleteSoulHug
+      deleteSoulHug,
+      clearForNewHug
     }}>
       {children}
     </SoulHugContext.Provider>
