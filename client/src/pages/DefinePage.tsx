@@ -86,7 +86,7 @@ export default function DefinePage() {
     setDropdownOpen(null)
   }
 
-  const isFormComplete = formData.coreFeeling && formData.tone
+  const isFormComplete = true
 
   return (
     <div 
@@ -240,17 +240,11 @@ export default function DefinePage() {
           <div className="mt-6 flex justify-center">
             <button
               onClick={handleContinue}
-              disabled={!isFormComplete}
-              className="w-40 bg-gradient-to-r from-purple-500 to-pink-400 text-white text-sm font-medium py-2 rounded-full flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none"
+              className="w-40 bg-gradient-to-r from-purple-500 to-pink-400 text-white text-sm font-medium py-2 rounded-full flex items-center justify-center"
             >
               Gather
             </button>
           </div>
-          {!isFormComplete && (
-            <p className="text-xs mt-2 text-gray-500">
-              Please select a feeling and tone to continue.
-            </p>
-          )}
         </div>
       </motion.div>
     </div>
