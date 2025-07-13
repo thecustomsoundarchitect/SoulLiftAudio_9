@@ -9,6 +9,17 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 const app = express();
 const PORT = process.env.PORT || 6002;
 
+// Handle graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('🛑 Received SIGTERM, shutting down gracefully...');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('🛑 Received SIGINT, shutting down gracefully...');
+  process.exit(0);
+});
+
 // Middleware
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -265,12 +276,23 @@ Please create a warm, flowing message that weaves these elements together natura
   }
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`🌊 SoulLift backend server running on port ${PORT}`);
   console.log(`📡 Test endpoint: http://localhost:${PORT}/api/test`);
   console.log(`💜 Generate endpoint: http://localhost:${PORT}/api/generate-message`);
   console.log(`🔑 OpenAI API key: ${(process.env.VITE_OPENAI_API_KEY || process.env.OPENAI_API_KEY) ? 'Configured ✅' : 'Missing ❌'}`);
   console.log(`📁 Looking for .env file at: ${path.resolve(process.cwd(), 'server', '.env')}`);
+});
+
+// Handle server errors
+server.on('error', (err: any) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`❌ Port ${PORT} is already in use. Please run: ./kill-port.sh`);
+    process.exit(1);
+  } else {
+    console.error('❌ Server error:', err);
+    process.exit(1);
+  }
 });
 
 export default app;
