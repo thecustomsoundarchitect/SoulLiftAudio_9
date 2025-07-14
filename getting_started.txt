@@ -1,0 +1,31 @@
+# Getting Started
+
+## From README.md
+
+### Running the Application
+
+You can start both the frontend and backend servers with a single command:
+
+./start.sh
+
+Or run them separately:
+
+1. Start the backend server:
+   cd server
+   npm run dev
+
+2. Start the frontend server:
+   cd client
+   npm run dev
+
+Accessing the Application:
+- Frontend: http://localhost:5173
+- Backend: http://localhost:5000
+
+## From replit.md
+
+### Development Setup
+- Monorepo: Single repository with client/, server/, and shared/ directories
+- Path Aliases: Configured for clean imports (@/, @shared/)
+- Development Server: Vite dev server with Express API proxy
+- Hot Reload: Full-stack hot reloading in development
