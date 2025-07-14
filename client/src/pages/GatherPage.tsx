@@ -4,7 +4,6 @@ import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useSoulHug } from '../context/SoulHugContext';
-import { generatePromptSeeds } from '../lib/openai';
 
 function GatherPage() {
   const navigate = useNavigate();
@@ -37,16 +36,19 @@ function GatherPage() {
       if (!currentSoulHug.coreFeeling) return;
       setLoading(true);
       try {
-        const prompts = await generatePromptSeeds(
-          currentSoulHug.coreFeeling,
-          currentSoulHug.tone || '',
-          currentSoulHug.recipient || '',
-          currentSoulHug.occasion || '',
-          '', // recipientAge placeholder
-          ''  // userAge placeholder
-        );
+        const res = await fetch('/api/prompt-seeds', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            coreFeeling: currentSoulHug.coreFeeling,
+            tone: currentSoulHug.tone || '',
+            recipient: currentSoulHug.recipient || '',
+            occasion: currentSoulHug.occasion || '',
+          }),
+        });
+        const prompts = await res.json();
         setPromptSeeds(prompts);
-      } catch (err) {
+      } catch {
         setPromptSeeds([]);
       } finally {
         setLoading(false);
@@ -239,7 +241,7 @@ function GatherPage() {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                      stories: currentSoulHug.collectedThoughts || [],
+                      collectedThoughts: currentSoulHug.collectedThoughts || [],
                       descriptors: descriptors || [],
                       coreFeeling,
                       tone,
