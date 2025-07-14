@@ -6,7 +6,7 @@ export interface SoulHug {
   coreFeeling?: string
   occasion?: string
   tone?: string
-  ingredients?: string[]
+  collectedThoughts?: string[]
   descriptors?: string[]
   message?: string
   audioUrl?: string

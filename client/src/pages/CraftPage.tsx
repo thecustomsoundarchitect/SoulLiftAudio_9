@@ -527,7 +527,7 @@ function CraftPage() {
                 <ul className="list-disc list-inside space-y-1">
                   {(() => {
                     const allThoughts = [
-                      ...(currentSoulHug.ingredients || []),
+                      ...(currentSoulHug.collectedThoughts || []),
                       ...(currentSoulHug.descriptors || [])
                     ];
                     const uniqueThoughts = [...new Set(allThoughts)];

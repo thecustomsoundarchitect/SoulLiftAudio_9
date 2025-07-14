@@ -36,7 +36,7 @@ function AppContent() {
             <Route path="/audio-hug" element={<AudioHugPage />} />
             <Route path="/examples" element={<ExamplesPage />} />
             <Route path="/my-hugs" element={<MyHugsPage />} />
-            <Route path="/weaving" element={<TransitionPage />} />
+            <Route path="/transition" element={<TransitionPage />} />
             <Route path="/user-profile" element={<UserProfilePage />} />
           </Routes>
         </main>

@@ -1,18 +1,17 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 export default function TransitionPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Auto-redirect to craft page after 3 seconds
     const timer = setTimeout(() => {
-      navigate('/craft')
-    }, 3000)
-
-    return () => clearTimeout(timer)
-  }, [navigate])
+      navigate('/craft');
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [navigate]);
 
   return (
     <motion.div
@@ -32,20 +31,16 @@ export default function TransitionPage() {
               className="w-32 h-32"
             />
           </div>
-
-          {/* Magic Text */}
           <h1 className="text-3xl font-bold mb-4">
             <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               The Magic is Happening...
             </span>
           </h1>
-
-          {/* Animated Dots Loader */}
           <div className="flex justify-center items-center mt-4">
             {/* ...existing code for loader... */}
           </div>
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
