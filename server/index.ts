@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
-import { buildPrompt, validatePrompts } from './promptRules';
+import { buildPrompt, validatePrompts } from './promptRules.ts';
 
 dotenv.config();
 const app = express();
