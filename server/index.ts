@@ -1,10 +1,10 @@
-// server/index.ts  (cleaned-up)
+// server/index.ts
 import express from 'express';
 import type { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
-import { buildPrompt, validatePrompts } from './promptRules.ts';
+import { buildPrompt, validatePrompts } from './promptRules.ts'; // buildPrompt is now used
 
 dotenv.config();
 const app = express();
@@ -19,22 +19,25 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 app.get('/api/test', (_req, res: Response) => res.json({ message: 'Server is working!' }));
 
 // 2. Prompt seeds (modern chat endpoint)
-// --- /api/prompt-seeds  (backend) ---
-// 2. Prompt seeds (copied from routes.ts)
 app.post('/api/prompt-seeds', async (req: Request, res: Response) => {
   try {
     const { coreFeeling, tone, recipient, occasion } = req.body;
-    const prompt = `Generate 8 very short, inspirational prompts (each no more than 10 words, no greetings, no full sentences, just short phrases) for ${recipient} about ${coreFeeling} in a ${tone} tone for ${occasion}. Number them 1-8, one per line.`;
+
+    // Use the buildPrompt function from promptRules.ts
+    const prompt = buildPrompt({ coreFeeling, tone, recipient, occasion });
+
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: prompt }],
       max_tokens: 200,
       temperature: 0.7,
     });
+
     let content = response.choices[0]?.message?.content || '';
     let lines = content.split(/\r?\n/)
       .map(l => l.replace(/^\s*\d+\.?\s*/, '').replace(/^[-*]\s*/, '').trim())
       .filter(l => l.length > 0);
+
     if (lines.length === 1 && lines[0].startsWith('[')) {
       try {
         const arr = JSON.parse(lines[0]);
@@ -42,11 +45,20 @@ app.post('/api/prompt-seeds', async (req: Request, res: Response) => {
       } catch {}
     }
     if (lines.length < 8) {
-      while (lines.length < 8) lines.push('');
+      while (lines.length < 8) lines.push(''); // Fill with empty if less than 8
     } else if (lines.length > 8) {
-      lines = lines.slice(0, 8);
+      lines = lines.slice(0, 8); // Slice to 8 if more
     }
-    res.json(lines);
+
+    // Optional: You could use validatePrompts here if you want to log issues
+    // const { valid, issues } = validatePrompts(lines);
+    // if (issues.length > 0) {
+    //   console.warn('Validation issues with generated prompts:', issues);
+    // }
+    // res.json(valid); // Send valid prompts
+
+    res.json(lines); // For now, send the parsed lines directly
+
   } catch (err: any) {
     console.error('prompt-seeds error:', err);
     res.status(500).json({ error: err.message });

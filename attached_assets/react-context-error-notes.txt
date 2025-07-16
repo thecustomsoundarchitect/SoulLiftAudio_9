@@ -1,0 +1,11 @@
+React Context Error Notes
+
+Error: useSoulHug must be used within a SoulHugProvider
+
+This error means a component (such as <DefinePage>) is calling the useSoulHug hook outside of the SoulHugProvider context. To fix:
+- Ensure all components using useSoulHug are children of <SoulHugProvider> in your component tree.
+- Wrap your <App /> or main router in <SoulHugProvider> in App.tsx.
+
+React Error Boundaries:
+Consider adding an error boundary to your tree to customize error handling behavior.
+See: https://reactjs.org/link/error-boundaries

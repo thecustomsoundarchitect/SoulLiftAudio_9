@@ -1,3 +1,4 @@
+// server/promptRules.ts
 // Validate prompts for backend filtering and monitoring
 export function validatePrompts(prompts: string[]): { valid: string[]; issues: string[] } {
   const issues: string[] = [];
@@ -57,6 +58,7 @@ export function validatePrompts(prompts: string[]): { valid: string[]; issues: s
 
   return { valid, issues };
 }
+
 export interface PromptSeedOptions {
   coreFeeling: string;
   tone: string;

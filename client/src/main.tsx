@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import { SoulHugProvider } from './context/SoulHugContext'; // Import SoulHugProvider
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -10,6 +11,8 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    <SoulHugProvider> {/* Wrap App with SoulHugProvider */}
+      <App />
+    </SoulHugProvider>
   </StrictMode>
 );
