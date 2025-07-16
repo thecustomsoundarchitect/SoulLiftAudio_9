@@ -1,14 +1,20 @@
-node_modules
-dist
+# Dependency directories
+node_modules/
+dist/
+public/
+
+# OS-generated files
 .DS_Store
-server/public
+
+# Build artifacts (if any are created directly in root)
+build/
+.vite/
+
+# Vite config backups or temporary files
 vite.config.ts.*
-*.tar.gzclient/.env
-client/.env
-client/.env
-client/.env
-client/.env
+
+# Compressed archives
+*.tar.gz
+
+# Environment variables (Crucial for security!)
 *.env
-client/.env
-client/.env
-client/.env
