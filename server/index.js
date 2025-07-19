@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var cors_1 = require("cors");
+var dotenv_1 = require("dotenv");
+var userProfile_js_1 = require("./src/routes/userProfile.js");
+dotenv_1.default.config();
+var app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use('/api/v2/user-profile', userProfile_js_1.default);
+var PORT = process.env.PORT || 5001;
+app.listen(PORT, function () { return console.log("\uD83D\uDD25 Server ready on :".concat(PORT)); });

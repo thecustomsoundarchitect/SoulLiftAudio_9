@@ -26,6 +26,13 @@ function GatherPage() {
     "The small ways they show care",
     "Why they deserve all the love"
   ];
+  const [showPrompts, setShowPrompts] = useState(false);
+
+  useEffect(() => {
+    if (promptSeeds.length) {
+      requestAnimationFrame(() => setShowPrompts(true));
+    }
+  }, [promptSeeds]);
 
   const dummyDescriptors = [
     "brave", "gentle", "funny", "wise", "creative", "loyal", "thoughtful", "adventurous", "caring", "resilient", "curious", "generous"
