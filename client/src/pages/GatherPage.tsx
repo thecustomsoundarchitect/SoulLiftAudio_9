@@ -79,8 +79,21 @@ function GatherPage() {
     let newDescriptors = descriptors.includes(descriptor)
       ? descriptors.filter(d => d !== descriptor)
       : [...descriptors, descriptor];
+    // FIX: Also add/remove descriptor from collected thoughts
+    let newCollectedThoughts = [...collectedThoughts];
+    if (descriptors.includes(descriptor)) {
+      // Remove descriptor from collected thoughts
+      newCollectedThoughts = newCollectedThoughts.filter(t => t !== descriptor);
+    } else {
+      // Add descriptor to collected thoughts
+      newCollectedThoughts.push(descriptor);
+    }
     setDescriptors(newDescriptors);
-    updateCurrentSoulHug({ descriptors: newDescriptors });
+    setCollectedThoughts(newCollectedThoughts);
+    updateCurrentSoulHug({ 
+      descriptors: newDescriptors,
+      collectedThoughts: newCollectedThoughts 
+    });
   };
 
   const removeCollectedThought = (thought: string) => {

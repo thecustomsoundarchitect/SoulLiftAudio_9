@@ -25,7 +25,7 @@ function AppContent() {
 
   return (
     <SoulHugProvider>
-      <div className="flex flex-col min-h-screen min-h-dvh">
+      <div className="flex flex-col min-h-dvh">
         <Navigation />
         <main ref={mainContentRef} className="flex-1 flex flex-col overflow-y-auto">
           <Routes>
