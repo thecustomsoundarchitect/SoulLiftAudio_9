@@ -27,8 +27,12 @@ function GatherPage() {
     "Why they deserve all the love"
   ];
 
+  // NEW
   const dummyDescriptors = [
-    "brave", "gentle", "funny", "wise", "creative", "loyal", "thoughtful", "adventurous", "caring", "resilient", "curious", "generous"
+    "Warm", "Curious", "Reliable", "Playful", "Resilient", "Attentive", 
+    "Humble", "Energetic", "Authentic", "Empathetic", "Creative", "Grounded",
+    "Inclusive", "Gracious", "Vibrant", "Patient", "Insightful", "Fearless",
+    "Generous", "Present"
   ];
 
   useEffect(() => {
