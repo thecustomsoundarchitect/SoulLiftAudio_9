@@ -27,12 +27,8 @@ function GatherPage() {
     "Why they deserve all the love"
   ];
 
-  // NEW
   const dummyDescriptors = [
-    "Warm", "Curious", "Reliable", "Playful", "Resilient", "Attentive", 
-    "Humble", "Energetic", "Authentic", "Empathetic", "Creative", "Grounded",
-    "Inclusive", "Gracious", "Vibrant", "Patient", "Insightful", "Fearless",
-    "Generous", "Present"
+    "brave", "gentle", "funny", "wise", "creative", "loyal", "thoughtful", "adventurous", "caring", "resilient", "curious", "generous"
   ];
 
   useEffect(() => {
@@ -83,21 +79,8 @@ function GatherPage() {
     let newDescriptors = descriptors.includes(descriptor)
       ? descriptors.filter(d => d !== descriptor)
       : [...descriptors, descriptor];
-    // FIX: Also add/remove descriptor from collected thoughts
-    let newCollectedThoughts = [...collectedThoughts];
-    if (descriptors.includes(descriptor)) {
-      // Remove descriptor from collected thoughts
-      newCollectedThoughts = newCollectedThoughts.filter(t => t !== descriptor);
-    } else {
-      // Add descriptor to collected thoughts
-      newCollectedThoughts.push(descriptor);
-    }
     setDescriptors(newDescriptors);
-    setCollectedThoughts(newCollectedThoughts);
-    updateCurrentSoulHug({ 
-      descriptors: newDescriptors,
-      collectedThoughts: newCollectedThoughts 
-    });
+    updateCurrentSoulHug({ descriptors: newDescriptors });
   };
 
   const removeCollectedThought = (thought: string) => {
