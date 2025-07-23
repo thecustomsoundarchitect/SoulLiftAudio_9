@@ -1,12 +1,11 @@
-// server/index.ts
-import * as dotenv from 'dotenv';
-import express, { Request, Response } from 'express';
+
+import dotenv from 'dotenv';
+import express from 'express';
 import cors from 'cors';
 import OpenAI from 'openai';
-import { buildPrompt, validatePrompts } from './promptRules';
-import userProfileRouter from './src/routes/userProfile';
+import { buildPrompt, validatePrompts } from './promptRules.ts';
+import userProfileRouter from './src/routes/userProfile.ts';
 
-// Load environment variables from .env
 dotenv.config();
 
 const app = express();
@@ -19,12 +18,12 @@ app.use('/api/v2/user-profile', userProfileRouter);
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // 1. Health check
-app.get('/api/test', (_req: Request, res: Response) => {
+app.get('/api/test', (_req: express.Request, res: express.Response) => {
   res.json({ message: 'Server is working!' });
 });
 
 // 2. Prompt seeds
-app.post('/api/prompt-seeds', async (req: Request, res: Response) => {
+app.post('/api/prompt-seeds', async (req: express.Request, res: express.Response) => {
   try {
     const {
       coreFeeling,
@@ -74,11 +73,6 @@ app.post('/api/prompt-seeds', async (req: Request, res: Response) => {
     if (lines.length < 8) while (lines.length < 8) lines.push('');
     if (lines.length > 8) lines = lines.slice(0, 8);
 
-    // Optional validation
-    // const { valid, issues } = validatePrompts(lines);
-    // if (issues.length) console.warn('[PromptValidation]', issues);
-    // res.json(valid);
-
     res.json(lines);
   } catch (err: any) {
     console.error('prompt-seeds error:', err);
@@ -87,7 +81,7 @@ app.post('/api/prompt-seeds', async (req: Request, res: Response) => {
 });
 
 // 3. Generate final message
-app.post('/api/generate-message', async (req: Request, res: Response) => {
+app.post('/api/generate-message', async (req: express.Request, res: express.Response) => {
   try {
     const {
       collectedThoughts,
@@ -104,66 +98,6 @@ app.post('/api/generate-message', async (req: Request, res: Response) => {
     const userPrompt = `Write a ${length} message for ${
       recipient || 'someone special'
     } making them feel ${coreFeeling}.
-Tone: ${tone || ''}
-Occasion: ${occasion || ''}
-Collected thoughts:
-${collectedThoughts.join('\n')}
-Descriptors: ${descriptors.join(', ')}`;
-
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_tokens: 500,
-      temperature: 0.7
-    });
-
-    const message = completion.choices[0]?.message?.content?.trim();
-    res.json({ message });
-  } catch (err: any) {
-    console.error('generate-message error:', err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.listen(PORT, () => {
-  console.log(`🌊 SoulLift backend running on http://localhost:${PORT}`);
-  console.log(`🔑 API key loaded: ${!!process.env.OPENAI_API_KEY}`);
-});
-      'You are an expert at crafting heartfelt, personalized messages.';
-    const userPrompt = `Write a ${length} message for ${
-      recipient || 'someone special'
-    } making them feel ${coreFeeling}.
-Tone: ${tone || ''}
-Occasion: ${occasion || ''}
-Collected thoughts:
-${collectedThoughts.join('\n')}
-Descriptors: ${descriptors.join(', ')}`;
-
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_tokens: 500,
-      temperature: 0.7
-    });
-
-    const message = completion.choices[0]?.message?.content?.trim();
-    res.json({ message });
-  } catch (err: any) {
-    console.error('generate-message error:', err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.listen(PORT, () => {
-  console.log(`🌊 SoulLift backend running on http://localhost:${PORT}`);
-  console.log(`🔑 API key loaded: ${!!process.env.OPENAI_API_KEY}`);
-});
 Tone: ${tone || ''}
 Occasion: ${occasion || ''}
 Collected thoughts:

@@ -1,5 +1,12 @@
+
 import dotenv from 'dotenv';
-dotenv.config({ path: 'server/.env' });
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Always resolve .env relative to the project root
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import admin from 'firebase-admin';
 
