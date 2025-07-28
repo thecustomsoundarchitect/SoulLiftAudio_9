@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSoulHug } from '../context/SoulHugContext'
 import { motion } from 'framer-motion'
+import './CraftPage.css'
 
 const LENGTH_OPTIONS = [
   { label: '30 SEC', value: '30s' },
@@ -181,9 +182,21 @@ function CraftPage() {
 
   return (
     <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF]"
+      className="flex-1 flex flex-col bg-[#F3F7FF] relative"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
+      {/* Backdrop Image */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none backdrop-img"
+        style={{
+          backgroundImage: "url('https://i.imgur.com/h2ei1kt.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.5,
+          width: '100%',
+          height: '100%'
+        }}
+      />
       {/* Modal Popup for Regenerate Confirmation */}
       {showRegenerate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
@@ -256,7 +269,7 @@ function CraftPage() {
         </div>
       )}
       <motion.div
-        className="max-w-2xl mx-auto px-4 py-12 w-full pb-24 sm:pb-28"
+        className="max-w-2xl mx-auto px-4 py-12 w-full pb-24 sm:pb-28 relative z-10"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -265,7 +278,9 @@ function CraftPage() {
           {/* Title */}
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-3">
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <span 
+                className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
+                style={{ fontFamily: 'League Spartan, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
                 Craft the Perfect Message
               </span>
             </h1>
@@ -277,283 +292,207 @@ function CraftPage() {
           {/* Editable Text Box Area */}
           <div className="w-full flex justify-center items-start gap-4">
             {/* Editor */}
-            <div className="flex-grow w-full bg-white border border-gray-200 rounded-2xl shadow-sm">
-              {/* Length Selector */}
-              <div className="flex justify-start items-center gap-4 px-4 pt-3 pb-2">
-                {LENGTH_OPTIONS.map(opt => (
-                  <label key={opt.value} className="flex items-center gap-1.5 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="length"
-                      value={opt.value}
-                      checked={pendingLength === opt.value}
-                      onChange={handleLengthChange}
-                      className="accent-purple-500 h-4 w-4"
-                    />
-                    <span className="text-xs font-medium text-gray-600">{opt.label}</span>
-                  </label>
-                ))}
-              </div>
+            <div className="card-editor flex-grow w-full">
+              <div className="card-editor-overlay"></div>
+              <div className="card-editor-inner">
+                {/* Length Selector */}
+                <div className="flex justify-between items-center gap-4 px-4 pt-3 pb-2">
+                  <div className="flex items-center gap-4">
+                    {LENGTH_OPTIONS.map(opt => (
+                      <label key={opt.value} className="flex items-center gap-1.5 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="length"
+                          value={opt.value}
+                          checked={pendingLength === opt.value}
+                          onChange={handleLengthChange}
+                          className="accent-purple-500 h-4 w-4"
+                        />
+                        <span className="text-xs font-medium text-gray-600">{opt.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="text-xs text-gray-500" style={{fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"}}>
+                    Est. Read 1 Min
+                  </div>
+                </div>
 
-              {/* Rich Text Editor */}
-              <div
-                ref={editorRef}
-                contentEditable
-                onInput={handleEditorChange}
-                className="w-full p-5 text-base text-gray-700 bg-white rounded-t-2xl border-none shadow-none focus:ring-2 focus:ring-purple-400 focus:outline-none min-h-[180px] border-t border-gray-200"
-                style={{ minHeight: '180px' }}
-                suppressContentEditableWarning={true}
-                dangerouslySetInnerHTML={{ __html: message }}
-              />
-              
-              {/* Toolbar */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-t border-gray-200 rounded-b-2xl overflow-x-auto flex-nowrap scrollbar-hide">
-                <button
-                  onClick={() => executeCommand('undo')}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Undo"
-                >
-                  <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                  </svg>
-                </button>
-                
-                <button
-                  onClick={() => executeCommand('redo')}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Redo"
-                >
-                  <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6" />
-                  </svg>
-                </button>
-                
-                <div className="w-px h-6 bg-gray-300 mx-1"></div>
-                
-                <button
-                  onClick={() => executeCommand('bold')}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Bold"
-                >
-                  <span className="font-bold text-gray-700">B</span>
-                </button>
-                
-                <button
-                  onClick={() => executeCommand('italic')}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Italic"
-                >
-                  <span className="italic text-gray-700">I</span>
-                </button>
-                
-                <button
-                  onClick={() => executeCommand('underline')}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Underline"
-                >
-                  <span className="underline text-gray-700">U</span>
-                </button>
-                
-                <div className="w-px h-6 bg-gray-300 mx-1"></div>
-                
+                {/* Rich Text Editor Container */}
                 <div className="relative">
-                  <button
-                    onClick={() => setShowFontSizer(!showFontSizer)}
-                    className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                    title="Font Size"
-                  >
-                    <span className="text-gray-700 text-xs">Aa</span>
-                  </button>
-                  
-                  {showFontSizer && (
-                    <div className="absolute top-10 left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 z-10">
-                      <div className="flex flex-col gap-1">
-                        {fontSizes.map((size) => (
-                          <button
-                            key={size.value}
-                            onClick={() => {
-                              executeCommand('fontSize', size.value)
-                              setShowFontSizer(false)
-                            }}
-                            className="px-3 py-1 text-left text-gray-700 hover:bg-gray-100 rounded text-sm"
-                          >
-                            {size.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  <div
+                    ref={editorRef}
+                    contentEditable
+                    onInput={handleEditorChange}
+                    className="editor-content w-full p-5 text-base rounded-t-2xl shadow-none min-h-[180px]"
+                    style={{ minHeight: '180px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+                    suppressContentEditableWarning={true}
+                    dangerouslySetInnerHTML={{ __html: message }}
+                  />
                 </div>
                 
-                <div className="w-px h-6 bg-gray-300 mx-1"></div>
-                
-                <button
-                  onClick={() => executeCommand('insertUnorderedList')}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Bullet List"
-                >
-                  <span className="text-gray-700">•</span>
-                </button>
-                
-                <button
-                  onClick={() => executeCommand('insertOrderedList')}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Numbered List"
-                >
-                  <span className="text-gray-700 text-sm">1.</span>
-                </button>
-                
-                <button
-                  onClick={() => executeCommand('formatBlock', 'blockquote')}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Quote"
-                >
-                  <span className="text-gray-700">"</span>
-                </button>
-                
-                <div className="w-px h-6 bg-gray-300 mx-1"></div>
-                
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                  title="Insert Image"
-                >
-                  <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </button>
-                
-                <div className="relative flex items-center gap-2">
-                  <button
-                    onClick={() => setShowColorPicker(!showColorPicker)}
-                    className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-200 transition-colors"
-                    title="Text Color"
-                  >
-                    <div className="w-4 h-4 rounded-full border border-gray-300 bg-gradient-to-r from-red-500 to-blue-500"></div>
-                  </button>
-                  {showColorPicker && (
-                    <div className="absolute top-10 left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10">
-                      <div className="grid grid-cols-7 gap-2">
-                        {colors.map((color) => (
-                          <button
-                            key={color}
-                            onClick={() => {
-                              executeCommand('foreColor', color)
-                              setShowColorPicker(false)
-                            }}
-                            className="w-12 h-12 rounded border border-gray-300 hover:scale-110 transition-transform"
-                            style={{ backgroundColor: color }}
-                          />
-                        ))}
+                {/* Toolbar - New Clean Version */}
+                <div className="flex items-center justify-between px-4 py-3 bg-white rounded-b-2xl">
+                  <div className="flex items-center gap-3">
+                    {/* Undo/Redo Buttons */}
+                    <button
+                      onClick={() => executeCommand('undo', undefined)}
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      title="Undo"
+                    >
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                      </svg>
+                    </button>
+
+                    <button
+                      onClick={() => executeCommand('redo', undefined)}
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      title="Redo"
+                    >
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6" />
+                      </svg>
+                    </button>
+
+                    <div className="w-px h-5 bg-gray-300"></div>
+
+                    {/* Bold, Italic, Underline Buttons */}
+                    <button
+                      onClick={() => executeCommand('bold', undefined)}
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      title="Bold"
+                    >
+                      <span className="font-bold text-gray-600">B</span>
+                    </button>
+
+                    <button
+                      onClick={() => executeCommand('italic', undefined)}
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      title="Italic"
+                    >
+                      <span className="italic text-gray-600">I</span>
+                    </button>
+
+                    <button
+                      onClick={() => executeCommand('underline', undefined)}
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      title="Underline"
+                    >
+                      <span className="underline text-gray-600">U</span>
+                    </button>
+
+                    <div className="w-px h-5 bg-gray-300"></div>
+
+                    {/* Text Color Picker */}
+                    <div className="relative">
+                      <button
+                        onClick={() => setShowColorPicker(!showColorPicker)}
+                        className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                        title="Text Color"
+                      >
+                        <span className="text-gray-600 font-bold">A</span>
+                      </button>
+                      {showColorPicker && (
+                        <div className="absolute top-10 left-0 bg-white border border-gray-200 rounded-lg shadow-lg p-3 z-10">
+                          <div className="grid grid-cols-7 gap-2">
+                            {colors.map((color) => (
+                              <button
+                                key={color}
+                                onClick={() => {
+                                  executeCommand('foreColor', color);
+                                  setShowColorPicker(false);
+                                }}
+                                className="w-6 h-6 rounded border border-gray-300 hover:scale-110 transition-transform"
+                                style={{ backgroundColor: color }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    {/* Original Thoughts Toggle */}
+                    <div className="flex flex-col items-center gap-1" title="Show Original Thoughts">
+                    <div className="toggle-cont">
+                      <label className="switch">
+                        <input
+                          type="checkbox"
+                          checked={showPrompt}
+                          onChange={e => setShowPrompt(e.target.checked)}
+                        />
+                        <span className="slider"></span>
+                      </label>
+                    </div>
+                      <div className="text-xs text-gray-500 font-medium text-center leading-tight" style={{fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"}}>
+                        <div>Show Original</div>
+                        <div>Collected Thoughts</div>
                       </div>
                     </div>
-                  )}
+
+                    <div className="w-px h-5 bg-gray-300"></div>
+
+                    {/* Delete button - Far Right */}
+                    <button
+                      onClick={handleClear}
+                      className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-200 transition-colors"
+                      title="Clear All"
+                    >
+                      <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-              {/* End of editor/toolbar area */}
+                {/* End of editor/toolbar area */}
+                {/* End of editor/toolbar area */}
               </div>
-              
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="hidden"
+            />
           </div>
 
-          {/* Est. Read 1 Min badge - always visible, prominent, and outside scroll/overflow */}
-          <div className="w-full flex justify-center mt-4 mb-2">
-            <span className="text-xs font-semibold text-white bg-purple-600 px-3 py-1 rounded-full shadow border border-purple-700" style={{fontSize: '12px', lineHeight: '1.2'}}>
-              Est. Read 1 Min
-            </span>
-          </div>
           {/* Control Buttons */}
-          <div className="flex flex-wrap gap-3 justify-center mt-2">
-            <button
-              onClick={handlePolish}
-              className="px-5 py-2 bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-full text-sm font-semibold shadow hover:scale-105 transition-all"
-            >
-              Polish My Message
-            </button>
-            <button
-              onClick={handleClear}
-              className="px-5 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-semibold shadow hover:bg-gray-300 transition-all"
-            >
-              Clear All
-            </button>
-            <div className="relative" ref={exportMenuRef}>
-              <button
-                onClick={() => setShowExportMenu(v => !v)}
-                className="px-5 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold shadow hover:bg-blue-600 transition-all"
-              >
-                Export Message
-              </button>
-              {showExportMenu && (
-                <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-                  <button
-                    onClick={handleDownloadPDF}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Download as PDF
-                  </button>
-                  <button
-                    onClick={handleCopy}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Copy to Clipboard
-                  </button>
-                  <button
-                    onClick={handleSaveForLater}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Save for later
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+          {/* Control Buttons removed as requested */}
 
           {/* Collected Thoughts - Clean Collapsible Card */}
-          <div className="w-full mt-6">
-            <button
-              onClick={() => setShowPrompt(v => !v)}
-              className="px-4 py-2 bg-white text-gray-600 rounded-lg text-sm font-medium shadow-sm border border-gray-200 hover:bg-gray-50 transition-all"
-            >
-              Original Collected Thoughts
-            </button>
-            <div className={`transition-all duration-500 ease-in-out overflow-hidden ${showPrompt ? 'max-h-96 mt-3' : 'max-h-0'}`}>
-              <div className="w-full bg-white border border-gray-100 rounded-lg shadow-sm p-4">
-                <ul className="list-disc list-inside space-y-1">
-                  {(() => {
-                    const allThoughts = [
-                      ...(currentSoulHug.collectedThoughts || []),
-                      ...(currentSoulHug.descriptors || [])
-                    ];
-                    const uniqueThoughts = [...new Set(allThoughts)];
+          {/* Collected Thoughts box removed as requested */}
 
-                    if (uniqueThoughts.length === 0) {
-                      return (
-                        <li className="text-sm text-gray-400 list-none">
-                          Visit Define and Gather to collect thoughts
+          {/* Show collected thoughts below toolbar if toggle is enabled */}
+          {showPrompt && (
+                <div className="w-full bg-white border border-gray-100 rounded-lg shadow-sm p-4 mt-2">
+                  <ul className="list-disc list-inside space-y-1">
+                    {(() => {
+                      const allThoughts = [
+                        ...(currentSoulHug.collectedThoughts || []),
+                        ...(currentSoulHug.descriptors || [])
+                      ];
+                      const uniqueThoughts = [...new Set(allThoughts)];
+                      if (uniqueThoughts.length === 0) {
+                        return (
+                          <li className="text-sm text-gray-400 list-none">
+                            Visit Define and Gather to collect thoughts
+                          </li>
+                        );
+                      }
+                      return uniqueThoughts.map((thought, index) => (
+                        <li
+                          key={`thought-${index}`}
+                          className="text-sm text-gray-700"
+                        >
+                          {thought}
                         </li>
-                      );
-                    }
-                    
-                    return uniqueThoughts.map((thought, index) => (
-                      <li
-                        key={`thought-${index}`}
-                        className="text-sm text-gray-700"
-                      >
-                        {thought}
-                      </li>
-                    ));
-                  })()}
-                </ul>
-              </div>
-            </div>
-          </div>
-
+                      ));
+                    })()}
+                  </ul>
+                </div>
+              )}
         </div>
       </motion.div>
     </div>
