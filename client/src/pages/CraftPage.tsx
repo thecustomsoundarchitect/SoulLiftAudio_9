@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSoulHug } from '../context/SoulHugContext'
 import { motion } from 'framer-motion'
 import './CraftPage.css'
+import '../components/ui/toggle.css'
 
 const LENGTH_OPTIONS = [
   { label: '30 SEC', value: '30s' },
@@ -199,22 +200,12 @@ function CraftPage() {
       />
       {/* Modal Popup for Regenerate Confirmation */}
       {showRegenerate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-2 flex flex-col items-center">
-            <span className="text-base text-gray-800 text-center mb-4">{regeneratePrompt}</span>
-            <div className="flex gap-2 mt-2">
-              <button
-                onClick={handleRegenerate}
-                className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-400 text-white rounded-full text-sm font-semibold shadow hover:scale-105 transition-all"
-              >
-                Yes, Regenerate
-              </button>
-              <button
-                onClick={handleCancelRegenerate}
-                className="px-3 py-2 text-sm text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full"
-              >
-                No, Keep Current
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+            <p className="mb-4">{regeneratePrompt}</p>
+            <div className="flex justify-center gap-4">
+              <button onClick={handleRegenerate} className="px-4 py-2 bg-purple-600 text-white rounded-md">Regenerate</button>
+              <button onClick={handleCancelRegenerate} className="px-4 py-2 bg-gray-300 rounded-md">Cancel</button>
             </div>
           </div>
         </div>
@@ -278,9 +269,7 @@ function CraftPage() {
           {/* Title */}
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-3">
-              <span 
-                className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
-                style={{ fontFamily: 'League Spartan, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 Craft the Perfect Message
               </span>
             </h1>
