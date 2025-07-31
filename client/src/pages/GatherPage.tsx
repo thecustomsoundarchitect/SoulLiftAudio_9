@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -98,14 +97,11 @@ function GatherPage() {
       >
         <div className="space-y-6">
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-3">
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Gather Your Stories
-              </span>
-            </h1>
-            <div className="text-lg text-[#4D5563] mb-4 text-right" style={{ lineHeight: '1.2' }}>
-              {`"We'll help you get the`}<br />{`thoughts out!"`}
-            </div>
+            <img
+              src="https://i.imgur.com/4aycdE8.png"
+              alt="Gather Your Stories"
+              className="w-full h-auto mb-4"
+            />
           </div>
           <div>
             <h2 className="text-pink-500 font-bold text-sm uppercase tracking-wide mb-4">
@@ -114,7 +110,7 @@ function GatherPage() {
             <div className="space-y-4">
               <div className="text-xs text-[#4D5563] mb-2 leading-normal" style={{ letterSpacing: '0.01em' }}>
                 Tap a prompt to open a text box and write your thoughts.<br />
-                Or, turn on <span className="font-semibold">Save Prompt Directly</span> to add that specific prompt to your thoughts.
+                Or, turn on <span className="font-semibold">Save Prompt Directly</span> to add that specific prompt to your collected thoughts.
               </div>
               <div className="grid grid-cols-1 gap-3">
                 {loading ? (

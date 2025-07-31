@@ -183,21 +183,9 @@ function CraftPage() {
 
   return (
     <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF] relative"
+      className="flex-1 flex flex-col bg-white relative"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      {/* Backdrop Image */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none backdrop-img"
-        style={{
-          backgroundImage: "url('https://i.imgur.com/h2ei1kt.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.5,
-          width: '100%',
-          height: '100%'
-        }}
-      />
       {/* Modal Popup for Regenerate Confirmation */}
       {showRegenerate && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -268,14 +256,11 @@ function CraftPage() {
         <div className="space-y-6">
           {/* Title */}
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-3">
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Craft the Perfect Message
-              </span>
-            </h1>
-            <div className="text-lg text-[#4D5563] mb-4 text-right pr-2" style={{lineHeight: '1.2'}}>
-              {`"Let us help you shape your message"`}
-            </div>
+            <img
+              src="https://i.imgur.com/KPAcrhC.png"
+              alt="Craft the Perfect Message"
+              className="w-full h-auto mb-4"
+            />
           </div>
 
           {/* Editable Text Box Area */}
@@ -312,8 +297,8 @@ function CraftPage() {
                     ref={editorRef}
                     contentEditable
                     onInput={handleEditorChange}
-                    className="editor-content w-full p-5 text-base rounded-t-2xl shadow-none min-h-[180px]"
-                    style={{ minHeight: '180px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+                    className="editor-content w-full p-5 text-base rounded-t-2xl shadow-none min-h-[405px]"
+                    style={{ minHeight: '405px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
                     suppressContentEditableWarning={true}
                     dangerouslySetInnerHTML={{ __html: message }}
                   />
@@ -404,7 +389,6 @@ function CraftPage() {
                   <div className="flex items-center gap-3">
                     {/* Original Thoughts Toggle */}
                     <div className="flex flex-col items-center gap-1" title="Show Original Thoughts">
-                    <div className="toggle-cont">
                       <label className="switch">
                         <input
                           type="checkbox"
@@ -413,7 +397,6 @@ function CraftPage() {
                         />
                         <span className="slider"></span>
                       </label>
-                    </div>
                       <div className="text-xs text-gray-500 font-medium text-center leading-tight" style={{fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"}}>
                         <div>Show Original</div>
                         <div>Collected Thoughts</div>
@@ -482,6 +465,13 @@ function CraftPage() {
                   </ul>
                 </div>
               )}
+        </div>
+        <div className="mt-8 flex justify-end">
+          <img
+            src="https://i.imgur.com/dufnCAf.png"
+            alt="Craft page footer"
+            className="w-1/2 h-auto"
+          />
         </div>
       </motion.div>
     </div>
