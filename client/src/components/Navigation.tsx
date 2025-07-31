@@ -12,6 +12,7 @@ export default function Navigation() {
     { path: '/gather', label: 'Gather' },
     { path: '/craft', label: 'Craft' },
     { path: '/audio-hug', label: 'Audio Hug' },
+    { path: '/written-hug', label: 'Written Hug' },
   ]
 
   const toggleMobileMenu = () => {

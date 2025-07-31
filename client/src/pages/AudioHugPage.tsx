@@ -27,17 +27,7 @@ export default function AudioHugPage() {
   const [isMixing, setIsMixing] = useState(false)
   const [mixedAudioUrl, setMixedAudioUrl] = useState<string | null>(null)
 
-  const soulHugMessage = `Dear ${currentSoulHug.recipient || 'Beautiful Soul'},
-
-I wanted to take a moment to remind you of something important - you are absolutely incredible, and here's why:
-
-${currentSoulHug.collectedThoughts?.map((thought: string) => `- ${thought}`).join('\n') || '- Your amazing spirit shines through everything you do'}
-
-${currentSoulHug.descriptors?.length ? `You are: ${currentSoulHug.descriptors.join(', ')}` : ''}
-
-Never forget how much you mean to the people around you. Your presence makes the world a brighter place.
-
-With gratitude and love`
+  const soulHugMessage = currentSoulHug.message || 'Your message will appear here.'
 
   const handleRecordingComplete = (blob: Blob | null, url: string | null) => {
     setAudioBlob(blob)
@@ -134,24 +124,21 @@ With gratitude and love`
 
   return (
     <motion.div
-      className="flex-1 flex flex-col bg-[#F3F7FF] py-12"
+      className="flex-1 flex flex-col items-center bg-white p-4 sm:p-6 lg:p-8"
       style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div className="max-w-md mx-auto px-4 py-6 pb-24 sm:pb-28">
+      <div className="w-full max-w-2xl">
         <div className="space-y-6">
           {/* Title and Subtitle - match Craft/GatherPage */}
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold mb-3">
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                Create Your Audio Hug
-              </span>
-            </h1>
-            <div className="text-lg text-[#4D5563] mb-4 text-right" style={{lineHeight: '1.2'}}>
-              {`"We'll help you get the`}<br/>{`audio just right!"`}
-            </div>
+            <img
+              src="https://i.imgur.com/eVihwRi.png"
+              alt="Create Your Audio Hug"
+              className="w-full h-auto mb-6"
+            />
           </div>
 
           {/* Message Preview Section */}
@@ -160,19 +147,14 @@ With gratitude and love`
               MESSAGE PREVIEW
             </h2>
             
-            <div className="bg-white/60 backdrop-blur-md rounded-xl shadow-lg p-3 border-2 border-dashed border-white/40 mb-6 w-full">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-semibold text-[#4D5563]">Your Message</h3>
-                <div className="text-sm text-[#4D5563]/80">
-                  {soulHugMessage.split(' ').length} words
-                </div>
-              </div>
-              <div className="w-full h-64 p-3 text-base resize-none leading-relaxed text-[#4D5563] placeholder-[#4D5563]/40">
-                {soulHugMessage}
-              </div>
-              <div className="flex items-center justify-between mt-3 text-xs text-[#4D5563]/70">
-                <span>Estimated reading time: {Math.ceil(soulHugMessage.split(' ').length / 200)} min</span>
-                <span>Character count: {soulHugMessage.length}</span>
+            <div className="card-editor">
+              <div className="card-editor-overlay"></div>
+              <div className="card-editor-inner">
+                <div 
+                  className="editor-content w-full p-5 text-base rounded-2xl shadow-none min-h-[405px]"
+                  style={{ minHeight: '405px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+                  dangerouslySetInnerHTML={{ __html: soulHugMessage }}
+                />
               </div>
             </div>
           </div>

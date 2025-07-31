@@ -11,6 +11,7 @@ import ExamplesPage from './pages/ExamplesPage';
 import MyHugsPage from './pages/MyHugsPage';
 import TransitionPage from './pages/TransitionPage';
 import UserProfilePage from './pages/UserProfilePage';
+import WrittenHugPage from './pages/WrittenHugPage';
 import { SoulHugProvider } from './context/SoulHugContext';
 
 function AppContent() {
@@ -34,6 +35,7 @@ function AppContent() {
             <Route path="/gather" element={<GatherPage />} />
             <Route path="/craft" element={<CraftPage />} />
             <Route path="/audio-hug" element={<AudioHugPage />} />
+            <Route path="/written-hug" element={<WrittenHugPage />} />
             <Route path="/examples" element={<ExamplesPage />} />
             <Route path="/my-hugs" element={<MyHugsPage />} />
             <Route path="/transition" element={<TransitionPage />} />

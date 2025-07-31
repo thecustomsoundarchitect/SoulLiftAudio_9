@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSoulHug } from '../context/SoulHugContext'
 import { motion } from 'framer-motion'
 import './CraftPage.css'
@@ -12,6 +13,7 @@ const LENGTH_OPTIONS = [
 
 function CraftPage() {
   const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
+  const navigate = useNavigate()
   // State for messageText, messageLength
   const [message, setMessage] = useState(currentSoulHug.message || '')
   const [selectedLength, setSelectedLength] = useState('1m')
@@ -257,7 +259,7 @@ function CraftPage() {
           {/* Title */}
           <div className="text-center">
             <img
-              src="https://i.imgur.com/KPAcrhC.png"
+              src="https://i.imgur.com/868b3Nw.png"
               alt="Craft the Perfect Message"
               className="w-full h-auto mb-4"
             />
@@ -465,13 +467,6 @@ function CraftPage() {
                   </ul>
                 </div>
               )}
-        </div>
-        <div className="mt-8 flex justify-end">
-          <img
-            src="https://i.imgur.com/dufnCAf.png"
-            alt="Craft page footer"
-            className="w-1/2 h-auto"
-          />
         </div>
       </motion.div>
     </div>
