@@ -14,7 +14,7 @@ const LENGTH_OPTIONS = [
 function CraftPage() {
   const { currentSoulHug, updateCurrentSoulHug } = useSoulHug()
   const navigate = useNavigate()
-  // State for messageText, messageLength
+  
   const [message, setMessage] = useState(currentSoulHug.message || '')
   const [selectedLength, setSelectedLength] = useState('1m')
   const editorRef = useRef<HTMLDivElement>(null)
@@ -184,14 +184,11 @@ function CraftPage() {
   }
 
   return (
-    <div 
-      className="flex-1 flex flex-col bg-white relative"
-      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
-    >
+    <div className="flex-1 flex flex-col bg-white relative font-sans">
       {/* Modal Popup for Regenerate Confirmation */}
       {showRegenerate && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center mx-4">
             <p className="mb-4">{regeneratePrompt}</p>
             <div className="flex justify-center gap-4">
               <button onClick={handleRegenerate} className="px-4 py-2 bg-purple-600 text-white rounded-md">Regenerate</button>
@@ -203,11 +200,10 @@ function CraftPage() {
       {/* Modal Popup for Polish My Message */}
       {showPolishModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-2 flex flex-col items-center">
+          <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-4 flex flex-col items-center">
             <span className="text-base text-gray-800 text-center mb-4">Approve this polished version?</span>
             <div
               className="w-full p-3 text-base text-gray-700 bg-gray-50 rounded border border-gray-200 mb-4 min-h-[80px]"
-              style={{ minHeight: '80px' }}
               dangerouslySetInnerHTML={{ __html: polishedMessage }}
             />
             <div className="flex gap-2 mt-2">
@@ -230,7 +226,7 @@ function CraftPage() {
       {/* Modal Popup for Clear All */}
       {showClearModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-2 flex flex-col items-center">
+          <div className="bg-white rounded-xl shadow-lg p-6 max-w-sm w-full mx-4 flex flex-col items-center">
             <span className="text-base text-gray-800 text-center mb-4">Are you sure you want to clear your message? This cannot be undone.</span>
             <div className="flex gap-2 mt-2">
               <button
@@ -256,14 +252,12 @@ function CraftPage() {
         transition={{ duration: 0.6, delay: 0.2 }}
       >
         <div className="space-y-6">
-          {/* Title */}
-          <div className="text-center">
-            <img
-              src="https://i.imgur.com/868b3Nw.png"
-              alt="Craft the Perfect Message"
-              className="w-full h-auto mb-4"
-            />
-          </div>
+          {/* Header Image */}
+          <img
+            src="https://i.imgur.com/868b3Nw.png"
+            alt="Craft the Perfect Message"
+            className="w-full h-auto"
+          />
 
           {/* Editable Text Box Area */}
           <div className="w-full flex justify-center items-start gap-4">
@@ -288,7 +282,7 @@ function CraftPage() {
                       </label>
                     ))}
                   </div>
-                  <div className="text-xs text-gray-500" style={{fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"}}>
+                  <div className="text-xs text-gray-500 font-sans">
                     Est. Read 1 Min
                   </div>
                 </div>
@@ -299,20 +293,19 @@ function CraftPage() {
                     ref={editorRef}
                     contentEditable
                     onInput={handleEditorChange}
-                    className="editor-content w-full p-5 text-base rounded-t-2xl shadow-none min-h-[405px]"
-                    style={{ minHeight: '405px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
+                    className="editor-content w-full p-5 text-base rounded-t-2xl shadow-none min-h-[405px] font-sans"
                     suppressContentEditableWarning={true}
                     dangerouslySetInnerHTML={{ __html: message }}
                   />
                 </div>
                 
                 {/* Toolbar - New Clean Version */}
-                <div className="flex items-center justify-between px-4 py-3 bg-white rounded-b-2xl">
-                  <div className="flex items-center gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-2 sm:px-4 py-3 bg-white rounded-b-2xl gap-3 sm:gap-0">
+                  <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto">
                     {/* Undo/Redo Buttons */}
                     <button
                       onClick={() => executeCommand('undo', undefined)}
-                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0"
                       title="Undo"
                     >
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -322,7 +315,7 @@ function CraftPage() {
 
                     <button
                       onClick={() => executeCommand('redo', undefined)}
-                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0"
                       title="Redo"
                     >
                       <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -330,12 +323,12 @@ function CraftPage() {
                       </svg>
                     </button>
 
-                    <div className="w-px h-5 bg-gray-300"></div>
+                    <div className="w-px h-5 bg-gray-300 flex-shrink-0"></div>
 
                     {/* Bold, Italic, Underline Buttons */}
                     <button
                       onClick={() => executeCommand('bold', undefined)}
-                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0"
                       title="Bold"
                     >
                       <span className="font-bold text-gray-600">B</span>
@@ -343,7 +336,7 @@ function CraftPage() {
 
                     <button
                       onClick={() => executeCommand('italic', undefined)}
-                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0"
                       title="Italic"
                     >
                       <span className="italic text-gray-600">I</span>
@@ -351,16 +344,16 @@ function CraftPage() {
 
                     <button
                       onClick={() => executeCommand('underline', undefined)}
-                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors flex-shrink-0"
                       title="Underline"
                     >
                       <span className="underline text-gray-600">U</span>
                     </button>
 
-                    <div className="w-px h-5 bg-gray-300"></div>
+                    <div className="w-px h-5 bg-gray-300 flex-shrink-0"></div>
 
                     {/* Text Color Picker */}
-                    <div className="relative">
+                    <div className="relative flex-shrink-0">
                       <button
                         onClick={() => setShowColorPicker(!showColorPicker)}
                         className="flex items-center justify-center w-8 h-8 rounded-lg hover:bg-gray-100 transition-colors"
@@ -388,7 +381,7 @@ function CraftPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center sm:justify-end gap-3">
                     {/* Original Thoughts Toggle */}
                     <div className="flex flex-col items-center gap-1" title="Show Original Thoughts">
                       <label className="switch">
@@ -399,7 +392,7 @@ function CraftPage() {
                         />
                         <span className="slider"></span>
                       </label>
-                      <div className="text-xs text-gray-500 font-medium text-center leading-tight" style={{fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"}}>
+                      <div className="text-xs text-gray-500 font-medium text-center leading-tight font-sans">
                         <div>Show Original</div>
                         <div>Collected Thoughts</div>
                       </div>
@@ -419,8 +412,6 @@ function CraftPage() {
                     </button>
                   </div>
                 </div>
-                {/* End of editor/toolbar area */}
-                {/* End of editor/toolbar area */}
               </div>
             </div>
             <input
@@ -431,12 +422,6 @@ function CraftPage() {
               className="hidden"
             />
           </div>
-
-          {/* Control Buttons */}
-          {/* Control Buttons removed as requested */}
-
-          {/* Collected Thoughts - Clean Collapsible Card */}
-          {/* Collected Thoughts box removed as requested */}
 
           {/* Show collected thoughts below toolbar if toggle is enabled */}
           {showPrompt && (

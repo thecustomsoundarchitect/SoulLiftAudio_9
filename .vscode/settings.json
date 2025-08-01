@@ -13,5 +13,8 @@
     "**/node_modules/**": true,
     "**/dist/**": true,
     "**/build/**": true
-  }
+  },
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore"
 }

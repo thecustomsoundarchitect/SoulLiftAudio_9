@@ -51,9 +51,9 @@
 }
 /* From Uiverse.io by LilaRest, adapted for the editor */
 .card-editor {
-  --bg: #e8e8e8;
-  --contrast: #e2e0e0;
-  --grey: #93a1a1;
+  --bg: #ffffff;  /* Changed from #e8e8e8 */
+  --contrast: #ffffff;  /* Changed from #e2e0e0 */
+  --grey: #ffffff;  /* Changed from #93a1a1 */
   position: relative;
   padding: 9px;
   background-color: var(--bg);
@@ -62,12 +62,13 @@
 }
 
 .card-editor-overlay {
+  display: none; /* Add this line to hide the grey overlay */
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: repeating-conic-gradient(var(--bg) 0.0000001%, var(--grey) 0.000104%) 60% 60%/600% 600%;
   filter: opacity(10%) contrast(105%);
-  border-radius: 35px; /* Match parent */
+  border-radius: 35px;
 }
 
 .card-editor-inner {
@@ -83,16 +84,12 @@
   color: #374151; /* Darker for readability */
   font-family: monospace;
   background-color: var(--contrast);
-.card-editor .editor-content {
   border: none;
   outline: none; /* Added to remove focus outline */
 }
-.card-editor .editor-content:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
+
+.card-editor .editor-content:focus,
 .editor-content:focus {
   outline: none !important;
   box-shadow: none !important;
-}
 }

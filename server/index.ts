@@ -1,4 +1,3 @@
-
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
@@ -9,9 +8,9 @@ import userProfileRouter from './src/routes/userProfile.ts';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = parseInt(process.env.PORT || '5001', 10);
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: ['http://localhost:5173', 'http://10.0.0.145:5173'], credentials: true }));
 app.use(express.json());
 app.use('/api/v2/user-profile', userProfileRouter);
 
@@ -122,7 +121,7 @@ Descriptors: ${descriptors.join(', ')}`;
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🌊 SoulLift backend running on http://localhost:${PORT}`);
   console.log(`🔑 API key loaded: ${!!process.env.OPENAI_API_KEY}`);
 });

@@ -91,6 +91,7 @@ export default function DefinePage() {
     yourAge: 30
   })
   const [customOccasion, setCustomOccasion] = useState('')
+  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
 
   useEffect(() => {
     const predefinedOccasions = [
@@ -102,8 +103,6 @@ export default function DefinePage() {
       setCustomOccasion(currentSoulHug.occasion);
     }
   }, [])
-
-  const [dropdownOpen, setDropdownOpen] = useState<string | null>(null)
 
   const handleContinue = () => {
     updateCurrentSoulHug({
@@ -125,11 +124,37 @@ export default function DefinePage() {
 
   const isFormComplete = formData.coreFeeling && formData.tone
 
+  const renderDropdown = (field: string, options: string[], placeholder: string, label: string) => (
+    <div className="relative">
+      <label className="block text-sm font-medium text-gray-700 mb-1 ml-4">{label}</label>
+      <button
+        onClick={() => setDropdownOpen(dropdownOpen === field ? null : field)}
+        className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
+      >
+        <span className="text-sm font-medium text-gray-700">
+          {formData[field as keyof typeof formData] || placeholder}
+        </span>
+        <ChevronDown className="w-5 h-5 text-gray-400" />
+      </button>
+      
+      {dropdownOpen === field && (
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-50 max-h-60 overflow-y-auto">
+          {options.map((option) => (
+            <button
+              key={option}
+              onClick={() => handleDropdownSelect(field, option)}
+              className="w-full p-3 text-left hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors"
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+
   return (
-    <div 
-      className="flex-1 flex flex-col bg-[#F3F7FF]"
-      style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
-    >
+    <div className="flex-1 flex flex-col bg-white font-sans">
       <motion.div
         className="max-w-md mx-auto px-4 py-12 pb-24 sm:pb-28"
         initial={{ opacity: 0, y: 30 }}
@@ -137,78 +162,23 @@ export default function DefinePage() {
         transition={{ duration: 0.6, delay: 0.2 }}
       >
         <div className="space-y-6">
-          {/* Title */}
-          <div className="text-center">
-            <img
-              src="https://i.imgur.com/8S5iLDn.png"
-              alt="Define Your Message"
-              className="w-full h-auto mb-4"
-            />
-          </div>
+          {/* Header Image */}
+          <img
+            src="https://i.imgur.com/8S5iLDn.png"
+            alt="Define Your Message"
+            className="w-full h-auto"
+          />
 
           {/* Essential Section */}
           <div>
             <p className="text-sm mb-4">
               <span className="text-pink-500 font-bold uppercase tracking-wide">BASICS</span>
-              <span className="text-black"> - Essential details that shape what questions we'll ask you</span>
+              <span className="text-gray-900"> - Essential details that shape what questions we'll ask you</span>
             </p>
             
             <div className="space-y-4">
-              {/* How Do You Want Them to Feel */}
-              <div className="relative">
-                <label className="block text-sm font-medium text-gray-700 mb-1 ml-4">How do you want them to feel?</label>
-                <button
-                  onClick={() => setDropdownOpen(dropdownOpen === 'feeling' ? null : 'feeling')}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
-                >
-                  <span className="text-sm font-medium text-gray-700">
-                    {formData.coreFeeling || 'Select a feeling...'}
-                  </span>
-                  <ChevronDown className="w-5 h-5 text-gray-400" />
-                </button>
-                
-                {dropdownOpen === 'feeling' && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-50 max-h-60 overflow-y-auto">
-                    {feelingOptions.map((option) => (
-                      <button
-                        key={option}
-                        onClick={() => handleDropdownSelect('coreFeeling', option)}
-                        className="w-full p-3 text-left hover:bg-gray-50 text-sm font-medium text-gray-700"
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Tone of the Message */}
-              <div className="relative">
-                <label className="block text-sm font-medium text-gray-700 mb-1 ml-4">What is the tone of the message?</label>
-                <button
-                  onClick={() => setDropdownOpen(dropdownOpen === 'tone' ? null : 'tone')}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
-                >
-                  <span className="text-sm font-medium text-gray-700">
-                    {formData.tone || 'Select a tone...'}
-                  </span>
-                  <ChevronDown className="w-5 h-5 text-gray-400" />
-                </button>
-                
-                {dropdownOpen === 'tone' && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-50 max-h-60 overflow-y-auto">
-                    {toneOptions.map((option) => (
-                      <button
-                        key={option}
-                        onClick={() => handleDropdownSelect('tone', option)}
-                        className="w-full p-3 text-left hover:bg-gray-50 text-sm font-medium text-gray-700"
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {renderDropdown('coreFeeling', feelingOptions, 'Select a feeling...', 'How do you want them to feel?')}
+              {renderDropdown('tone', toneOptions, 'Select a tone...', 'What is the tone of the message?')}
             </div>
           </div>
 
@@ -216,38 +186,14 @@ export default function DefinePage() {
           <div>
             <p className="text-sm mb-4">
               <span className="text-pink-500 font-bold uppercase tracking-wide">Personal Touch</span>
-              <span className="text-black"> - Add these for more specific personalized prompts</span>
+              <span className="text-gray-900"> - Add these for more specific personalized prompts</span>
             </p>
             
             <div className="space-y-4">
               {/* Occasion */}
-              <div className="relative">
-                <label className="block text-sm font-medium text-gray-700 mb-1 ml-4">What is the occasion?</label>
-                <button
-                  onClick={() => setDropdownOpen(dropdownOpen === 'occasion' ? null : 'occasion')}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-full text-left flex items-center justify-between bg-white hover:border-gray-400 transition-colors"
-                >
-                  <span className="text-sm font-medium text-gray-700">
-                    {formData.occasion || 'Select an occasion...'}
-                  </span>
-                  <ChevronDown className="w-5 h-5 text-gray-400" />
-                </button>
-                
-                {dropdownOpen === 'occasion' && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-lg z-50 max-h-60 overflow-y-auto">
-                    {occasions.map((option) => (
-                      <button
-                        key={option}
-                        onClick={() => handleDropdownSelect('occasion', option)}
-                        className="w-full p-3 text-left hover:bg-gray-50 text-sm font-medium text-gray-700"
-                      >
-                        {option}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {renderDropdown('occasion', occasions, 'Select an occasion...', 'What is the occasion?')}
 
+              {/* Custom Occasion Input */}
               {formData.occasion === 'Other' && (
                 <input
                   type="text"

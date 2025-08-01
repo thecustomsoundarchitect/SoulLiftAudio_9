@@ -7,7 +7,7 @@ const WrittenHugPage: React.FC = () => {
   const { currentSoulHug } = useSoulHug();
 
   return (
-    <div className="flex-1 flex flex-col bg-[#F3F7FF]">
+    <div className="flex-1 flex flex-col bg-white">
       <motion.div
         className="w-full max-w-md mx-auto p-4 sm:p-6 lg:p-8 pb-24 sm:pb-28 flex-grow"
         initial={{ opacity: 0, y: 30 }}
@@ -23,9 +23,8 @@ const WrittenHugPage: React.FC = () => {
           <div className="card-editor-overlay"></div>
           <div className="card-editor-inner">
             <div
-              className="editor-content w-full p-5 text-base shadow-none min-h-[405px]"
-              style={{ minHeight: '405px', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
-              dangerouslySetInnerHTML={{ __html: currentSoulHug.message || 'Your message will appear here.' }}
+              className="editor-content w-full p-5 text-base shadow-none min-h-[405px] font-sans"
+              dangerouslySetInnerHTML={{ __html: currentSoulHug.message || '' }}
             />
           </div>
         </div>

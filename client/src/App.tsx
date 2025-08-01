@@ -13,6 +13,7 @@ import TransitionPage from './pages/TransitionPage';
 import UserProfilePage from './pages/UserProfilePage';
 import WrittenHugPage from './pages/WrittenHugPage';
 import { SoulHugProvider } from './context/SoulHugContext';
+import { AuthProvider } from './context/AuthContext';
 
 function AppContent() {
   const location = useLocation();
@@ -51,7 +52,9 @@ function AppContent() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </BrowserRouter>
   );
 }
